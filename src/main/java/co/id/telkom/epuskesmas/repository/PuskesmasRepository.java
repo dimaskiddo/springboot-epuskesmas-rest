@@ -1,8 +1,12 @@
 package co.id.telkom.epuskesmas.repository;
 
-import co.id.telkom.epuskesmas.model.PuskemasModel;
+import co.id.telkom.epuskesmas.model.PuskesmasModel;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface PuskesmasRepository extends PagingAndSortingRepository<PuskemasModel, Integer> {
+import java.util.Optional;
+
+public interface PuskesmasRepository extends PagingAndSortingRepository<PuskesmasModel, Integer> {
+
+    Optional<PuskesmasModel> getPuskesmasByName(String name);
 
 }
