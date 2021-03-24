@@ -53,7 +53,7 @@ public class PoliService {
         if (currentPoli.isPresent()) {
             PoliModel dataPoli = currentPoli.get();
 
-            if (poliModel.getIdPuskesmas() != null && poliModel.getIdPuskesmas() != 0) {
+            if (poliModel.getIdPuskesmas() != 0) {
                 dataPoli.setIdPuskesmas(poliModel.getIdPuskesmas());
             }
 
