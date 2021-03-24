@@ -57,7 +57,7 @@ public class PoliService {
                 dataPoli.setIdPuskesmas(poliModel.getIdPuskesmas());
             }
 
-            if (poliModel.getNama() != null && poliModel.getNama().isEmpty()) {
+            if (poliModel.getNama() != null && !poliModel.getNama().isEmpty()) {
                 dataPoli.setNama(poliModel.getNama());
             }
 
