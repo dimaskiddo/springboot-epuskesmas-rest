@@ -12,7 +12,7 @@ public class PoliModel {
     @Column(name = "id_poli")
     private int id;
 
-    @Column(name = "id_puskemas")
+    @Column(name = "id_puskesmas")
     private int id_puskesmas;
 
     @Column(name = "nama")

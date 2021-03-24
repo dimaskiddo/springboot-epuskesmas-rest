@@ -3,7 +3,7 @@ package co.id.telkom.epuskesmas.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "puskemas")
+@Table(name = "puskesmas")
 public class PuskemasModel {
 
     @Id
