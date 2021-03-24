@@ -106,11 +106,11 @@ public class UserModel {
         this.kelamin = kelamin;
     }
 
-    public Date getTanggal_lahir() {
+    public Date getTanggalLahir() {
         return tanggal_lahir;
     }
 
-    public void setTanggal_lahir(Date tanggal_lahir) {
+    public void setTanggalLahir(Date tanggal_lahir) {
         this.tanggal_lahir = tanggal_lahir;
     }
 

@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class HandlerResponse {
 
-    private static final String MESSAGE_SUCCESS = "SUCCESS";
-    private static final String MESSAGE_FAILED = "FAILED";
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAILED = "FAILED";
 
     private static void responseWriter(HttpServletResponse response, Object data, Integer code) {
         try {
@@ -33,14 +33,14 @@ public class HandlerResponse {
         SuccessResponse<String> successResponse = new SuccessResponse<>();
 
         successResponse.setCode(HttpServletResponse.SC_OK);
-        successResponse.setStatus(MESSAGE_SUCCESS);
+        successResponse.setStatus(STATUS_SUCCESS);
         successResponse.setMessage(message);
 
         responseWriter(response, successResponse, successResponse.getCode());
     }
 
     public static void responseSuccessWithData(HttpServletResponse response, DataResponse data) {
-        data.setStatus(MESSAGE_SUCCESS);
+        data.setStatus(STATUS_SUCCESS);
         responseWriter(response, data, data.getCode());
     }
 
@@ -52,7 +52,7 @@ public class HandlerResponse {
         SuccessResponse<String> successResponse = new SuccessResponse<>();
 
         successResponse.setCode(HttpServletResponse.SC_CREATED);
-        successResponse.setStatus(MESSAGE_SUCCESS);
+        successResponse.setStatus(STATUS_SUCCESS);
         successResponse.setMessage(message);
 
         responseWriter(response, successResponse, successResponse.getCode());
@@ -66,7 +66,7 @@ public class HandlerResponse {
         ErrorResponse<String> errorResponse = new ErrorResponse<>();
 
         errorResponse.setCode(HttpServletResponse.SC_BAD_REQUEST);
-        errorResponse.setStatus(MESSAGE_FAILED);
+        errorResponse.setStatus(STATUS_FAILED);
         errorResponse.setError(error);
 
         responseWriter(response, errorResponse, errorResponse.getCode());
@@ -80,7 +80,7 @@ public class HandlerResponse {
         ErrorResponse<String> errorResponse = new ErrorResponse<>();
 
         errorResponse.setCode(HttpServletResponse.SC_UNAUTHORIZED);
-        errorResponse.setStatus(MESSAGE_FAILED);
+        errorResponse.setStatus(STATUS_FAILED);
         errorResponse.setError(error);
 
         responseWriter(response, errorResponse, errorResponse.getCode());
@@ -94,7 +94,7 @@ public class HandlerResponse {
         ErrorResponse<String> errorResponse = new ErrorResponse<>();
 
         errorResponse.setCode(HttpServletResponse.SC_FORBIDDEN);
-        errorResponse.setStatus(MESSAGE_FAILED);
+        errorResponse.setStatus(STATUS_FAILED);
         errorResponse.setError(error);
 
         responseWriter(response, errorResponse, errorResponse.getCode());
@@ -108,7 +108,7 @@ public class HandlerResponse {
         ErrorResponse<String> errorResponse = new ErrorResponse<>();
 
         errorResponse.setCode(HttpServletResponse.SC_NOT_FOUND);
-        errorResponse.setStatus(MESSAGE_FAILED);
+        errorResponse.setStatus(STATUS_FAILED);
         errorResponse.setError(error);
 
         responseWriter(response, errorResponse, errorResponse.getCode());
@@ -122,7 +122,7 @@ public class HandlerResponse {
         ErrorResponse<String> errorResponse = new ErrorResponse<>();
 
         errorResponse.setCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        errorResponse.setStatus(MESSAGE_FAILED);
+        errorResponse.setStatus(STATUS_FAILED);
         errorResponse.setError(error);
 
         responseWriter(response, errorResponse, errorResponse.getCode());
@@ -136,7 +136,7 @@ public class HandlerResponse {
         ErrorResponse<String> errorResponse = new ErrorResponse<>();
 
         errorResponse.setCode(HttpServletResponse.SC_BAD_GATEWAY);
-        errorResponse.setStatus(MESSAGE_FAILED);
+        errorResponse.setStatus(STATUS_FAILED);
         errorResponse.setError(error);
 
         responseWriter(response, errorResponse, errorResponse.getCode());
