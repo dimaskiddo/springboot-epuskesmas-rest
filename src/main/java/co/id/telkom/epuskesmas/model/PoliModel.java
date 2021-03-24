@@ -32,11 +32,11 @@ public class PoliModel {
         this.id = id;
     }
 
-    public int getId_puskesmas() {
+    public int getIdPuskesmas() {
         return id_puskesmas;
     }
 
-    public void setId_puskesmas(int id_puskesmas) {
+    public void setIdPuskesmas(int id_puskesmas) {
         this.id_puskesmas = id_puskesmas;
     }
 
@@ -48,19 +48,19 @@ public class PoliModel {
         this.nama = nama;
     }
 
-    public Date getWaktu_buka() {
+    public Date getWaktuBuka() {
         return waktu_buka;
     }
 
-    public void setWaktu_buka(Date waktu_buka) {
+    public void setWaktuBuka(Date waktu_buka) {
         this.waktu_buka = waktu_buka;
     }
 
-    public Date getWaktu_tutup() {
+    public Date getWaktuTutup() {
         return waktu_tutup;
     }
 
-    public void setWaktu_tutup(Date waktu_tutup) {
+    public void setWaktuTutup(Date waktu_tutup) {
         this.waktu_tutup = waktu_tutup;
     }
 }

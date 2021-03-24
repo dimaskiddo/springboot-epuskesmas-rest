@@ -28,11 +28,11 @@ public class DokterModel {
         this.id = id;
     }
 
-    public int getId_poli() {
+    public int getIdPoli() {
         return id_poli;
     }
 
-    public void setId_poli(int id_poli) {
+    public void setIdPoli(int id_poli) {
         this.id_poli = id_poli;
     }
 
