@@ -34,7 +34,7 @@ public class UserModel {
     private String kelamin;
 
     @Column(name = "tanggal_lahir")
-    private Date tanggal_lahir;
+    private Date tanggalLahir;
 
     @Column(name = "lokasi_longitude")
     private Double lon;
@@ -107,11 +107,11 @@ public class UserModel {
     }
 
     public Date getTanggalLahir() {
-        return tanggal_lahir;
+        return tanggalLahir;
     }
 
     public void setTanggalLahir(Date tanggal_lahir) {
-        this.tanggal_lahir = tanggal_lahir;
+        this.tanggalLahir = tanggal_lahir;
     }
 
     public Double getLon() {

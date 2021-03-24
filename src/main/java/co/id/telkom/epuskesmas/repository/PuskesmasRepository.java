@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface PuskesmasRepository extends PagingAndSortingRepository<PuskesmasModel, Integer> {
 
-    Optional<PuskesmasModel> getPuskesmasByName(String name);
+    Optional<PuskesmasModel> getPuskesmasByNama(String nama);
 
 }

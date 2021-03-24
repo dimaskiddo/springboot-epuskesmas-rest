@@ -33,8 +33,8 @@ public class PuskesmasService {
         return puskesmasRepository.findById(id);
     }
 
-    public Optional<PuskesmasModel> getPuskesmasByName(String name) {
-        return puskesmasRepository.getPuskesmasByName(name);
+    public Optional<PuskesmasModel> getPuskesmasByNama(String nama) {
+        return puskesmasRepository.getPuskesmasByNama(nama);
     }
 
     public PuskesmasModel updatePuskesmas(int id, PuskesmasModel puskesmasModel) {

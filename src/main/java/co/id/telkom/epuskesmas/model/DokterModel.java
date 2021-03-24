@@ -12,7 +12,7 @@ public class DokterModel {
     private int id;
 
     @Column(name = "id_poli")
-    private int id_poli;
+    private int idPoli;
 
     @Column(name = "nama")
     private String nama;
@@ -29,11 +29,11 @@ public class DokterModel {
     }
 
     public int getIdPoli() {
-        return id_poli;
+        return idPoli;
     }
 
     public void setIdPoli(int id_poli) {
-        this.id_poli = id_poli;
+        this.idPoli = id_poli;
     }
 
     public String getNama() {
