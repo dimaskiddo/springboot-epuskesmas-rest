@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface UserRepository extends PagingAndSortingRepository<UserModel, Integer> {
 
-    Optional<UserModel> getUserByUsername(String username);
+    Optional<UserModel> getUserByPhone(String phone);
 
 }
