@@ -18,13 +18,16 @@ public class PuskesmasModel {
     private String alamat;
 
     @Column(name = "no_telp")
-    private String phone;
+    private String telepon;
 
     @Column(name = "lokasi_longitude")
     private Double lon;
 
     @Column(name = "lokasi_latitude")
     private Double lat;
+
+    @Column(name = "photo")
+    private String foto;
 
     public int getId() {
         return id;
@@ -50,12 +53,12 @@ public class PuskesmasModel {
         this.alamat = alamat;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTelepon() {
+        return telepon;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
     }
 
     public Double getLon() {
@@ -72,5 +75,13 @@ public class PuskesmasModel {
 
     public void setLat(Double lat) {
         this.lat = lat;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

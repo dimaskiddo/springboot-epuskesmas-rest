@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QueueRepository extends JpaRepository<QueueModel, Integer> {
 
-    Iterable<QueueModel> getQueueByIdUser(int id);
-    Iterable<QueueModel> getQueueByIdPoli(int id);
-    Iterable<QueueModel> getQueueByIdDokter(int id);
+    Iterable<QueueModel> findByIdUser(int id);
+    Iterable<QueueModel> findByIdPoli(int id);
+    Iterable<QueueModel> findByIdDokter(int id);
 
 }

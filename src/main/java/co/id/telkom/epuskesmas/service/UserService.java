@@ -27,16 +27,20 @@ public class UserService {
         return userRepository.save(userModel);
     }
 
-    public Iterable<UserModel> getUser() {
+    public Iterable<UserModel> getAllUser() {
         return userRepository.findAll();
+    }
+
+    public Iterable<UserModel> getAllUserByTelepon(String telepon) {
+        return userRepository.findByTeleponContains(telepon);
     }
 
     public Optional<UserModel> getUserById(int id) {
         return userRepository.findById(id);
     }
 
-    public Optional<UserModel> getUserByPhone(String phone) {
-        return userRepository.getUserByPhone(phone);
+    public Optional<UserModel> getUserByTelepon(String telepon) {
+        return userRepository.findByTelepon(telepon);
     }
 
     public UserModel updateUserById(int id, UserModel userModel) {
@@ -70,8 +74,8 @@ public class UserService {
                 dataUser.setKabupaten(userModel.getKabupaten());
             }
 
-            if (userModel.getPhone() != null && !userModel.getPhone().isEmpty()) {
-                dataUser.setPhone(userModel.getPhone());
+            if (userModel.getTelepon() != null && !userModel.getTelepon().isEmpty()) {
+                dataUser.setTelepon(userModel.getTelepon());
             }
 
             if (userModel.getBpjs() != null && !userModel.getBpjs().isEmpty()) {

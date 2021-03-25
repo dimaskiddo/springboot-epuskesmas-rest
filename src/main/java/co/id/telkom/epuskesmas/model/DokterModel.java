@@ -20,6 +20,9 @@ public class DokterModel {
     @Column(name = "jenis_kelamin")
     private String kelamin;
 
+    @Column(name = "photo")
+    private String foto;
+
     public int getId() {
         return id;
     }
@@ -50,5 +53,13 @@ public class DokterModel {
 
     public void setKelamin(String kelamin) {
         this.kelamin = kelamin;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

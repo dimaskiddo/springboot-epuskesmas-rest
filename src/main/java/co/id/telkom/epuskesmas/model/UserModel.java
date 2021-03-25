@@ -21,7 +21,7 @@ public class UserModel {
     private String kabupaten;
 
     @Column(name = "no_hp")
-    private String phone;
+    private String telepon;
 
     @Column(name = "no_bpjs")
     private String bpjs;
@@ -73,12 +73,12 @@ public class UserModel {
         this.kabupaten = kabupaten;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTelepon() {
+        return telepon;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
     }
 
     public String getBpjs() {

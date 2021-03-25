@@ -1,7 +1,6 @@
 package co.id.telkom.epuskesmas.controller;
 
 import co.id.telkom.epuskesmas.model.PuskesmasModel;
-import co.id.telkom.epuskesmas.repository.PuskesmasRepository;
 import co.id.telkom.epuskesmas.response.DataResponse;
 import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.PuskesmasService;
@@ -24,7 +23,7 @@ public class PuskesmasController {
     public void createPuskesmas(HttpServletRequest request, HttpServletResponse response,
                                 @RequestParam("nama") String nama,
                                 @RequestParam("alamat") String alamat,
-                                @RequestParam("phone") String phone,
+                                @RequestParam("telepon") String telepon,
                                 @RequestParam("lon") Double lon,
                                 @RequestParam("lat") Double lat) throws IOException {
         PuskesmasModel puskesmasModel = new PuskesmasModel();
@@ -32,7 +31,7 @@ public class PuskesmasController {
         // Fill in Puskesmas Data
         puskesmasModel.setNama(nama);
         puskesmasModel.setAlamat(alamat);
-        puskesmasModel.setPhone(phone);
+        puskesmasModel.setTelepon(telepon);
         puskesmasModel.setLon(lon);
         puskesmasModel.setLat(lat);
 
@@ -45,18 +44,23 @@ public class PuskesmasController {
     }
 
     @GetMapping
-    public void getPuskesmas(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void getAllPuskesmas(HttpServletRequest request, HttpServletResponse response,
+                                @RequestParam(value = "nama", required = false) String nama) throws IOException {
         DataResponse<Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        dataResponse.setData(puskesmasService.getPuskesmas());
+        if (nama != null) {
+            dataResponse.setData(puskesmasService.getAllPuskesmasByNama(nama));
+        } else {
+            dataResponse.setData(puskesmasService.getAllPuskesmas());
+        }
 
         HandlerResponse.responseSuccessWithData(response, dataResponse);
     }
 
     @GetMapping("/{id}")
     public void getPuskemasById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable("id") int id) throws IOException {
+                                @PathVariable int id) throws IOException {
         Optional<PuskesmasModel> dataPuskesmas = puskesmasService.getPuskesmasById(id);
 
         if (dataPuskesmas.isPresent()) {
@@ -74,10 +78,10 @@ public class PuskesmasController {
 
     @PutMapping("/{id}")
     public void updatePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable("id") int id,
+                                    @PathVariable int id,
                                     @RequestParam("nama") String nama,
                                     @RequestParam("alamat") String alamat,
-                                    @RequestParam("phone") String phone,
+                                    @RequestParam("telepon") String telepon,
                                     @RequestParam("lon") Double lon,
                                     @RequestParam("lat") Double lat) throws IOException {
         PuskesmasModel puskesmasModel = new PuskesmasModel();
@@ -85,7 +89,7 @@ public class PuskesmasController {
         // Fill in Puskesmas Data
         puskesmasModel.setNama(nama);
         puskesmasModel.setAlamat(alamat);
-        puskesmasModel.setPhone(phone);
+        puskesmasModel.setTelepon(telepon);
         puskesmasModel.setLon(lon);
         puskesmasModel.setLat(lat);
 
@@ -99,10 +103,10 @@ public class PuskesmasController {
 
     @PatchMapping("/{id}")
     public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable(value = "id", required = false) int id,
+                                   @PathVariable int id,
                                    @RequestParam(value = "nama", required = false) String nama,
                                    @RequestParam(value = "alamat", required = false) String alamat,
-                                   @RequestParam(value = "phone", required = false) String phone,
+                                   @RequestParam(value = "telepon", required = false) String telepon,
                                    @RequestParam(value = "lon",required = false) Double lon,
                                    @RequestParam(value = "lat", required = false) Double lat) throws IOException {
         PuskesmasModel puskesmasModel = new PuskesmasModel();
@@ -118,10 +122,10 @@ public class PuskesmasController {
             // Try to update User 'alamat'
             puskesmasModel.setAlamat(alamat);
         }
-        if (phone != null && !phone.isEmpty()) {
-            // If the 'phone' field is not empty then
-            // Try to update User 'phone'
-            puskesmasModel.setPhone(phone);
+        if (telepon != null && !telepon.isEmpty()) {
+            // If the 'telepon' field is not empty then
+            // Try to update User 'telepon'
+            puskesmasModel.setTelepon(telepon);
         }
         if (lon != null && !lon.isNaN()) {
             // If the 'lon' field is not empty then
@@ -144,26 +148,9 @@ public class PuskesmasController {
 
     @DeleteMapping("/{id}")
     public void deletePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable("id") int id) throws IOException {
+                                    @PathVariable int id) throws IOException {
         if (puskesmasService.deletePuskesmasById(id)) {
             HandlerResponse.responseSuccessOK(response, "PUSKESMAS DELETED");
-        } else {
-            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
-        }
-    }
-
-    @GetMapping("/nama")
-    public void getPuskesmasByName(HttpServletRequest request, HttpServletResponse response,
-                                   @RequestParam("nama") String nama) throws IOException {
-        Iterable<PuskesmasModel> dataPuskesmas = puskesmasService.findPuskesmasByNama(nama);
-
-        if (dataPuskesmas != null) {
-            DataResponse <Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
-
-            dataResponse.setCode(HttpServletResponse.SC_OK);
-            dataResponse.setData(dataPuskesmas);
-
-            HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {
             HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
         }

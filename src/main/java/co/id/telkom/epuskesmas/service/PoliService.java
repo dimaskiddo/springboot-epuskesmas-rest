@@ -25,16 +25,16 @@ public class PoliService {
         return poliRepository.save(poliModel);
     }
 
-    public Iterable<PoliModel> getPoli() {
+    public Iterable<PoliModel> getAllPoli() {
         return poliRepository.findAll();
+    }
+
+    public Iterable<PoliModel> getAllPoliByNama(String nama) {
+        return poliRepository.findByNamaContains(nama);
     }
 
     public Optional<PoliModel> getPoliById(int id) {
         return poliRepository.findById(id);
-    }
-
-    public Optional<PoliModel> getPoliByNama(String nama) {
-        return poliRepository.getPoliByNama(nama);
     }
 
     public PoliModel updatePoliById(int id, PoliModel poliModel) {

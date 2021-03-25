@@ -25,7 +25,7 @@ public class QueueService {
         return queueRepository.save(queueModel);
     }
 
-    public Iterable<QueueModel> getQueue() {
+    public Iterable<QueueModel> getAllQueue() {
         return queueRepository.findAll();
     }
 
@@ -34,15 +34,15 @@ public class QueueService {
     }
 
     public Iterable<QueueModel> getQueueByIdUser(int id) {
-        return queueRepository.getQueueByIdUser(id);
+        return queueRepository.findByIdUser(id);
     }
 
     public Iterable<QueueModel> getQueueByIdPoli(int id) {
-        return queueRepository.getQueueByIdPoli(id);
+        return queueRepository.findByIdPoli(id);
     }
 
     public Iterable<QueueModel> getQueueByIdDokter(int id) {
-        return queueRepository.getQueueByIdDokter(id);
+        return queueRepository.findByIdDokter(id);
     }
 
     public QueueModel updateQueueById(int id, QueueModel queueModel) {

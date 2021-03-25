@@ -24,7 +24,7 @@ public class UserController {
                            @RequestParam("nama") String nama,
                            @RequestParam("provinsi") String provinsi,
                            @RequestParam("kabupaten") String kabupaten,
-                           @RequestParam("phone") String phone,
+                           @RequestParam("telepon") String telepon,
                            @RequestParam("bpjs") String bpjs,
                            @RequestParam("password") String password,
                            @RequestParam("kelamin") String kelamin,
@@ -37,7 +37,7 @@ public class UserController {
         userModel.setNama(nama);
         userModel.setProvinsi(provinsi);
         userModel.setKabupaten(kabupaten);
-        userModel.setPhone(phone);
+        userModel.setTelepon(telepon);
         userModel.setBpjs(bpjs);
         userModel.setPassword(password);
         userModel.setKelamin(kelamin);
@@ -54,11 +54,16 @@ public class UserController {
     }
 
     @GetMapping
-    public void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void getAllUser(HttpServletRequest request, HttpServletResponse response,
+                           @RequestParam(value = "telepon", required = false) String telepon) throws IOException {
         DataResponse<Iterable<UserModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        dataResponse.setData(userService.getUser());
+        if (telepon != null) {
+            dataResponse.setData(userService.getAllUserByTelepon(telepon));
+        } else {
+            dataResponse.setData(userService.getAllUser());
+        }
 
         HandlerResponse.responseSuccessWithData(response, dataResponse);
     }
@@ -88,7 +93,7 @@ public class UserController {
                                @RequestParam("nama") String nama,
                                @RequestParam("provinsi") String provinsi,
                                @RequestParam("kabupaten") String kabupaten,
-                               @RequestParam("phone") String phone,
+                               @RequestParam("telepon") String telepon,
                                @RequestParam("bpjs") String bpjs,
                                @RequestParam(value = "password", required = false) String password,
                                @RequestParam("kelamin") String kelamin,
@@ -101,7 +106,7 @@ public class UserController {
         userModel.setNama(nama);
         userModel.setProvinsi(provinsi);
         userModel.setKabupaten(kabupaten);
-        userModel.setPhone(phone);
+        userModel.setTelepon(telepon);
         userModel.setBpjs(bpjs);
         if (password != null && !password.isEmpty()) {
             // If the 'password' field is not empty then
@@ -127,7 +132,7 @@ public class UserController {
                               @RequestParam(value = "nama", required = false) String nama,
                               @RequestParam(value = "provinsi", required = false) String provinsi,
                               @RequestParam(value = "kabupaten", required = false) String kabupaten,
-                              @RequestParam(value = "phone",required = false) String phone,
+                              @RequestParam(value = "telepon",required = false) String telepon,
                               @RequestParam(value = "bpjs", required = false) String bpjs,
                               @RequestParam(value = "password", required = false) String password,
                               @RequestParam(value = "kelamin", required = false) String kelamin,
@@ -152,10 +157,10 @@ public class UserController {
             // Try to update User 'kabupaten'
             userModel.setKabupaten(kabupaten);
         }
-        if (phone != null && !phone.isEmpty()) {
-            // If the 'phone' field is not empty then
-            // Try to update User 'phone'
-            userModel.setPhone(phone);
+        if (telepon != null && !telepon.isEmpty()) {
+            // If the 'telepon' field is not empty then
+            // Try to update User 'telepon'
+            userModel.setTelepon(telepon);
         }
         if (bpjs != null && !bpjs.isEmpty()) {
             // If the 'bpjs' field is not empty then

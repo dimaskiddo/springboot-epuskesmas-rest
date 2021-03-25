@@ -25,20 +25,16 @@ public class PuskesmasService {
         return puskesmasRepository.save(puskesmasModel);
     }
 
-    public Iterable<PuskesmasModel> getPuskesmas() {
+    public Iterable<PuskesmasModel> getAllPuskesmas() {
         return puskesmasRepository.findAll();
+    }
+
+    public Iterable<PuskesmasModel> getAllPuskesmasByNama(String nama) {
+        return puskesmasRepository.findByNamaContains(nama);
     }
 
     public Optional<PuskesmasModel> getPuskesmasById(int id) {
         return puskesmasRepository.findById(id);
-    }
-
-    public Optional<PuskesmasModel> getPuskesmasByNama(String nama) {
-        return puskesmasRepository.getPuskesmasByNama(nama);
-    }
-
-    public Iterable<PuskesmasModel> findPuskesmasByNama(String nama){
-        return puskesmasRepository.findPuskesmasByNama(nama);
     }
 
     public PuskesmasModel updatePuskesmasById(int id, PuskesmasModel puskesmasModel) {
@@ -66,8 +62,8 @@ public class PuskesmasService {
                 dataPuskesmas.setAlamat(puskesmasModel.getAlamat());
             }
 
-            if (puskesmasModel.getPhone() != null && !puskesmasModel.getPhone().isEmpty()) {
-                dataPuskesmas.setPhone(puskesmasModel.getPhone());
+            if (puskesmasModel.getTelepon() != null && !puskesmasModel.getTelepon().isEmpty()) {
+                dataPuskesmas.setTelepon(puskesmasModel.getTelepon());
             }
 
             if (puskesmasModel.getLon() != null && !puskesmasModel.getLon().isNaN()) {

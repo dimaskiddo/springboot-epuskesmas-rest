@@ -25,7 +25,7 @@ public class DokterService {
         return dokterRepository.save(dokterModel);
     }
 
-    public Iterable<DokterModel> getDokter() {
+    public Iterable<DokterModel> geAlltDokter() {
         return dokterRepository.findAll();
     }
 
