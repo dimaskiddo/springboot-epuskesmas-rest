@@ -74,6 +74,10 @@ public class PuskesmasService {
                 dataPuskesmas.setLat(puskesmasModel.getLat());
             }
 
+            if (puskesmasModel.getFoto() != null && !puskesmasModel.getFoto().isEmpty()) {
+                dataPuskesmas.setFoto(puskesmasModel.getFoto());
+            }
+
             return puskesmasRepository.save(dataPuskesmas);
         }
 

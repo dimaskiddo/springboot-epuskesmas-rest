@@ -132,22 +132,22 @@ public class PoliController {
 
             if (idPuskesmas != 0) {
                 // If the 'idPuskesmas' field is not empty then
-                // Try to update User 'idPuskesmas'
+                // Try to update Poli 'idPuskesmas'
                 poliModel.setIdPuskesmas(idPuskesmas);
             }
             if (nama != null && !nama.isEmpty()) {
                 // If the 'nama' field is not empty then
-                // Try to update User 'nama'
+                // Try to update Poli 'nama'
                 poliModel.setNama(nama);
             }
             if (waktuBuka != null && !waktuBuka.isEmpty()) {
                 // If the 'waktuBuka' field is not empty then
-                // Try to update User 'waktuBuka'
+                // Try to update Poli 'waktuBuka'
                 poliModel.setWaktuBuka(waktuBuka);
             }
             if (waktuTutup != null && !waktuTutup.isEmpty()) {
                 // If the 'waktuTutup' field is not empty then
-                // Try to update User 'waktuTutup'
+                // Try to update Poli 'waktuTutup'
                 poliModel.setWaktuTutup(waktuTutup);
             }
 
