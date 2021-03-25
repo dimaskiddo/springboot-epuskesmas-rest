@@ -32,8 +32,8 @@ public class DokterModel {
         return idPoli;
     }
 
-    public void setIdPoli(int id_poli) {
-        this.idPoli = id_poli;
+    public void setIdPoli(int idPoli) {
+        this.idPoli = idPoli;
     }
 
     public String getNama() {

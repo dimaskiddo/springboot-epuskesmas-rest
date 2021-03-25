@@ -39,39 +39,39 @@ public class QueueModel {
         return idUser;
     }
 
-    public void setIdUser(int id_user) {
-        this.idUser = id_user;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public int getIdPoli() {
         return idPoli;
     }
 
-    public void setIdPoli(int id_poli) {
-        this.idPoli = id_poli;
+    public void setIdPoli(int idPoli) {
+        this.idPoli = idPoli;
     }
 
     public int getIdDokter() {
         return idDokter;
     }
 
-    public void setIdDokter(int id_dokter) {
-        this.idDokter = id_dokter;
+    public void setIdDokter(int idDokter) {
+        this.idDokter = idDokter;
     }
 
     public int getNoAntrian() {
         return noAntrian;
     }
 
-    public void setNoAntrian(int no_antrian) {
-        this.noAntrian = no_antrian;
+    public void setNoAntrian(int noAntrian) {
+        this.noAntrian = noAntrian;
     }
 
     public Timestamp getWaktuAntrian() {
         return waktuAntrian;
     }
 
-    public void setWaktuAntrian(Timestamp waktu_antrian) {
-        this.waktuAntrian = waktu_antrian;
+    public void setWaktuAntrian(Timestamp waktuAntrian) {
+        this.waktuAntrian = waktuAntrian;
     }
 }

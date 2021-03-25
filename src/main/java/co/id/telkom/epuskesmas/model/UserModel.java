@@ -110,8 +110,8 @@ public class UserModel {
         return tanggalLahir;
     }
 
-    public void setTanggalLahir(Date tanggal_lahir) {
-        this.tanggalLahir = tanggal_lahir;
+    public void setTanggalLahir(Date tanggalLahir) {
+        this.tanggalLahir = tanggalLahir;
     }
 
     public Double getLon() {

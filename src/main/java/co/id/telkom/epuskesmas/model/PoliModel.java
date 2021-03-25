@@ -36,8 +36,8 @@ public class PoliModel {
         return idPuskesmas;
     }
 
-    public void setIdPuskesmas(int id_puskesmas) {
-        this.idPuskesmas = id_puskesmas;
+    public void setIdPuskesmas(int idPuskesmas) {
+        this.idPuskesmas = idPuskesmas;
     }
 
     public String getNama() {
@@ -52,15 +52,15 @@ public class PoliModel {
         return waktuBuka;
     }
 
-    public void setWaktuBuka(Date waktu_buka) {
-        this.waktuBuka = waktu_buka;
+    public void setWaktuBuka(Date waktuBuka) {
+        this.waktuBuka = waktuBuka;
     }
 
     public Date getWaktuTutup() {
         return waktuTutup;
     }
 
-    public void setWaktuTutup(Date waktu_tutup) {
-        this.waktuTutup = waktu_tutup;
+    public void setWaktuTutup(Date waktuTutup) {
+        this.waktuTutup = waktuTutup;
     }
 }
