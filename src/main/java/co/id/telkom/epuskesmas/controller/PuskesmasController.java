@@ -44,7 +44,7 @@ public class PuskesmasController {
 
             // Generate Puskesmas Photo File Name
             String fileFotoPuskesmas = UUID.randomUUID().toString() +
-                                       FileUtils.getFileExtension(foto.getOriginalFilename());
+                    FileUtils.getFileExtension(foto.getOriginalFilename());
 
             // Upload Puskesmas Photo File to Puskesmas Photo Directory
             Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
