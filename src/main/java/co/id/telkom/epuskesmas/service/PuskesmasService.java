@@ -37,7 +37,7 @@ public class PuskesmasService {
         return puskesmasRepository.getPuskesmasByNama(nama);
     }
 
-    public PuskesmasModel updatePuskesmas(int id, PuskesmasModel puskesmasModel) {
+    public PuskesmasModel updatePuskesmasById(int id, PuskesmasModel puskesmasModel) {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasRepository.findById(id);
 
         if (currentPuskesmas.isPresent()) {
@@ -47,7 +47,7 @@ public class PuskesmasService {
         return null;
     }
 
-    public PuskesmasModel patchPuskesmas(int id, PuskesmasModel puskesmasModel) {
+    public PuskesmasModel patchPuskesmasById(int id, PuskesmasModel puskesmasModel) {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasRepository.findById(id);
 
         if (currentPuskesmas.isPresent()) {

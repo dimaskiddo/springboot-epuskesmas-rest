@@ -37,7 +37,7 @@ public class PoliService {
         return poliRepository.getPoliByNama(nama);
     }
 
-    public PoliModel updatePoli(int id, PoliModel poliModel) {
+    public PoliModel updatePoliById(int id, PoliModel poliModel) {
         Optional<PoliModel> currentPoli = poliRepository.findById(id);
 
         if (currentPoli.isPresent()) {
@@ -47,7 +47,7 @@ public class PoliService {
         return null;
     }
 
-    public PoliModel patchPoli(int id, PoliModel poliModel) {
+    public PoliModel patchPoliById(int id, PoliModel poliModel) {
         Optional<PoliModel> currentPoli = poliRepository.findById(id);
 
         if (currentPoli.isPresent()) {

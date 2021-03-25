@@ -45,7 +45,7 @@ public class QueueService {
         return queueRepository.getQueueByIdDokter(id);
     }
 
-    public QueueModel updateQueue(int id, QueueModel queueModel) {
+    public QueueModel updateQueueById(int id, QueueModel queueModel) {
         Optional<QueueModel> currentQueue = queueRepository.findById(id);
 
         if (currentQueue.isPresent()) {
@@ -55,7 +55,7 @@ public class QueueService {
         return null;
     }
 
-    public QueueModel patchQueue(int id, QueueModel queueModel) {
+    public QueueModel patchQueueById(int id, QueueModel queueModel) {
         Optional<QueueModel> currentQueue = queueRepository.findById(id);
 
         if (currentQueue.isPresent()) {

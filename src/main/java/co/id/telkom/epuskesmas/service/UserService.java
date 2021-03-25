@@ -39,17 +39,19 @@ public class UserService {
         return userRepository.getUserByPhone(phone);
     }
 
-    public UserModel updateUser(int id, UserModel userModel) {
+    public UserModel updateUserById(int id, UserModel userModel) {
         Optional<UserModel> currentUser = userRepository.findById(id);
 
         if (currentUser.isPresent()) {
+            // TODO
+            // - Password Should Be Encrypted Using BCrypt
             return userRepository.save(userModel);
         }
 
         return null;
     }
 
-    public UserModel patchUser(int id, UserModel userModel) {
+    public UserModel patchUserById(int id, UserModel userModel) {
         Optional<UserModel> currentUser = userRepository.findById(id);
 
         if (currentUser.isPresent()) {

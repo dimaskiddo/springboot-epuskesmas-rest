@@ -33,7 +33,7 @@ public class DokterService {
         return dokterRepository.findById(id);
     }
 
-    public DokterModel updateDokter(int id, DokterModel dokterModel) {
+    public DokterModel updateDokterById(int id, DokterModel dokterModel) {
         Optional<DokterModel> currentDokter = dokterRepository.findById(id);
 
         if (currentDokter.isPresent()) {
@@ -43,7 +43,7 @@ public class DokterService {
         return null;
     }
 
-    public DokterModel patchDokter(int id, DokterModel dokterModel) {
+    public DokterModel patchDokterById(int id, DokterModel dokterModel) {
         Optional<DokterModel> currentDokter = dokterRepository.findById(id);
 
         if (currentDokter.isPresent()) {
