@@ -1,7 +1,6 @@
 package co.id.telkom.epuskesmas.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "antrian")
@@ -25,7 +24,7 @@ public class QueueModel {
     private int noAntrian;
 
     @Column(name = "waktu_ambil_antrian")
-    private Timestamp waktuAntrian;
+    private String waktuAntrian;
 
     public int getId() {
         return id;
@@ -67,11 +66,11 @@ public class QueueModel {
         this.noAntrian = noAntrian;
     }
 
-    public Timestamp getWaktuAntrian() {
+    public String getWaktuAntrian() {
         return waktuAntrian;
     }
 
-    public void setWaktuAntrian(Timestamp waktuAntrian) {
+    public void setWaktuAntrian(String waktuAntrian) {
         this.waktuAntrian = waktuAntrian;
     }
 }

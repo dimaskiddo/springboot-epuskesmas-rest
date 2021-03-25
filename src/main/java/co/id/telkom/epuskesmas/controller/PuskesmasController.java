@@ -1,6 +1,7 @@
 package co.id.telkom.epuskesmas.controller;
 
 import co.id.telkom.epuskesmas.model.PuskesmasModel;
+import co.id.telkom.epuskesmas.repository.PuskesmasRepository;
 import co.id.telkom.epuskesmas.response.DataResponse;
 import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.PuskesmasService;
@@ -146,6 +147,23 @@ public class PuskesmasController {
                                     @PathVariable("id") int id) throws IOException {
         if (puskesmasService.deletePuskesmasById(id)) {
             HandlerResponse.responseSuccessOK(response, "PUSKESMAS DELETED");
+        } else {
+            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
+        }
+    }
+
+    @GetMapping("/nama")
+    public void getPuskesmasByName(HttpServletRequest request, HttpServletResponse response,
+                                   @RequestParam("nama") String nama) throws IOException {
+        Iterable<PuskesmasModel> dataPuskesmas = puskesmasService.findPuskesmasByNama(nama);
+
+        if (dataPuskesmas != null) {
+            DataResponse <Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
+
+            dataResponse.setCode(HttpServletResponse.SC_OK);
+            dataResponse.setData(dataPuskesmas);
+
+            HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {
             HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
         }

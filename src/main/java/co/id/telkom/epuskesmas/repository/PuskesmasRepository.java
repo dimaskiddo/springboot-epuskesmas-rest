@@ -11,4 +11,5 @@ public interface PuskesmasRepository extends JpaRepository<PuskesmasModel, Integ
     @Query(value = "SELECT * FROM puskesmas WHERE nama = ?1 LIMIT 1", nativeQuery = true)
     Optional<PuskesmasModel> getPuskesmasByNama(String nama);
 
+    Iterable<PuskesmasModel> findPuskesmasByNama(String nama);
 }

@@ -19,10 +19,10 @@ public class PoliModel {
     private String nama;
 
     @Column(name = "waktu_buka")
-    private Date waktuBuka;
+    private String waktuBuka;
 
     @Column(name = "waktu_tutup")
-    private Date waktuTutup;
+    private String waktuTutup;
 
     public int getId() {
         return id;
@@ -48,19 +48,19 @@ public class PoliModel {
         this.nama = nama;
     }
 
-    public Date getWaktuBuka() {
+    public String getWaktuBuka() {
         return waktuBuka;
     }
 
-    public void setWaktuBuka(Date waktuBuka) {
+    public void setWaktuBuka(String waktuBuka) {
         this.waktuBuka = waktuBuka;
     }
 
-    public Date getWaktuTutup() {
+    public String getWaktuTutup() {
         return waktuTutup;
     }
 
-    public void setWaktuTutup(Date waktuTutup) {
+    public void setWaktuTutup(String waktuTutup) {
         this.waktuTutup = waktuTutup;
     }
 }

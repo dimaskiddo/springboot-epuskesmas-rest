@@ -37,6 +37,10 @@ public class PuskesmasService {
         return puskesmasRepository.getPuskesmasByNama(nama);
     }
 
+    public Iterable<PuskesmasModel> findPuskesmasByNama(String nama){
+        return puskesmasRepository.findPuskesmasByNama(nama);
+    }
+
     public PuskesmasModel updatePuskesmasById(int id, PuskesmasModel puskesmasModel) {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasRepository.findById(id);
 

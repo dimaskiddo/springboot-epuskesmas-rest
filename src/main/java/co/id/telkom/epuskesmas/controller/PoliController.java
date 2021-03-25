@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Optional;
 
 @RequestMapping(value="/api/v1/polies", produces={"application/json"})
@@ -29,8 +28,8 @@ public class PoliController {
     public void createPoli(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam("idPuskesmas") int idPuskesmas,
                            @RequestParam("nama") String nama,
-                           @RequestParam("waktuBuka") Date waktuBuka,
-                           @RequestParam("waktuTutup") Date waktuTutup) throws IOException {
+                           @RequestParam("waktuBuka") String waktuBuka,
+                           @RequestParam("waktuTutup") String waktuTutup) throws IOException {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist

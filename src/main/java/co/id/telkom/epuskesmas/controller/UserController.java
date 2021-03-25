@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Optional;
 
 @RequestMapping(value="/api/v1/users", produces={"application/json"})
@@ -29,7 +28,7 @@ public class UserController {
                            @RequestParam("bpjs") String bpjs,
                            @RequestParam("password") String password,
                            @RequestParam("kelamin") String kelamin,
-                           @RequestParam("tanggalLahir") Date tanggalLahir,
+                           @RequestParam("tanggalLahir") String tanggalLahir,
                            @RequestParam("lon") Double lon,
                            @RequestParam("lat") Double lat) throws IOException {
         UserModel userModel = new UserModel();
@@ -93,7 +92,7 @@ public class UserController {
                                @RequestParam("bpjs") String bpjs,
                                @RequestParam(value = "password", required = false) String password,
                                @RequestParam("kelamin") String kelamin,
-                               @RequestParam("tanggalLahir") Date tanggalLahir,
+                               @RequestParam("tanggalLahir") String tanggalLahir,
                                @RequestParam("lon") Double lon,
                                @RequestParam("lat") Double lat) throws IOException {
         UserModel userModel = new UserModel();
@@ -132,7 +131,7 @@ public class UserController {
                               @RequestParam(value = "bpjs", required = false) String bpjs,
                               @RequestParam(value = "password", required = false) String password,
                               @RequestParam(value = "kelamin", required = false) String kelamin,
-                              @RequestParam(value = "tanggalLahir", required = false) Date tanggalLahir,
+                              @RequestParam(value = "tanggalLahir", required = false) String tanggalLahir,
                               @RequestParam(value = "lon", required = false) Double lon,
                               @RequestParam(value = "lat", required = false) Double lat) throws IOException {
         UserModel userModel = new UserModel();

@@ -1,7 +1,6 @@
 package co.id.telkom.epuskesmas.model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "user")
@@ -34,7 +33,7 @@ public class UserModel {
     private String kelamin;
 
     @Column(name = "tanggal_lahir")
-    private Date tanggalLahir;
+    private String tanggalLahir;
 
     @Column(name = "lokasi_longitude")
     private Double lon;
@@ -106,11 +105,11 @@ public class UserModel {
         this.kelamin = kelamin;
     }
 
-    public Date getTanggalLahir() {
+    public String getTanggalLahir() {
         return tanggalLahir;
     }
 
-    public void setTanggalLahir(Date tanggalLahir) {
+    public void setTanggalLahir(String tanggalLahir) {
         this.tanggalLahir = tanggalLahir;
     }
 
