@@ -19,6 +19,30 @@ public class PuskesmasController {
     @Autowired
     private PuskesmasService puskesmasService;
 
+    @PostMapping
+    public void createPuskesmas(HttpServletRequest request, HttpServletResponse response,
+                                @RequestParam("nama") String nama,
+                                @RequestParam("alamat") String alamat,
+                                @RequestParam("phone") String phone,
+                                @RequestParam("lon") Double lon,
+                                @RequestParam("lat") Double lat) throws IOException {
+        PuskesmasModel puskesmasModel = new PuskesmasModel();
+
+        // Fill in Puskesmas Data
+        puskesmasModel.setNama(nama);
+        puskesmasModel.setAlamat(alamat);
+        puskesmasModel.setPhone(phone);
+        puskesmasModel.setLon(lon);
+        puskesmasModel.setLat(lat);
+
+        // Insert the Puskesmas Data
+        if (puskesmasService.createPuskesmas(puskesmasModel) != null) {
+            HandlerResponse.responseSuccessCreated(response, "PUSKESMAS CREATED");
+        } else {
+            HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE PUSKESMAS");
+        }
+    }
+
     @GetMapping
     public void getPuskesmas(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DataResponse<Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
@@ -42,6 +66,76 @@ public class PuskesmasController {
             dataResponse.setData(currentPuskesmas);
 
             HandlerResponse.responseSuccessWithData(response, dataResponse);
+        } else {
+            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public void updatePuskesmasById(HttpServletRequest request, HttpServletResponse response,
+                                    @PathVariable("id") int id,
+                                    @RequestParam("nama") String nama,
+                                    @RequestParam("alamat") String alamat,
+                                    @RequestParam("phone") String phone,
+                                    @RequestParam("lon") Double lon,
+                                    @RequestParam("lat") Double lat) throws IOException {
+        PuskesmasModel puskesmasModel = new PuskesmasModel();
+
+        // Fill in Puskesmas Data
+        puskesmasModel.setNama(nama);
+        puskesmasModel.setAlamat(alamat);
+        puskesmasModel.setPhone(phone);
+        puskesmasModel.setLon(lon);
+        puskesmasModel.setLat(lat);
+
+        // Update the Puskesmas Data
+        if (puskesmasService.updatePuskesmasById(id, puskesmasModel) != null) {
+            HandlerResponse.responseSuccessOK(response, "PUSKESMAS UPDATED");
+        } else {
+            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
+                                   @PathVariable(value = "id", required = false) int id,
+                                   @RequestParam(value = "nama", required = false) String nama,
+                                   @RequestParam(value = "alamat", required = false) String alamat,
+                                   @RequestParam(value = "phone", required = false) String phone,
+                                   @RequestParam(value = "lon",required = false) Double lon,
+                                   @RequestParam(value = "lat", required = false) Double lat) throws IOException {
+        PuskesmasModel puskesmasModel = new PuskesmasModel();
+
+        // Fill in Puskesmas Data
+        if (nama != null && !nama.isEmpty()) {
+            // If the 'nama' field is not empty then
+            // Try to update User 'nama'
+            puskesmasModel.setNama(nama);
+        }
+        if (alamat != null && !alamat.isEmpty()) {
+            // If the 'alamat' field is not empty then
+            // Try to update User 'alamat'
+            puskesmasModel.setAlamat(alamat);
+        }
+        if (phone != null && !phone.isEmpty()) {
+            // If the 'phone' field is not empty then
+            // Try to update User 'phone'
+            puskesmasModel.setPhone(phone);
+        }
+        if (lon != null && !lon.isNaN()) {
+            // If the 'lon' field is not empty then
+            // Try to update User 'lon'
+            puskesmasModel.setLon(lon);
+        }
+        if (lat != null && !lat.isNaN()) {
+            // If the 'lat' field is not empty then
+            // Try to update User 'lat'
+            puskesmasModel.setLon(lat);
+        }
+
+        // Patch the Puskesmas Data
+        if (puskesmasService.patchPuskesmasById(id, puskesmasModel) != null) {
+            HandlerResponse.responseSuccessOK(response, "PUSKESMAS UPDATED");
         } else {
             HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
         }
