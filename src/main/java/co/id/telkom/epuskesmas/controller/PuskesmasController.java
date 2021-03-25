@@ -35,10 +35,11 @@ public class PuskesmasController {
         Optional<PuskesmasModel> dataPuskesmas = puskesmasService.getPuskesmasById(id);
 
         if (dataPuskesmas.isPresent()) {
-            DataResponse<Optional<PuskesmasModel>> dataResponse = new DataResponse<>();
+            PuskesmasModel currentPuskesmas = dataPuskesmas.get();
+            DataResponse<PuskesmasModel> dataResponse = new DataResponse<>();
 
             dataResponse.setCode(HttpServletResponse.SC_OK);
-            dataResponse.setData(dataPuskesmas);
+            dataResponse.setData(currentPuskesmas);
 
             HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {

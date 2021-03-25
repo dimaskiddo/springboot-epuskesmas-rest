@@ -70,10 +70,11 @@ public class UserController {
         Optional<UserModel> dataUser = userService.getUserById(id);
 
         if (dataUser.isPresent()) {
-            DataResponse<Optional<UserModel>> dataResponse = new DataResponse<>();
+            UserModel currentUser = dataUser.get();
+            DataResponse<UserModel> dataResponse = new DataResponse<>();
 
             dataResponse.setCode(HttpServletResponse.SC_OK);
-            dataResponse.setData(dataUser);
+            dataResponse.setData(currentUser);
 
             HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {

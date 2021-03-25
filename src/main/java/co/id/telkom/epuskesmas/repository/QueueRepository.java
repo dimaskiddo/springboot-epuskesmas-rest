@@ -1,11 +1,9 @@
 package co.id.telkom.epuskesmas.repository;
 
 import co.id.telkom.epuskesmas.model.QueueModel;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public interface QueueRepository extends PagingAndSortingRepository<QueueModel, Integer> {
+public interface QueueRepository extends JpaRepository<QueueModel, Integer> {
 
     Iterable<QueueModel> getQueueByIdUser(int id);
     Iterable<QueueModel> getQueueByIdPoli(int id);
