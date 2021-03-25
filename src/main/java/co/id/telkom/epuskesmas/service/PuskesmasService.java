@@ -79,7 +79,7 @@ public class PuskesmasService {
         return null;
     }
 
-    public boolean deleteUserById(int id) {
+    public boolean deletePuskesmasById(int id) {
         Optional<PuskesmasModel> currentUser = puskesmasRepository.findById(id);
 
         if (currentUser.isPresent()) {
