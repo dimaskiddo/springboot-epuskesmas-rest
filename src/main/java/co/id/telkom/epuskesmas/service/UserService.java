@@ -45,6 +45,7 @@ public class UserService {
         if (currentUser.isPresent()) {
             // TODO
             // - Password Should Be Encrypted Using BCrypt
+            userModel.setId(id);
             return userRepository.save(userModel);
         }
 

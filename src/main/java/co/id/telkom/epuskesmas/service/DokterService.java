@@ -37,6 +37,7 @@ public class DokterService {
         Optional<DokterModel> currentDokter = dokterRepository.findById(id);
 
         if (currentDokter.isPresent()) {
+            dokterModel.setId(id);
             return dokterRepository.save(dokterModel);
         }
 

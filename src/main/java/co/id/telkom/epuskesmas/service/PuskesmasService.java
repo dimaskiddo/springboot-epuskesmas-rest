@@ -41,6 +41,7 @@ public class PuskesmasService {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasRepository.findById(id);
 
         if (currentPuskesmas.isPresent()) {
+            puskesmasModel.setId(id);
             return puskesmasRepository.save(puskesmasModel);
         }
 

@@ -49,6 +49,7 @@ public class QueueService {
         Optional<QueueModel> currentQueue = queueRepository.findById(id);
 
         if (currentQueue.isPresent()) {
+            queueModel.setId(id);
             return queueRepository.save(queueModel);
         }
 

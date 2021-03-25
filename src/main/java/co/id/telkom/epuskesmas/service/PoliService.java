@@ -41,6 +41,7 @@ public class PoliService {
         Optional<PoliModel> currentPoli = poliRepository.findById(id);
 
         if (currentPoli.isPresent()) {
+            poliModel.setId(id);
             return poliRepository.save(poliModel);
         }
 

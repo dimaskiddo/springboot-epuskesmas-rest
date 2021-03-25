@@ -190,7 +190,7 @@ public class UserController {
         }
 
         // Patch the User Data
-        if (userService.updateUserById(id, userModel) != null) {
+        if (userService.patchUserById(id, userModel) != null) {
             HandlerResponse.responseSuccessOK(response, "USER UPDATED");
         } else {
             HandlerResponse.responseNotFound(response, "USER NOT FOUND");
