@@ -33,6 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             HandlerResponse.responseForbidden(response, "ACCESS DENIED");
         };
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // TODO:
