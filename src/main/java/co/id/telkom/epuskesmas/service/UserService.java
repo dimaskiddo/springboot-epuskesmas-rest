@@ -4,6 +4,7 @@ import co.id.telkom.epuskesmas.model.UserModel;
 import co.id.telkom.epuskesmas.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,9 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private UserRepository userRepository;
 
     @Autowired
@@ -22,8 +26,7 @@ public class UserService {
     }
 
     public UserModel createUser(UserModel userModel) {
-        // TODO
-        // - Password Should Be Encrypted Using BCrypt
+        userModel.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
         return userRepository.save(userModel);
     }
 
@@ -39,17 +42,12 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public Optional<UserModel> getUserByTelepon(String telepon) {
-        return userRepository.findByTelepon(telepon);
-    }
-
     public UserModel updateUserById(int id, UserModel userModel) {
         Optional<UserModel> currentUser = userRepository.findById(id);
 
         if (currentUser.isPresent()) {
-            // TODO
-            // - Password Should Be Encrypted Using BCrypt
             userModel.setId(id);
+            userModel.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
             return userRepository.save(userModel);
         }
 
@@ -87,9 +85,7 @@ public class UserService {
             }
 
             if (userModel.getPassword() != null && !userModel.getPassword().isEmpty()) {
-                // TODO
-                // - Password Should Be Encrypted Using BCrypt
-                dataUser.setPassword(userModel.getPassword());
+                dataUser.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
             }
 
             if (userModel.getKelamin() != null && !userModel.getKelamin().isEmpty()) {
@@ -120,6 +116,20 @@ public class UserService {
         if (currentUser.isPresent()) {
             userRepository.deleteById(id);
             return true;
+        }
+
+        return false;
+    }
+
+    public boolean authUserByTeleponAndPassword(String telepon, String password) {
+        Optional<UserModel> currentUser = userRepository.findByTelepon(telepon);
+
+        if (currentUser.isPresent()) {
+            UserModel dataUser = currentUser.get();
+
+            if (bCryptPasswordEncoder.matches(password, dataUser.getPassword())) {
+                return true;
+            }
         }
 
         return false;
