@@ -171,5 +171,4 @@ public class PoliController {
             HandlerResponse.responseNotFound(response, "POLI NOT FOUND");
         }
     }
-
 }
