@@ -59,7 +59,7 @@ public class UserController {
         DataResponse<Iterable<UserModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (telepon != null) {
+        if (telepon != null && !telepon.isEmpty()) {
             dataResponse.setData(userService.getAllUserByTelepon(telepon));
         } else {
             dataResponse.setData(userService.getAllUser());
@@ -71,14 +71,14 @@ public class UserController {
     @GetMapping("/{id}")
     public void getUserById(HttpServletRequest request, HttpServletResponse response,
                             @PathVariable int id) throws IOException {
-        Optional<UserModel> dataUser = userService.getUserById(id);
+        Optional<UserModel> currentUser = userService.getUserById(id);
 
-        if (dataUser.isPresent()) {
-            UserModel currentUser = dataUser.get();
+        if (currentUser.isPresent()) {
+            UserModel dataUser = currentUser.get();
             DataResponse<UserModel> dataResponse = new DataResponse<>();
 
             dataResponse.setCode(HttpServletResponse.SC_OK);
-            dataResponse.setData(currentUser);
+            dataResponse.setData(dataUser);
 
             HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {

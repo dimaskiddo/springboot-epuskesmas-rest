@@ -59,7 +59,7 @@ public class PoliController {
         DataResponse<Iterable<PoliModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (nama != null) {
+        if (nama != null && !nama.isEmpty()) {
             dataResponse.setData(poliService.getAllPoliByNama(nama));
         } else {
             dataResponse.setData(poliService.getAllPoli());
@@ -71,14 +71,14 @@ public class PoliController {
     @GetMapping("/{id}")
     public void getPoliById(HttpServletRequest request, HttpServletResponse response,
                             @PathVariable int id) throws IOException {
-        Optional<PoliModel> dataPoli = poliService.getPoliById(id);
+        Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
-        if (dataPoli.isPresent()) {
-            PoliModel currentPoli = dataPoli.get();
+        if (currentPoli.isPresent()) {
+            PoliModel dataPoli = currentPoli.get();
             DataResponse<PoliModel> dataResponse = new DataResponse<>();
 
             dataResponse.setCode(HttpServletResponse.SC_OK);
-            dataResponse.setData(currentPoli);
+            dataResponse.setData(dataPoli);
 
             HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {

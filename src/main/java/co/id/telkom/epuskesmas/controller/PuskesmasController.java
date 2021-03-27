@@ -76,7 +76,7 @@ public class PuskesmasController {
         DataResponse<Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (nama != null) {
+        if (nama != null && !nama.isEmpty()) {
             dataResponse.setData(puskesmasService.getAllPuskesmasByNama(nama));
         } else {
             dataResponse.setData(puskesmasService.getAllPuskesmas());
@@ -88,14 +88,14 @@ public class PuskesmasController {
     @GetMapping("/{id}")
     public void getPuskemasById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable int id) throws IOException {
-        Optional<PuskesmasModel> dataPuskesmas = puskesmasService.getPuskesmasById(id);
+        Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
-        if (dataPuskesmas.isPresent()) {
-            PuskesmasModel currentPuskesmas = dataPuskesmas.get();
+        if (currentPuskesmas.isPresent()) {
+            PuskesmasModel dataPuskesmas = currentPuskesmas.get();
             DataResponse<PuskesmasModel> dataResponse = new DataResponse<>();
 
             dataResponse.setCode(HttpServletResponse.SC_OK);
-            dataResponse.setData(currentPuskesmas);
+            dataResponse.setData(dataPuskesmas);
 
             HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {
