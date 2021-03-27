@@ -52,7 +52,7 @@ public class DokterController {
                 String fileFotoDokter = UUID.randomUUID().toString() +
                         FileUtils.getFileExtension(foto.getOriginalFilename());
 
-                // Upload Dokter Photo File to Puskesmas Photo Directory
+                // Upload Dokter Photo File to Dokter Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
 
                 DokterModel dokterModel = new DokterModel();
@@ -117,7 +117,50 @@ public class DokterController {
                                  @RequestParam("nama") String nama,
                                  @RequestParam("kelamin") String kelamin,
                                  @RequestParam("foto") MultipartFile foto) throws IOException {
+        try {
+            Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
+            if (currentPoli.isPresent()) {
+                Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
+
+                if (currentDokter.isPresent()) {
+                    DokterModel dataDokter = currentDokter.get();
+
+                    // Create Dokter Photo Directory
+                    if (!Files.exists(dirFotoDokter)) {
+                        Files.createDirectories(dirFotoDokter);
+                    }
+
+                    // Generate Dokter Photo File Name
+                    String fileFotoDokter = UUID.randomUUID().toString() +
+                            FileUtils.getFileExtension(foto.getOriginalFilename());
+
+                    // Upload Dokter Photo File to Dokter Photo Directory
+                    Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
+
+                    // Delete OLD Dokter Photo File from Dokter Photo Directory
+                    Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+
+                    DokterModel dokterModel = new DokterModel();
+
+                    // Fill in Dokter Data
+                    dokterModel.setIdPoli(idPoli);
+                    dokterModel.setNama(nama);
+                    dokterModel.setKelamin(kelamin);
+                    dokterModel.setFoto(fileFotoDokter);
+
+                    // Update the Dokter Data
+                    dokterService.updateDokterById(id, dokterModel);
+                    HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
+                } else {
+                    HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
+                }
+            } else {
+                HandlerResponse.responseBadRequest(response, "INVALID POLI");
+            }
+        } catch (Exception e) {
+            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+        }
     }
 
     @PatchMapping("/{id}")
@@ -127,7 +170,60 @@ public class DokterController {
                                 @RequestParam(value = "nama", required = false) String nama,
                                 @RequestParam(value = "kelamin", required = false) String kelamin,
                                 @RequestParam(value = "foto", required = false) MultipartFile foto) throws IOException {
+        try {
+            Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
+            if (currentPoli.isPresent()) {
+                Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
+
+                if (currentDokter.isPresent()) {
+                    DokterModel dokterModel = new DokterModel();
+
+                    // Fill in Dokter Data
+                    if (idPoli != 0) {
+                        dokterModel.setIdPoli(idPoli);
+                    }
+                    if (nama != null && !nama.isEmpty()) {
+                        dokterModel.setNama(nama);
+                    }
+                    if (kelamin != null && !kelamin.isEmpty()) {
+                        dokterModel.setKelamin(kelamin);
+                    }
+                    if (foto != null && !foto.isEmpty()) {
+                        DokterModel dataDokter = currentDokter.get();
+
+                        // Create Dokter Photo Directory
+                        if (!Files.exists(dirFotoDokter)) {
+                            Files.createDirectories(dirFotoDokter);
+                        }
+
+                        // Generate Dokter Photo File Name
+                        String fileFotoDokter = UUID.randomUUID().toString() +
+                                FileUtils.getFileExtension(foto.getOriginalFilename());
+
+                        // Upload Dokter Photo File to Dokter Photo Directory
+                        Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
+
+                        // Delete OLD Dokter Photo File from Dokter Photo Directory
+                        Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+
+                        // If the 'foto' field is not empty then
+                        // Try to update Dokter 'foto'
+                        dokterModel.setFoto(fileFotoDokter);
+                    }
+
+                    // Update the Dokter Data
+                    dokterService.updateDokterById(id, dokterModel);
+                    HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
+                } else {
+                    HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
+                }
+            } else {
+                HandlerResponse.responseBadRequest(response, "INVALID POLI");
+            }
+        } catch (Exception e) {
+            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -139,7 +235,7 @@ public class DokterController {
             if (currentDokter.isPresent()) {
                 DokterModel dataDokter = currentDokter.get();
 
-                // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
+                // Delete OLD Dokter Photo File from Dokter Photo Directory
                 Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
 
                 dokterService.deleteDokterById(id);

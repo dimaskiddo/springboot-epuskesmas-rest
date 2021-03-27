@@ -107,7 +107,7 @@ public class PoliController {
 
             // Update the Poli Data
             if (poliService.updatePoliById(id, poliModel) != null) {
-                HandlerResponse.responseSuccessCreated(response, "POLI UPDATED");
+                HandlerResponse.responseSuccessOK(response, "POLI UPDATED");
             } else {
                 HandlerResponse.responseInternalServerError(response, "POLI NOT FOUND");
             }
@@ -153,7 +153,7 @@ public class PoliController {
 
             // Patch the Poli Data
             if (poliService.patchPoliById(id, poliModel) != null) {
-                HandlerResponse.responseSuccessCreated(response, "POLI UPDATED");
+                HandlerResponse.responseSuccessOK(response, "POLI UPDATED");
             } else {
                 HandlerResponse.responseInternalServerError(response, "POLI NOT FOUND");
             }
