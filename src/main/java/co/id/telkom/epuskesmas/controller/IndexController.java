@@ -15,6 +15,6 @@ public class IndexController {
 
     @GetMapping
     public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HandlerResponse.responseSuccessOK(response, "e-Puskemas REST is running!");
+        HandlerResponse.responseSuccessOK(response, "e-Puskesmas REST is running!");
     }
 }
