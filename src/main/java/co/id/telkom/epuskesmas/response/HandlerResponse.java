@@ -114,6 +114,20 @@ public class HandlerResponse {
         responseWriter(response, errorResponse, errorResponse.getCode());
     }
 
+    public static void responseMethodNotAllowed(HttpServletResponse response, String error) {
+        if (error.isEmpty()) {
+            error = "METHOD NOT ALLOWED";
+        }
+
+        ErrorResponse<String> errorResponse = new ErrorResponse<>();
+
+        errorResponse.setCode(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        errorResponse.setStatus(STATUS_FAILED);
+        errorResponse.setError(error);
+
+        responseWriter(response, errorResponse, errorResponse.getCode());
+    }
+
     public static void responseInternalServerError(HttpServletResponse response, String error) {
         if (error.isEmpty()) {
             error = "INTERNAL SERVER ERROR";

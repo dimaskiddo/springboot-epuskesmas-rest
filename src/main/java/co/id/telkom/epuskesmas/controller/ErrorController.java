@@ -42,6 +42,10 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
                     HandlerResponse.responseNotFound(response, "");
                     break;
 
+                case 405:
+                    HandlerResponse.responseMethodNotAllowed(response, "");
+                    break;
+
                 case 500:
                     HandlerResponse.responseInternalServerError(response, "");
                     break;
@@ -51,7 +55,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
                     break;
 
                 default:
-                    HandlerResponse.responseInternalServerError(response, "UNKNOWN ERROR");
+                    HandlerResponse.responseInternalServerError(response, "ERROR, HTTP CODE: " + errorCode);
             }
         } else {
             HandlerResponse.responseSuccessOK(response, "NO ERROR");
