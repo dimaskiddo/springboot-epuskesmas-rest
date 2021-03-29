@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
 
-@RequestMapping(value="/auth", produces={"application/json"})
+@RequestMapping(value="/login", produces={"application/json"})
 @RestController
 public class AuthController {
 
