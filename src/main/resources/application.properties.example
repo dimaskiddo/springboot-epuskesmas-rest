@@ -9,6 +9,9 @@ spring.jpa.show-sql=false
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.properties.hibernate.format_sql=true
 
+# Spring Doc
+springdoc.api-docs.path=/api-docs
+
 # Spring Banner
 spring.banner.location=classpath:e-puskesmas.bin
 
@@ -20,6 +23,3 @@ spring.servlet.multipart.max-request-size=25MB
 server.error.path=/error
 server.error.whitelabel.enabled=false
 server.port=8080
-
-# Spring Doc
-springdoc.api-docs.path=/api-docs
