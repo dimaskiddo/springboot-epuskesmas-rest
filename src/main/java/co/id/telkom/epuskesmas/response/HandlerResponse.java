@@ -15,7 +15,7 @@ public class HandlerResponse {
             String finalResponse = objectMapper.writeValueAsString(data);
 
             response.setStatus(code);
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=utf-8");
 
             response.getWriter().write(finalResponse);
             response.getWriter().flush();
