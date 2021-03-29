@@ -6,6 +6,7 @@ import co.id.telkom.epuskesmas.response.DataResponse;
 import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.PoliService;
 import co.id.telkom.epuskesmas.service.PuskesmasService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+@SecurityRequirement(name = "Login")
 @RequestMapping(value="/api/v1/polies", produces={"application/json"})
 @RestController
 public class PoliController {
