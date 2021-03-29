@@ -25,8 +25,8 @@ $ cd e-puskesmas-api
 ```
 * Installing dependencies using Maven
 ```shell script
-mvn dependency:resolve
-mvn clean
+$ mvn dependency:resolve
+$ mvn clean
 ```
 * Use your IDE using Intellij or Spring Tools to edit the project and open the `pom.xml` file
 * To run the code locally
