@@ -93,7 +93,7 @@ public class PoliController {
         }
     }
 
-    @PutMapping(name = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updatePoliById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
                                @Valid @NotNull @ModelAttribute("idPuskesmas") int idPuskesmas,
@@ -123,7 +123,7 @@ public class PoliController {
         }
     }
 
-    @PatchMapping(name = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchPoliById(HttpServletRequest request, HttpServletResponse response,
                               @PathVariable int id,
                               @Valid @ModelAttribute("idPuskesmas") int idPuskesmas,

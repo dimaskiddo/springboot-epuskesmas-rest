@@ -117,7 +117,7 @@ public class DokterController {
         }
     }
 
-    @PutMapping(name = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updateDokterById(HttpServletRequest request, HttpServletResponse response,
                                  @PathVariable("id") int id,
                                  @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
@@ -170,7 +170,7 @@ public class DokterController {
         }
     }
 
-    @PatchMapping(name = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchDokterById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable("id") int id,
                                 @Valid @ModelAttribute("idPoli") int idPoli,
