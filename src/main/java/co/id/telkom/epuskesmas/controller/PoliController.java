@@ -7,14 +7,19 @@ import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.PoliService;
 import co.id.telkom.epuskesmas.service.PuskesmasService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Optional;
 
+@Tag(name = "Polies", description = "Endpoints for Polies")
 @SecurityRequirement(name = "Login")
 @RequestMapping(value="/api/v1/polies", produces={"application/json"})
 @RestController
@@ -26,12 +31,12 @@ public class PoliController {
     @Autowired
     private PoliService poliService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createPoli(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam("idPuskesmas") int idPuskesmas,
-                           @RequestParam("nama") String nama,
-                           @RequestParam("waktuBuka") String waktuBuka,
-                           @RequestParam("waktuTutup") String waktuTutup) throws IOException {
+                           @Valid @NotNull @ModelAttribute("idPuskesmas") int idPuskesmas,
+                           @Valid @NotNull @ModelAttribute("nama") String nama,
+                           @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
+                           @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -88,13 +93,13 @@ public class PoliController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(name = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updatePoliById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
-                               @RequestParam("idPuskesmas") int idPuskesmas,
-                               @RequestParam("nama") String nama,
-                               @RequestParam("waktuBuka") String waktuBuka,
-                               @RequestParam("waktuTutup") String waktuTutup) throws IOException {
+                               @Valid @NotNull @ModelAttribute("idPuskesmas") int idPuskesmas,
+                               @Valid @NotNull @ModelAttribute("nama") String nama,
+                               @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
+                               @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -118,13 +123,13 @@ public class PoliController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(name = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchPoliById(HttpServletRequest request, HttpServletResponse response,
                               @PathVariable int id,
-                              @RequestParam(value = "idPuskesmas", required = false) int idPuskesmas,
-                              @RequestParam(value = "nama", required = false) String nama,
-                              @RequestParam(value = "waktuBuka", required = false) String waktuBuka,
-                              @RequestParam(value = "waktuTutup", required = false) String waktuTutup) throws IOException {
+                              @Valid @ModelAttribute("idPuskesmas") int idPuskesmas,
+                              @Valid @ModelAttribute("nama") String nama,
+                              @Valid @ModelAttribute("waktuBuka") String waktuBuka,
+                              @Valid @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist

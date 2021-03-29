@@ -7,14 +7,17 @@ import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.DokterService;
 import co.id.telkom.epuskesmas.service.PoliService;
 import co.id.telkom.epuskesmas.utils.FileUtils;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name = "Doctors", description = "Endpoints for Doctors")
 @SecurityRequirement(name = "Login")
 @RequestMapping(value="/api/v1/doctors", produces={"application/json"})
 @RestController
@@ -36,12 +40,12 @@ public class DokterController {
     @Autowired
     DokterService dokterService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void createDokter(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam("idPoli") int idPoli,
-                             @RequestParam("nama") String nama,
-                             @RequestParam("kelamin") String kelamin,
-                             @RequestParam("foto") MultipartFile foto) throws IOException {
+                             @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
+                             @Valid @NotNull @ModelAttribute("nama") String nama,
+                             @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
+                             @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
         try {
             Optional<PoliModel> poliModel = poliService.getPoliById(idPoli);
 
@@ -113,13 +117,13 @@ public class DokterController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(name = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updateDokterById(HttpServletRequest request, HttpServletResponse response,
                                  @PathVariable("id") int id,
-                                 @RequestParam("idPoli") int idPoli,
-                                 @RequestParam("nama") String nama,
-                                 @RequestParam("kelamin") String kelamin,
-                                 @RequestParam("foto") MultipartFile foto) throws IOException {
+                                 @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
+                                 @Valid @NotNull @ModelAttribute("nama") String nama,
+                                 @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
+                                 @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
         try {
             Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
@@ -166,13 +170,13 @@ public class DokterController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(name = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchDokterById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable("id") int id,
-                                @RequestParam(value = "idPoli", required = false) int idPoli,
-                                @RequestParam(value = "nama", required = false) String nama,
-                                @RequestParam(value = "kelamin", required = false) String kelamin,
-                                @RequestParam(value = "foto", required = false) MultipartFile foto) throws IOException {
+                                @Valid @ModelAttribute("idPoli") int idPoli,
+                                @Valid @ModelAttribute("nama") String nama,
+                                @Valid @ModelAttribute("kelamin") String kelamin,
+                                @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
         try {
             Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 

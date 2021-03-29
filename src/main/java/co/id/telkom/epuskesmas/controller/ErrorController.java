@@ -18,7 +18,6 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         return null;
     }
 
-    @RequestMapping("/error")
     public void errorHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
@@ -55,7 +54,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
                     break;
 
                 default:
-                    HandlerResponse.responseInternalServerError(response, "ERROR, HTTP CODE: " + errorCode);
+                    HandlerResponse.responseInternalServerError(response, "ERROR CODE: " + errorCode);
             }
         } else {
             HandlerResponse.responseSuccessOK(response, "NO ERROR");

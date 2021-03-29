@@ -4,17 +4,19 @@ import co.id.telkom.epuskesmas.model.AuthModel;
 import co.id.telkom.epuskesmas.response.DataResponse;
 import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Base64;
 
+@Tag(name = "Authentications", description = "Endpoints for Authentications")
 @RequestMapping(value="/login", produces={"application/json"})
 @RestController
 public class AuthController {
@@ -22,10 +24,10 @@ public class AuthController {
     @Autowired
     UserService userService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void generateToken(HttpServletRequest request, HttpServletResponse response,
-                              @RequestParam("telepon") String telepon,
-                              @RequestParam("password") String password) throws IOException {
+                              @Valid @NotNull @ModelAttribute("telepon") String telepon,
+                              @Valid @NotNull @ModelAttribute("password") String password) throws IOException {
         if (userService.authUserByTeleponAndPassword(telepon, password)) {
             String token = telepon + ":" + password;
 

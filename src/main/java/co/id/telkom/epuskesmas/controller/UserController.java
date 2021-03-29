@@ -5,14 +5,19 @@ import co.id.telkom.epuskesmas.response.DataResponse;
 import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Optional;
 
+@Tag(name = "Users", description = "Endpoints for Users")
 @SecurityRequirement(name = "Login")
 @RequestMapping(value="/api/v1/users", produces={"application/json"})
 @RestController
@@ -21,18 +26,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createUser(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam("nama") String nama,
-                           @RequestParam("provinsi") String provinsi,
-                           @RequestParam("kabupaten") String kabupaten,
-                           @RequestParam("telepon") String telepon,
-                           @RequestParam("bpjs") String bpjs,
-                           @RequestParam("password") String password,
-                           @RequestParam("kelamin") String kelamin,
-                           @RequestParam("tanggalLahir") String tanggalLahir,
-                           @RequestParam("lon") Double lon,
-                           @RequestParam("lat") Double lat) throws IOException {
+                           @Valid @NotNull @ModelAttribute("nama") String nama,
+                           @Valid @NotNull @ModelAttribute("provinsi") String provinsi,
+                           @Valid @NotNull @ModelAttribute("kabupaten") String kabupaten,
+                           @Valid @NotNull @ModelAttribute("telepon") String telepon,
+                           @Valid @NotNull @ModelAttribute("bpjs") String bpjs,
+                           @Valid @NotNull @ModelAttribute("password") String password,
+                           @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
+                           @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
+                           @Valid @NotNull @ModelAttribute("lon") Double lon,
+                           @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
@@ -89,19 +94,19 @@ public class UserController {
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(name = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateUserById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
-                               @RequestParam("nama") String nama,
-                               @RequestParam("provinsi") String provinsi,
-                               @RequestParam("kabupaten") String kabupaten,
-                               @RequestParam("telepon") String telepon,
-                               @RequestParam("bpjs") String bpjs,
-                               @RequestParam(value = "password", required = false) String password,
-                               @RequestParam("kelamin") String kelamin,
-                               @RequestParam("tanggalLahir") String tanggalLahir,
-                               @RequestParam("lon") Double lon,
-                               @RequestParam("lat") Double lat) throws IOException {
+                               @Valid @NotNull @ModelAttribute("nama") String nama,
+                               @Valid @NotNull @ModelAttribute("provinsi") String provinsi,
+                               @Valid @NotNull @ModelAttribute("kabupaten") String kabupaten,
+                               @Valid @NotNull @ModelAttribute("telepon") String telepon,
+                               @Valid @NotNull @ModelAttribute("bpjs") String bpjs,
+                               @Valid @ModelAttribute("password") String password,
+                               @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
+                               @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
+                               @Valid @NotNull @ModelAttribute("lon") Double lon,
+                               @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
@@ -128,19 +133,19 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchUserById(HttpServletRequest request, HttpServletResponse response,
                               @PathVariable int id,
-                              @RequestParam(value = "nama", required = false) String nama,
-                              @RequestParam(value = "provinsi", required = false) String provinsi,
-                              @RequestParam(value = "kabupaten", required = false) String kabupaten,
-                              @RequestParam(value = "telepon",required = false) String telepon,
-                              @RequestParam(value = "bpjs", required = false) String bpjs,
-                              @RequestParam(value = "password", required = false) String password,
-                              @RequestParam(value = "kelamin", required = false) String kelamin,
-                              @RequestParam(value = "tanggalLahir", required = false) String tanggalLahir,
-                              @RequestParam(value = "lon", required = false) Double lon,
-                              @RequestParam(value = "lat", required = false) Double lat) throws IOException {
+                              @Valid @ModelAttribute("nama") String nama,
+                              @Valid @ModelAttribute("provinsi") String provinsi,
+                              @Valid @ModelAttribute("kabupaten") String kabupaten,
+                              @Valid @ModelAttribute("telepon") String telepon,
+                              @Valid @ModelAttribute("bpjs") String bpjs,
+                              @Valid @ModelAttribute("password") String password,
+                              @Valid @ModelAttribute("kelamin") String kelamin,
+                              @Valid @ModelAttribute("tanggalLahir") String tanggalLahir,
+                              @Valid @ModelAttribute("lon") Double lon,
+                              @Valid @ModelAttribute("lat") Double lat) throws IOException {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
