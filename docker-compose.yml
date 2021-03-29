@@ -23,5 +23,5 @@ services:
       - DB_PASSWORD=password
       - DB_NAME=
     volumes:
-      - /opt/app/static:/opt/e-puskesmas/static
+      - /opt/e-puskesmas/static:/opt/app/static
     restart: always
