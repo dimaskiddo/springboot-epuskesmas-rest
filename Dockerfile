@@ -32,7 +32,11 @@ WORKDIR /opt/app
 # Copy Anything The Application Needs
 COPY --from=java-builder /usr/src/app/target/*.jar ./e-puskesmas.jar
 
+# Prepare Any Requirements
+RUN mkdir -p /opt/app/static/{clinics,doctors}
+
+# Expose Application Port
 EXPOSE 8080
 
-# Running Java application
+# Running Java Application
 CMD java -server -jar e-puskesmas.jar
