@@ -94,7 +94,7 @@ public class UserController {
 
     }
 
-    @PutMapping(name = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateUserById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
                                @Valid @NotNull @ModelAttribute("nama") String nama,
