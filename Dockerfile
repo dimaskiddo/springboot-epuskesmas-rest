@@ -33,7 +33,7 @@ WORKDIR /opt/app
 COPY --from=java-builder /usr/src/app/target/*.jar ./e-puskesmas.jar
 
 # Prepare Any Requirements
-RUN mkdir -p /opt/app/static/{clinics,doctors}
+RUN mkdir -p /opt/app/static
 
 # Expose Application Port
 EXPOSE 8080
