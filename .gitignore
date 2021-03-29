@@ -1,8 +1,13 @@
 HELP.md
 target/
+**/src/main/resources/application.properties
+**/static/clinics/**
+**/static/doctors/**
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**/static/clinics/.gitkeep
+!**/static/doctors/.gitkeep
 
 ### STS ###
 .apt_generated
