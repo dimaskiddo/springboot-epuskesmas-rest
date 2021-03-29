@@ -110,7 +110,7 @@ public class PuskesmasController {
         }
     }
 
-    @PutMapping(name = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updatePuskesmasById(HttpServletRequest request, HttpServletResponse response,
                                     @PathVariable int id,
                                     @Valid @NotNull @ModelAttribute("nama") String nama,
@@ -161,7 +161,7 @@ public class PuskesmasController {
         }
     }
 
-    @PatchMapping(name = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
                                    @PathVariable int id,
                                    @Valid @ModelAttribute("nama") String nama,
