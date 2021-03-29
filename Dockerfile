@@ -19,13 +19,24 @@ RUN mvn dependency:resolve \
 # ---------------------------------------------------
 FROM adoptopenjdk/openjdk11:alpine-jre
 
+# Set Environment Variable
+ENV DB_HOST=127.0.0.1 \
+    DB_PORT=3306 \
+    DB_USERNAME=root \
+    DB_PASSWORD=password \
+    DB_NAME=
+
 # Set Working Directory
 WORKDIR /opt/app
 
 # Copy Anything The Application Needs
 COPY --from=java-builder /usr/src/app/target/*.jar ./e-puskesmas.jar
 
+# Prepare Any Requirements
+RUN mkdir -p /opt/app/static/{clinics,doctors}
+
+# Expose Application Port
 EXPOSE 8080
 
-# Running Java application
+# Running Java Application
 CMD java -server -jar e-puskesmas.jar

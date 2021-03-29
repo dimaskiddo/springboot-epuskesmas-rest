@@ -1,0 +1,25 @@
+version: '2'
+
+networks:
+  epuskesmasnet:
+    driver: bridge
+
+services:
+  epuskesmas-api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: 'e-puskesmas/api:latest'
+    networks:
+      - epuskesmasnet
+    ports:
+      - 80:8080
+    environment:
+      - DB_HOST=127.0.0.1
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - DB_NAME=
+    volumes:
+      - /opt/app/static:/opt/e-puskesmas/static
+    restart: always
