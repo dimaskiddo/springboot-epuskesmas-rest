@@ -19,6 +19,13 @@ RUN mvn dependency:resolve \
 # ---------------------------------------------------
 FROM adoptopenjdk/openjdk11:alpine-jre
 
+# Set Environment Variable
+ENV DB_HOST=127.0.0.1 \
+    DB_PORT=3306 \
+    DB_USERNAME=root \
+    DB_PASSWORD=password \
+    DB_NAME=
+
 # Set Working Directory
 WORKDIR /opt/app
 
