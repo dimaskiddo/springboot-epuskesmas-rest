@@ -7,6 +7,8 @@ import co.id.telkom.epuskesmas.response.HandlerResponse;
 import co.id.telkom.epuskesmas.service.DokterService;
 import co.id.telkom.epuskesmas.service.PoliService;
 import co.id.telkom.epuskesmas.utils.FileUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
+@SecurityRequirement(name = "Login")
 @RequestMapping(value="/api/v1/doctors", produces={"application/json"})
 @RestController
 public class DokterController {
