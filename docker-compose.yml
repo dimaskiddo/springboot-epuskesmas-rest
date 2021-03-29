@@ -9,7 +9,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: 'e-puskesmas/api:latest'
+      args:
+        ARGS_MVN_PACKAGE: "-Dmaven.test.skip=true"
+    image: "e-puskesmas/api:latest"
     networks:
       - epuskesmasnet
     ports:
