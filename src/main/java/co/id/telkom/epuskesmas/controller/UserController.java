@@ -77,7 +77,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public void getUserById(HttpServletRequest request, HttpServletResponse response,
-                            @PathVariable int id) throws IOException {
+                            @PathVariable Integer id) throws IOException {
         Optional<UserModel> currentUser = userService.getUserById(id);
 
         if (currentUser.isPresent()) {
@@ -96,7 +96,7 @@ public class UserController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateUserById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id,
+                               @PathVariable Integer id,
                                @Valid @NotNull @ModelAttribute("nama") String nama,
                                @Valid @NotNull @ModelAttribute("provinsi") String provinsi,
                                @Valid @NotNull @ModelAttribute("kabupaten") String kabupaten,
@@ -135,7 +135,7 @@ public class UserController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchUserById(HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable int id,
+                              @PathVariable Integer id,
                               @Valid @ModelAttribute("nama") String nama,
                               @Valid @ModelAttribute("provinsi") String provinsi,
                               @Valid @ModelAttribute("kabupaten") String kabupaten,
@@ -210,7 +210,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void deleteUserById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id) throws IOException {
+                               @PathVariable Integer id) throws IOException {
         if (userService.deleteUserById(id)) {
             HandlerResponse.responseSuccessOK(response, "USER DELETED");
         } else {

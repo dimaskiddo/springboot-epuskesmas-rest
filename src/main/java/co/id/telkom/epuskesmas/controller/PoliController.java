@@ -33,7 +33,7 @@ public class PoliController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createPoli(HttpServletRequest request, HttpServletResponse response,
-                           @Valid @NotNull @ModelAttribute("idPuskesmas") int idPuskesmas,
+                           @Valid @NotNull @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                            @Valid @NotNull @ModelAttribute("nama") String nama,
                            @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
                            @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
@@ -95,8 +95,8 @@ public class PoliController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updatePoliById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id,
-                               @Valid @NotNull @ModelAttribute("idPuskesmas") int idPuskesmas,
+                               @PathVariable Integer id,
+                               @Valid @NotNull @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                                @Valid @NotNull @ModelAttribute("nama") String nama,
                                @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
                                @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
@@ -125,8 +125,8 @@ public class PoliController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchPoliById(HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable int id,
-                              @Valid @ModelAttribute("idPuskesmas") int idPuskesmas,
+                              @PathVariable Integer id,
+                              @Valid @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                               @Valid @ModelAttribute("nama") String nama,
                               @Valid @ModelAttribute("waktuBuka") String waktuBuka,
                               @Valid @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
@@ -137,7 +137,7 @@ public class PoliController {
             // Fill in Poli Data
             PoliModel poliModel = new PoliModel();
 
-            if (idPuskesmas > 0) {
+            if (idPuskesmas != null && idPuskesmas > 0) {
                 // If the 'idPuskesmas' field is not empty then
                 // Try to update Poli 'idPuskesmas'
                 poliModel.setIdPuskesmas(idPuskesmas);
@@ -171,7 +171,7 @@ public class PoliController {
 
     @DeleteMapping("/{id}")
     public void deletePoliById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id) throws IOException {
+                               @PathVariable Integer id) throws IOException {
         if (poliService.deletePoliById(id)) {
             HandlerResponse.responseSuccessOK(response, "POLI DELETED");
         } else {
