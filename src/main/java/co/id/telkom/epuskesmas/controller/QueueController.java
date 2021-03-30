@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Optional;
 
-@Tag(name = "Queues", description = "Endpoints for Queus")
+@Tag(name = "Queues", description = "Endpoints for Queues")
 @SecurityRequirement(name = "Login")
 @RequestMapping(value = "/api/v1/queues", produces = {"application/json"})
 @RestController
@@ -34,21 +34,24 @@ public class QueueController {
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createQueue(HttpServletRequest request, HttpServletResponse response,
                             @Valid @NotNull @ModelAttribute("idUser") int idUser,
-                            @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
-                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri,
                             @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
-                            @Valid @NotNull @ModelAttribute("idDokter") int idDokter) {
+                            @Valid @NotNull @ModelAttribute("idDokter") int idDokter,
+                            @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
+                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
 
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
             QueueModel queueModel = new QueueModel();
-            queueModel.setIdDokter(idDokter);
-            queueModel.setIdPoli(idPoli);
+
+            // Fill in Queue Data
             queueModel.setIdUser(idUser);
+            queueModel.setIdPoli(idPoli);
+            queueModel.setIdDokter(idDokter);
             queueModel.setNoAntrian(noAntrian);
             queueModel.setWaktuAntrian(waktuAmbilAntri);
 
+            // Insert the Queue Data
             if (queueService.createQueue(queueModel) != null) {
                 HandlerResponse.responseSuccessCreated(response, "QUEUE CREATED");
             } else {
@@ -96,21 +99,24 @@ public class QueueController {
     public void updateQueueById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable int id,
                                 @Valid @NotNull @ModelAttribute("idUser") int idUser,
-                                @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
-                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri,
                                 @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
-                                @Valid @NotNull @ModelAttribute("idDokter") int idDokter) throws IOException {
+                                @Valid @NotNull @ModelAttribute("idDokter") int idDokter,
+                                @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
+                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
             QueueModel queueModel = new QueueModel();
-            queueModel.setIdDokter(idDokter);
-            queueModel.setIdPoli(idPoli);
+
+            // Fill in Queue Data
             queueModel.setIdUser(idUser);
+            queueModel.setIdPoli(idPoli);
+            queueModel.setIdDokter(idDokter);
             queueModel.setNoAntrian(noAntrian);
             queueModel.setWaktuAntrian(waktuAmbilAntri);
 
-            if (queueService.createQueue(queueModel) != null) {
+            // Update the Queue Data
+            if (queueService.updateQueueById(id, queueModel) != null) {
                 HandlerResponse.responseSuccessCreated(response, "QUEUE UPDATED");
             } else {
                 HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE QUEUE");
@@ -124,10 +130,10 @@ public class QueueController {
     public void patchQueueById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
                                @Valid @NotNull @ModelAttribute("idUser") int idUser,
-                               @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
-                               @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri,
                                @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
-                               @Valid @NotNull @ModelAttribute("idDokter") int idDokter) throws IOException {
+                               @Valid @NotNull @ModelAttribute("idDokter") int idDokter,
+                               @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
+                               @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         // Check if Dokter is Exist
@@ -135,22 +141,34 @@ public class QueueController {
             // Fill in Queue Data
             QueueModel queueModel = new QueueModel();
 
+            // Fill in Queue Data
             if (idUser != 0) {
+                // If the 'idUser' field is not empty then
+                // Try to update Queue 'idUser'
                 queueModel.setIdUser(idUser);
             }
-            if (noAntrian != 0) {
-                queueModel.setNoAntrian(noAntrian);
-            }
-            if (waktuAmbilAntri != null && !waktuAmbilAntri.isEmpty()) {
-                queueModel.setWaktuAntrian(waktuAmbilAntri);
-            }
             if (idPoli != 0) {
+                // If the 'idPoli' field is not empty then
+                // Try to update Queue 'idPoli'
                 queueModel.setIdPoli(idPoli);
             }
             if (idDokter != 0) {
+                // If the 'idDokter' field is not empty then
+                // Try to update Queue 'idDokter'
                 queueModel.setIdDokter(idDokter);
             }
+            if (noAntrian != 0) {
+                // If the 'noAntrian' field is not empty then
+                // Try to update Queue 'noAntrian'
+                queueModel.setNoAntrian(noAntrian);
+            }
+            if (waktuAmbilAntri != null && !waktuAmbilAntri.isEmpty()) {
+                // If the 'waktuAmbilAntri' field is not empty then
+                // Try to update Queue 'waktuAmbilAntri'
+                queueModel.setWaktuAntrian(waktuAmbilAntri);
+            }
 
+            // Patch the Queue Data
             if (queueService.patchQueueById(id, queueModel) != null) {
                 HandlerResponse.responseSuccessOK(response, "QUEUE UPDATED");
             } else {

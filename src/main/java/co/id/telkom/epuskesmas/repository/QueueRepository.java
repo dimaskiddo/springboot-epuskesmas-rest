@@ -9,4 +9,5 @@ public interface QueueRepository extends JpaRepository<QueueModel, Integer> {
     Iterable<QueueModel> findByIdPoli(int id);
     Iterable<QueueModel> findByIdDokter(int id);
     Iterable<QueueModel> findByNoAntrian(int noAntrian);
+
 }
