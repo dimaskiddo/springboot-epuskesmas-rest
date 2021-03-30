@@ -187,7 +187,7 @@ public class DokterController {
                     DokterModel dokterModel = new DokterModel();
 
                     // Fill in Dokter Data
-                    if (idPoli != 0) {
+                    if (idPoli > 0) {
                         dokterModel.setIdPoli(idPoli);
                     }
                     if (nama != null && !nama.isEmpty()) {

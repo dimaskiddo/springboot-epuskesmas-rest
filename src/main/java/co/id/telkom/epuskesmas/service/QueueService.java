@@ -45,6 +45,10 @@ public class QueueService {
         return queueRepository.findByIdDokter(id);
     }
 
+    public Iterable<QueueModel> getQueueByNoAntrian(int noAntrian) {
+        return queueRepository.findByNoAntrian(noAntrian);
+    }
+
     public QueueModel updateQueueById(int id, QueueModel queueModel) {
         Optional<QueueModel> currentQueue = queueRepository.findById(id);
 
