@@ -94,7 +94,7 @@ public class PuskesmasController {
 
     @GetMapping("/{id}")
     public void getPuskemasById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable int id) throws IOException {
+                                @PathVariable Integer id) throws IOException {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
         if (currentPuskesmas.isPresent()) {
@@ -112,7 +112,7 @@ public class PuskesmasController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updatePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable int id,
+                                    @PathVariable Integer id,
                                     @Valid @NotNull @ModelAttribute("nama") String nama,
                                     @Valid @NotNull @ModelAttribute("alamat") String alamat,
                                     @Valid @NotNull @ModelAttribute("telepon") String telepon,
@@ -163,7 +163,7 @@ public class PuskesmasController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable int id,
+                                   @PathVariable Integer id,
                                    @Valid @ModelAttribute("nama") String nama,
                                    @Valid @ModelAttribute("alamat") String alamat,
                                    @Valid @ModelAttribute("telepon") String telepon,
@@ -238,7 +238,7 @@ public class PuskesmasController {
 
     @DeleteMapping("/{id}")
     public void deletePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable int id) throws IOException {
+                                    @PathVariable Integer id) throws IOException {
         try {
             Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
