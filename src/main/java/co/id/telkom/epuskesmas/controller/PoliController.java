@@ -137,7 +137,7 @@ public class PoliController {
             // Fill in Poli Data
             PoliModel poliModel = new PoliModel();
 
-            if (idPuskesmas != 0) {
+            if (idPuskesmas > 0) {
                 // If the 'idPuskesmas' field is not empty then
                 // Try to update Poli 'idPuskesmas'
                 poliModel.setIdPuskesmas(idPuskesmas);

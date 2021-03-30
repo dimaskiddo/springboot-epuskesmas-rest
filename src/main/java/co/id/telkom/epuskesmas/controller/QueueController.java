@@ -64,11 +64,20 @@ public class QueueController {
 
     @GetMapping
     public void getAllQueue(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam(value = "idUser", required = false) int idUser,
+                            @RequestParam(value = "idPoli", required = false) int idPoli,
+                            @RequestParam(value = "idDokter", required = false) int idDokter,
                             @RequestParam(value = "noAntrian", required = false) int noAntrian) throws IOException {
         DataResponse<Iterable<QueueModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (noAntrian > 0) {
+        if (idUser > 0) {
+            dataResponse.setData(queueService.getQueueByIdUser(idUser));
+        } else if (idPoli > 0) {
+            dataResponse.setData(queueService.getQueueByIdPoli(idPoli));
+        } else if (idDokter > 0) {
+            dataResponse.setData(queueService.getQueueByIdDokter(idDokter));
+        } else if (noAntrian > 0) {
             dataResponse.setData(queueService.getQueueByNoAntrian(noAntrian));
         } else {
             dataResponse.setData(queueService.getAllQueue());
@@ -142,22 +151,22 @@ public class QueueController {
             QueueModel queueModel = new QueueModel();
 
             // Fill in Queue Data
-            if (idUser != 0) {
+            if (idUser > 0) {
                 // If the 'idUser' field is not empty then
                 // Try to update Queue 'idUser'
                 queueModel.setIdUser(idUser);
             }
-            if (idPoli != 0) {
+            if (idPoli > 0) {
                 // If the 'idPoli' field is not empty then
                 // Try to update Queue 'idPoli'
                 queueModel.setIdPoli(idPoli);
             }
-            if (idDokter != 0) {
+            if (idDokter > 0) {
                 // If the 'idDokter' field is not empty then
                 // Try to update Queue 'idDokter'
                 queueModel.setIdDokter(idDokter);
             }
-            if (noAntrian != 0) {
+            if (noAntrian > 0) {
                 // If the 'noAntrian' field is not empty then
                 // Try to update Queue 'noAntrian'
                 queueModel.setNoAntrian(noAntrian);
