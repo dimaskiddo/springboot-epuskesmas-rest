@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Hidden
-@RequestMapping(value="/error", produces={"application/json"})
+@RequestMapping(produces={"application/json"})
 @RestController
 public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
 
@@ -20,6 +20,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         return null;
     }
 
+    @RequestMapping("/error")
     public void errorHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
