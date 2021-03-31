@@ -44,4 +44,5 @@ $ docker build -t e-puskesmas/api:latest .
 
 ## Authors
 
-* **Dimas Restu Hidayanto** - *Initial Work* - [DimasKiddo](https://github.com/dimaskiddo)
+* **Dimas Restu Hidayanto** - *Initial Work* - [@dimaskiddo](https://github.com/dimaskiddo)
+* **Tommy Kurniawan** - *Maintainer* - [@tommykurniawans](https://gitlab.playcourt.id/tommykurniawans)
