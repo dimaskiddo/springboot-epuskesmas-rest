@@ -94,7 +94,7 @@ public class PuskesmasController {
 
     @GetMapping("/{id}")
     public void getPuskemasById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable Integer id) throws IOException {
+                                @PathVariable int id) throws IOException {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
         if (currentPuskesmas.isPresent()) {
@@ -112,7 +112,7 @@ public class PuskesmasController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updatePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable Integer id,
+                                    @PathVariable int id,
                                     @Valid @NotNull @ModelAttribute("nama") String nama,
                                     @Valid @NotNull @ModelAttribute("alamat") String alamat,
                                     @Valid @NotNull @ModelAttribute("telepon") String telepon,
@@ -137,8 +137,10 @@ public class PuskesmasController {
                 // Upload Puskesmas Photo File to Puskesmas Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
 
-                // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
+                if (dataPuskesmas.getFoto() != null && !dataPuskesmas.getFoto().isEmpty()) {
+                    // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
+                    Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
+                }
 
                 PuskesmasModel puskesmasModel = new PuskesmasModel();
 
@@ -163,7 +165,7 @@ public class PuskesmasController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable Integer id,
+                                   @PathVariable int id,
                                    @Valid @ModelAttribute("nama") String nama,
                                    @Valid @ModelAttribute("alamat") String alamat,
                                    @Valid @ModelAttribute("telepon") String telepon,
@@ -217,8 +219,10 @@ public class PuskesmasController {
                     // Upload Puskesmas Photo File to Puskesmas Photo Directory
                     Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
 
-                    // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                    Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
+                    if (dataPuskesmas.getFoto() != null && !dataPuskesmas.getFoto().isEmpty()) {
+                        // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
+                        Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
+                    }
 
                     // If the 'foto' field is not empty then
                     // Try to update Puskesmas 'foto'
@@ -238,7 +242,7 @@ public class PuskesmasController {
 
     @DeleteMapping("/{id}")
     public void deletePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable Integer id) throws IOException {
+                                    @PathVariable int id) throws IOException {
         try {
             Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
