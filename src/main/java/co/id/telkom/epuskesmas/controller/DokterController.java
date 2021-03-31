@@ -86,7 +86,7 @@ public class DokterController {
 
     @GetMapping
     public void getAllDokter(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam("nama") String nama) throws IOException {
+                             @RequestParam(value = "nama", required = false) String nama) throws IOException {
         DataResponse<Iterable<DokterModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);

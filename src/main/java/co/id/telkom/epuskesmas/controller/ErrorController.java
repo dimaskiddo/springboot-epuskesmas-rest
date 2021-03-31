@@ -1,6 +1,7 @@
 package co.id.telkom.epuskesmas.controller;
 
 import co.id.telkom.epuskesmas.response.HandlerResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RequestMapping(produces={"application/json"})
+@Hidden
+@RequestMapping(value="/error", produces={"application/json"})
 @RestController
 public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
 
