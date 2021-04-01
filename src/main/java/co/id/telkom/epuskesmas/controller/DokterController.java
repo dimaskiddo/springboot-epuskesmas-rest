@@ -86,7 +86,7 @@ public class DokterController {
 
     @GetMapping
     public void getAllDokter(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam("nama") String nama) throws IOException {
+                             @RequestParam(value = "nama", required = false) String nama) throws IOException {
         DataResponse<Iterable<DokterModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -101,7 +101,7 @@ public class DokterController {
 
     @GetMapping("/{id}")
     public void getDokterById(HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable("id") Integer id) throws IOException {
+                              @PathVariable("id") int id) throws IOException {
         Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
         if (currentDokter.isPresent()) {
@@ -119,7 +119,7 @@ public class DokterController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updateDokterById(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable("id") Integer id,
+                                 @PathVariable("id") int id,
                                  @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                                  @Valid @NotNull @ModelAttribute("nama") String nama,
                                  @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
@@ -145,8 +145,10 @@ public class DokterController {
                     // Upload Dokter Photo File to Dokter Photo Directory
                     Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
 
-                    // Delete OLD Dokter Photo File from Dokter Photo Directory
-                    Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+                    if (dataDokter.getFoto() != null && !dataDokter.getFoto().isEmpty()) {
+                        // Delete OLD Dokter Photo File from Dokter Photo Directory
+                        Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+                    }
 
                     DokterModel dokterModel = new DokterModel();
 
@@ -172,7 +174,7 @@ public class DokterController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchDokterById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable("id") Integer id,
+                                @PathVariable("id") int id,
                                 @Valid @ModelAttribute("idPoli") Integer idPoli,
                                 @Valid @ModelAttribute("nama") String nama,
                                 @Valid @ModelAttribute("kelamin") String kelamin,
@@ -211,8 +213,10 @@ public class DokterController {
                         // Upload Dokter Photo File to Dokter Photo Directory
                         Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
 
-                        // Delete OLD Dokter Photo File from Dokter Photo Directory
-                        Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+                        if (dataDokter.getFoto() != null && !dataDokter.getFoto().isEmpty()) {
+                            // Delete OLD Dokter Photo File from Dokter Photo Directory
+                            Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+                        }
 
                         // If the 'foto' field is not empty then
                         // Try to update Dokter 'foto'
@@ -235,7 +239,7 @@ public class DokterController {
 
     @DeleteMapping("/{id}")
     public void deleteDokterById(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable("id") Integer id) throws IOException {
+                                 @PathVariable("id") int id) throws IOException {
         try {
             Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 

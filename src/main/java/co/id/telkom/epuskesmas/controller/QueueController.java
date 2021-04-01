@@ -106,7 +106,7 @@ public class QueueController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateQueueById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable Integer id,
+                                @PathVariable int id,
                                 @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
                                 @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                                 @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
@@ -137,7 +137,7 @@ public class QueueController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchQueueById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable Integer id,
+                               @PathVariable int id,
                                @Valid @ModelAttribute("idUser") Integer idUser,
                                @Valid @ModelAttribute("idPoli") Integer idPoli,
                                @Valid @ModelAttribute("idDokter") Integer idDokter,
@@ -190,7 +190,7 @@ public class QueueController {
 
     @DeleteMapping("/{id}")
     public void deleteQueueById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable Integer id) throws IOException {
+                                @PathVariable int id) throws IOException {
         if (queueService.deleteQueueById(id)) {
             HandlerResponse.responseSuccessOK(response, "QUEUE DELETED");
         } else {
