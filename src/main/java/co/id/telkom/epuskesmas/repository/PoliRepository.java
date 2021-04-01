@@ -7,4 +7,6 @@ public interface PoliRepository extends JpaRepository<PoliModel, Integer> {
 
     Iterable<PoliModel> findByNamaContains(String nama);
 
+    Iterable<PoliModel> findByIdPuskesmas(int idPuskesmas);
+
 }

@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Tag(name = "Polies", description = "Endpoints for Polies")
 @SecurityRequirement(name = "Login")
-@RequestMapping(value="/api/v1/polies", produces={"application/json"})
+@RequestMapping(value = "/api/v1/polies", produces = {"application/json"})
 @RestController
 public class PoliController {
 
@@ -62,12 +62,15 @@ public class PoliController {
 
     @GetMapping
     public void getAllPoli(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                           @RequestParam(value = "nama", required = false) String nama,
+                           @RequestParam(value = "idPuskesmas", required = false) Integer idPuskesmas) throws IOException {
         DataResponse<Iterable<PoliModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
         if (nama != null && !nama.isEmpty()) {
             dataResponse.setData(poliService.getAllPoliByNama(nama));
+        } else if(idPuskesmas != null && idPuskesmas > 0){
+            dataResponse.setData(poliService.getAllPoliByPuskesmas(idPuskesmas));
         } else {
             dataResponse.setData(poliService.getAllPoli());
         }
