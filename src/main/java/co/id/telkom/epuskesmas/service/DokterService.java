@@ -33,6 +33,10 @@ public class DokterService {
         return dokterRepository.findByNamaContains(nama);
     }
 
+    public Iterable<DokterModel> getAllDokterByIdPoli(int idPoli) {
+        return dokterRepository.findByIdPoli(idPoli);
+    }
+
     public Optional<DokterModel> getDokterById(int id) {
         return dokterRepository.findById(id);
     }
