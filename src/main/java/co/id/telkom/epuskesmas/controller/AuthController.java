@@ -27,8 +27,8 @@ public class AuthController {
 
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void authLogin(HttpServletRequest request, HttpServletResponse response,
-                              @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                              @Valid @NotNull @ModelAttribute("password") String password) {
+                          @Valid @NotNull @ModelAttribute("telepon") String telepon,
+                          @Valid @NotNull @ModelAttribute("password") String password) {
         if (userService.authUserByTeleponAndPassword(telepon, password)) {
             String token = telepon + ":" + password;
 
