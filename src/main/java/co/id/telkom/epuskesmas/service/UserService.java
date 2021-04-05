@@ -42,6 +42,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<UserModel> getUserByTelepon(String telepon) {
+        return userRepository.findByTelepon(telepon);
+    }
+
     public UserModel updateUserById(int id, UserModel userModel) {
         Optional<UserModel> currentUser = userRepository.findById(id);
 
