@@ -33,6 +33,8 @@ public class PoliService {
         return poliRepository.findByNamaContains(nama);
     }
 
+    public Iterable<PoliModel> getAllPoliByPuskesmas(int idPuskesmas) {return poliRepository.findByIdPuskesmas(idPuskesmas);}
+
     public Optional<PoliModel> getPoliById(int id) {
         return poliRepository.findById(id);
     }

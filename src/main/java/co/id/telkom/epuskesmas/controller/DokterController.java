@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,6 +33,8 @@ public class DokterController {
     // Dokter Photo Directory
     private final Path dirFotoDokter = Paths.get("static//doctors");
 
+    private FileUtils fileUtils;
+
     @Autowired
     PoliService poliService;
 
@@ -45,7 +46,7 @@ public class DokterController {
                              @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                              @Valid @NotNull @ModelAttribute("nama") String nama,
                              @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                             @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+                             @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
         try {
             Optional<PoliModel> poliModel = poliService.getPoliById(idPoli);
 
@@ -57,7 +58,7 @@ public class DokterController {
 
                 // Generate Dokter Photo File Name
                 String fileFotoDokter = UUID.randomUUID().toString() +
-                        FileUtils.getFileExtension(foto.getOriginalFilename());
+                        fileUtils.getFileExtension(foto.getOriginalFilename());
 
                 // Upload Dokter Photo File to Dokter Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
@@ -86,7 +87,7 @@ public class DokterController {
 
     @GetMapping
     public void getAllDokter(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                             @RequestParam(value = "nama", required = false) String nama) {
         DataResponse<Iterable<DokterModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -101,7 +102,7 @@ public class DokterController {
 
     @GetMapping("/{id}")
     public void getDokterById(HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable("id") int id) throws IOException {
+                              @PathVariable("id") int id) {
         Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
         if (currentDokter.isPresent()) {
@@ -123,7 +124,7 @@ public class DokterController {
                                  @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                                  @Valid @NotNull @ModelAttribute("nama") String nama,
                                  @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                                 @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+                                 @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
         try {
             Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
@@ -140,7 +141,7 @@ public class DokterController {
 
                     // Generate Dokter Photo File Name
                     String fileFotoDokter = UUID.randomUUID().toString() +
-                            FileUtils.getFileExtension(foto.getOriginalFilename());
+                            fileUtils.getFileExtension(foto.getOriginalFilename());
 
                     // Upload Dokter Photo File to Dokter Photo Directory
                     Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
@@ -178,7 +179,7 @@ public class DokterController {
                                 @Valid @ModelAttribute("idPoli") Integer idPoli,
                                 @Valid @ModelAttribute("nama") String nama,
                                 @Valid @ModelAttribute("kelamin") String kelamin,
-                                @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
+                                @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) {
         try {
             Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
@@ -208,7 +209,7 @@ public class DokterController {
 
                         // Generate Dokter Photo File Name
                         String fileFotoDokter = UUID.randomUUID().toString() +
-                                FileUtils.getFileExtension(foto.getOriginalFilename());
+                                fileUtils.getFileExtension(foto.getOriginalFilename());
 
                         // Upload Dokter Photo File to Dokter Photo Directory
                         Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
@@ -239,7 +240,7 @@ public class DokterController {
 
     @DeleteMapping("/{id}")
     public void deleteDokterById(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable("id") int id) throws IOException {
+                                 @PathVariable("id") int id) {
         try {
             Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 

@@ -1,5 +1,7 @@
 package co.id.telkom.epuskesmas.model;
 
+import co.id.telkom.epuskesmas.utils.ServerUtils;
+
 import javax.persistence.*;
 
 @Entity
@@ -78,7 +80,8 @@ public class PuskesmasModel {
     }
 
     public String getFoto() {
-        return foto;
+        ServerUtils serverUtils = new ServerUtils();
+        return serverUtils.getBaseURL("") + "/static/clinics/" + foto;
     }
 
     public void setFoto(String foto) {

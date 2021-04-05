@@ -16,12 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.Optional;
 
 @Tag(name = "Polies", description = "Endpoints for Polies")
 @SecurityRequirement(name = "Login")
-@RequestMapping(value="/api/v1/polies", produces={"application/json"})
+@RequestMapping(value = "/api/v1/polies", produces = {"application/json"})
 @RestController
 public class PoliController {
 
@@ -36,7 +35,7 @@ public class PoliController {
                            @Valid @NotNull @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                            @Valid @NotNull @ModelAttribute("nama") String nama,
                            @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
-                           @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
+                           @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -62,12 +61,15 @@ public class PoliController {
 
     @GetMapping
     public void getAllPoli(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                           @RequestParam(value = "nama", required = false) String nama,
+                           @RequestParam(value = "idPuskesmas", required = false) Integer idPuskesmas) {
         DataResponse<Iterable<PoliModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
         if (nama != null && !nama.isEmpty()) {
             dataResponse.setData(poliService.getAllPoliByNama(nama));
+        } else if(idPuskesmas != null && idPuskesmas > 0){
+            dataResponse.setData(poliService.getAllPoliByPuskesmas(idPuskesmas));
         } else {
             dataResponse.setData(poliService.getAllPoli());
         }
@@ -77,7 +79,7 @@ public class PoliController {
 
     @GetMapping("/{id}")
     public void getPoliById(HttpServletRequest request, HttpServletResponse response,
-                            @PathVariable int id) throws IOException {
+                            @PathVariable int id) {
         Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
         if (currentPoli.isPresent()) {
@@ -99,7 +101,7 @@ public class PoliController {
                                @Valid @NotNull @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                                @Valid @NotNull @ModelAttribute("nama") String nama,
                                @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
-                               @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
+                               @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -129,7 +131,7 @@ public class PoliController {
                               @Valid @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                               @Valid @ModelAttribute("nama") String nama,
                               @Valid @ModelAttribute("waktuBuka") String waktuBuka,
-                              @Valid @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
+                              @Valid @ModelAttribute("waktuTutup") String waktuTutup) {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -171,7 +173,7 @@ public class PoliController {
 
     @DeleteMapping("/{id}")
     public void deletePoliById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id) throws IOException {
+                               @PathVariable int id) {
         if (poliService.deletePoliById(id)) {
             HandlerResponse.responseSuccessOK(response, "POLI DELETED");
         } else {

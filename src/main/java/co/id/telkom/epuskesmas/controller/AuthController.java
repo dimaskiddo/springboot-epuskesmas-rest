@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.Base64;
 
 @Tag(name = "Authentications", description = "Endpoints for Authentications")
@@ -27,7 +26,7 @@ public class AuthController {
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void generateToken(HttpServletRequest request, HttpServletResponse response,
                               @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                              @Valid @NotNull @ModelAttribute("password") String password) throws IOException {
+                              @Valid @NotNull @ModelAttribute("password") String password) {
         if (userService.authUserByTeleponAndPassword(telepon, password)) {
             String token = telepon + ":" + password;
 

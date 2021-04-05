@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.Optional;
 
 @Tag(name = "Queues", description = "Endpoints for Queues")
@@ -37,7 +36,7 @@ public class QueueController {
                             @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                             @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
                             @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
-                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) {
 
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
@@ -67,7 +66,7 @@ public class QueueController {
                             @RequestParam(value = "idUser", required = false) Integer idUser,
                             @RequestParam(value = "idPoli", required = false) Integer idPoli,
                             @RequestParam(value = "idDokter", required = false) Integer idDokter,
-                            @RequestParam(value = "noAntrian", required = false) Integer noAntrian) throws IOException {
+                            @RequestParam(value = "noAntrian", required = false) Integer noAntrian) {
         DataResponse<Iterable<QueueModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -88,7 +87,7 @@ public class QueueController {
 
     @GetMapping("/{id}")
     public void getQueueById(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable int id) throws IOException {
+                             @PathVariable int id) {
         Optional<QueueModel> queueModel = queueService.getQueueById(id);
 
         if (queueModel.isPresent()) {
@@ -111,7 +110,7 @@ public class QueueController {
                                 @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                                 @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
                                 @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
-                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
@@ -142,7 +141,7 @@ public class QueueController {
                                @Valid @ModelAttribute("idPoli") Integer idPoli,
                                @Valid @ModelAttribute("idDokter") Integer idDokter,
                                @Valid @ModelAttribute("noAntrian") Integer noAntrian,
-                               @Valid @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+                               @Valid @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         // Check if Dokter is Exist
@@ -190,7 +189,7 @@ public class QueueController {
 
     @DeleteMapping("/{id}")
     public void deleteQueueById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable int id) throws IOException {
+                                @PathVariable int id) {
         if (queueService.deleteQueueById(id)) {
             HandlerResponse.responseSuccessOK(response, "QUEUE DELETED");
         } else {
