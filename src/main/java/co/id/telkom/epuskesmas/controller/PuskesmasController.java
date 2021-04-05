@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +31,8 @@ public class PuskesmasController {
     // Puskesmas Photo Directory
     private final Path dirFotoPuskesmas = Paths.get("static//clinics");
 
+    private FileUtils fileUtils;
+
     @Autowired
     private PuskesmasService puskesmasService;
 
@@ -42,7 +43,7 @@ public class PuskesmasController {
                                 @Valid @NotNull @ModelAttribute("telepon") String telepon,
                                 @Valid @NotNull @ModelAttribute("lon") Double lon,
                                 @Valid @NotNull @ModelAttribute("lat") Double lat,
-                                @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+                                @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
         try {
             // Create Puskesmas Photo Directory
             if (!Files.exists(dirFotoPuskesmas)) {
@@ -51,7 +52,7 @@ public class PuskesmasController {
 
             // Generate Puskesmas Photo File Name
             String fileFotoPuskesmas = UUID.randomUUID().toString() +
-                    FileUtils.getFileExtension(foto.getOriginalFilename());
+                    fileUtils.getFileExtension(foto.getOriginalFilename());
 
             // Upload Puskesmas Photo File to Puskesmas Photo Directory
             Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
@@ -79,7 +80,7 @@ public class PuskesmasController {
 
     @GetMapping
     public void getAllPuskesmas(HttpServletRequest request, HttpServletResponse response,
-                                @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                                @RequestParam(value = "nama", required = false) String nama) {
         DataResponse<Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -94,7 +95,7 @@ public class PuskesmasController {
 
     @GetMapping("/{id}")
     public void getPuskemasById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable int id) throws IOException {
+                                @PathVariable int id) {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
         if (currentPuskesmas.isPresent()) {
@@ -118,7 +119,7 @@ public class PuskesmasController {
                                     @Valid @NotNull @ModelAttribute("telepon") String telepon,
                                     @Valid @NotNull @ModelAttribute("lon") Double lon,
                                     @Valid @NotNull @ModelAttribute("lat") Double lat,
-                                    @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+                                    @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
         try {
             Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
@@ -132,7 +133,7 @@ public class PuskesmasController {
 
                 // Generate Puskesmas Photo File Name
                 String fileFotoPuskesmas = UUID.randomUUID().toString() +
-                        FileUtils.getFileExtension(foto.getOriginalFilename());
+                        fileUtils.getFileExtension(foto.getOriginalFilename());
 
                 // Upload Puskesmas Photo File to Puskesmas Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
@@ -171,7 +172,7 @@ public class PuskesmasController {
                                    @Valid @ModelAttribute("telepon") String telepon,
                                    @Valid @ModelAttribute("lon") Double lon,
                                    @Valid @ModelAttribute("lat") Double lat,
-                                   @Valid @RequestPart(name = "foto", required = false) MultipartFile foto) throws IOException {
+                                   @Valid @RequestPart(name = "foto", required = false) MultipartFile foto) {
         try {
             Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
@@ -214,7 +215,7 @@ public class PuskesmasController {
 
                     // Generate Puskesmas Photo File Name
                     String fileFotoPuskesmas = UUID.randomUUID().toString() +
-                            FileUtils.getFileExtension(foto.getOriginalFilename());
+                            fileUtils.getFileExtension(foto.getOriginalFilename());
 
                     // Upload Puskesmas Photo File to Puskesmas Photo Directory
                     Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
@@ -242,7 +243,7 @@ public class PuskesmasController {
 
     @DeleteMapping("/{id}")
     public void deletePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable int id) throws IOException {
+                                    @PathVariable int id) {
         try {
             Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 

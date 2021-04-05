@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.Optional;
 
 @Tag(name = "Users", description = "Endpoints for Users")
@@ -37,7 +36,7 @@ public class UserController {
                            @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
                            @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
                            @Valid @NotNull @ModelAttribute("lon") Double lon,
-                           @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
+                           @Valid @NotNull @ModelAttribute("lat") Double lat) {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
@@ -62,7 +61,7 @@ public class UserController {
 
     @GetMapping
     public void getAllUser(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "telepon", required = false) String telepon) throws IOException {
+                           @RequestParam(value = "telepon", required = false) String telepon) {
         DataResponse<Iterable<UserModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -77,7 +76,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public void getUserById(HttpServletRequest request, HttpServletResponse response,
-                            @PathVariable int id) throws IOException {
+                            @PathVariable int id) {
         Optional<UserModel> currentUser = userService.getUserById(id);
 
         if (currentUser.isPresent()) {
@@ -106,7 +105,7 @@ public class UserController {
                                @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
                                @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
                                @Valid @NotNull @ModelAttribute("lon") Double lon,
-                               @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
+                               @Valid @NotNull @ModelAttribute("lat") Double lat) {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
@@ -145,7 +144,7 @@ public class UserController {
                               @Valid @ModelAttribute("kelamin") String kelamin,
                               @Valid @ModelAttribute("tanggalLahir") String tanggalLahir,
                               @Valid @ModelAttribute("lon") Double lon,
-                              @Valid @ModelAttribute("lat") Double lat) throws IOException {
+                              @Valid @ModelAttribute("lat") Double lat) {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
@@ -210,7 +209,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void deleteUserById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id) throws IOException {
+                               @PathVariable int id) {
         if (userService.deleteUserById(id)) {
             HandlerResponse.responseSuccessOK(response, "USER DELETED");
         } else {

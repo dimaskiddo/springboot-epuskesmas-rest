@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Tag(name = "Index", description = "Endpoints for Index")
 @RequestMapping(value="/", produces={"application/json"})
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class IndexController {
 
     @GetMapping
-    public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void index(HttpServletRequest request, HttpServletResponse response) {
         HandlerResponse.responseSuccessOK(response, "e-Puskesmas REST is running!");
     }
 }
