@@ -37,25 +37,31 @@ public class UserController {
                            @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
                            @Valid @NotNull @ModelAttribute("lon") Double lon,
                            @Valid @NotNull @ModelAttribute("lat") Double lat) {
-        UserModel userModel = new UserModel();
+        Optional<UserModel> currentUser = userService.getUserByTelepon(telepon);
 
-        // Fill in User Data
-        userModel.setNama(nama);
-        userModel.setProvinsi(provinsi);
-        userModel.setKabupaten(kabupaten);
-        userModel.setTelepon(telepon);
-        userModel.setBpjs(bpjs);
-        userModel.setPassword(password);
-        userModel.setKelamin(kelamin);
-        userModel.setTanggalLahir(tanggalLahir);
-        userModel.setLon(lon);
-        userModel.setLat(lat);
-
-        // Insert the User Data
-        if (userService.createUser(userModel) != null) {
-            HandlerResponse.responseSuccessCreated(response, "USER CREATED");
+        if (currentUser.isPresent()) {
+            HandlerResponse.responseBadRequest(response, "USER ALREADY CREATED");
         } else {
-            HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE USER");
+            UserModel userModel = new UserModel();
+
+            // Fill in User Data
+            userModel.setNama(nama);
+            userModel.setProvinsi(provinsi);
+            userModel.setKabupaten(kabupaten);
+            userModel.setTelepon(telepon);
+            userModel.setBpjs(bpjs);
+            userModel.setPassword(password);
+            userModel.setKelamin(kelamin);
+            userModel.setTanggalLahir(tanggalLahir);
+            userModel.setLon(lon);
+            userModel.setLat(lat);
+
+            // Insert the User Data
+            if (userService.createUser(userModel) != null) {
+                HandlerResponse.responseSuccessCreated(response, "USER CREATED");
+            } else {
+                HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE USER");
+            }
         }
     }
 
