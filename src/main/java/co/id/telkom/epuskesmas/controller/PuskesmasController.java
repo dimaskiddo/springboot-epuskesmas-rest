@@ -134,9 +134,9 @@ public class PuskesmasController {
             // Upload Puskesmas Photo File to Puskesmas Photo Directory
             Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
 
-            if (dataPuskesmas.getFile() != null && !dataPuskesmas.getFile().isEmpty()) {
+            if (dataPuskesmas.getFoto() != null && !dataPuskesmas.getFoto().isEmpty()) {
                 // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFile()));
+                Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
             }
 
             PuskesmasModel puskesmasModel = new PuskesmasModel();
@@ -212,9 +212,9 @@ public class PuskesmasController {
                 // Upload Puskesmas Photo File to Puskesmas Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
 
-                if (dataPuskesmas.getFile() != null && !dataPuskesmas.getFile().isEmpty()) {
+                if (dataPuskesmas.getFoto() != null && !dataPuskesmas.getFoto().isEmpty()) {
                     // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                    Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFile()));
+                    Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
                 }
 
                 // If the 'foto' field is not empty then
@@ -239,7 +239,7 @@ public class PuskesmasController {
             PuskesmasModel dataPuskesmas = currentPuskesmas.get();
 
             // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-            Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFile()));
+            Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
 
             puskesmasService.deletePuskesmasById(id);
             HandlerResponse.responseSuccessOK(response, "PUSKESMAS DELETED");

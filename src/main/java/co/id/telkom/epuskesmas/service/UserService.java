@@ -108,6 +108,7 @@ public class UserService {
                 dataUser.setLat(userModel.getLat());
             }
 
+            dataUser.setId(id);
             return userRepository.save(dataUser);
         }
 

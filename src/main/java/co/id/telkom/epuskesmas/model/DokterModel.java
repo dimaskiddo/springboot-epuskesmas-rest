@@ -59,19 +59,10 @@ public class DokterModel {
     }
 
     public String getFoto() {
-        if (foto != null) {
-            ServerUtils serverUtils = new ServerUtils();
-            return serverUtils.getBaseURL("") + "/static/doctors/" + foto;
-        }
-
         return foto;
     }
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public String getFile() {
-        return foto;
     }
 }

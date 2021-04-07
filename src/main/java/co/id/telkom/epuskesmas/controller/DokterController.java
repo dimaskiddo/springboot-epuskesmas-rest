@@ -145,9 +145,9 @@ public class DokterController {
                 // Upload Dokter Photo File to Dokter Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
 
-                if (dataDokter.getFile() != null && !dataDokter.getFile().isEmpty()) {
+                if (dataDokter.getFoto() != null && !dataDokter.getFoto().isEmpty()) {
                     // Delete OLD Dokter Photo File from Dokter Photo Directory
-                    Files.delete(dirFotoDokter.resolve(dataDokter.getFile()));
+                    Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
                 }
 
                 DokterModel dokterModel = new DokterModel();
@@ -220,9 +220,9 @@ public class DokterController {
                 // Upload Dokter Photo File to Dokter Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
 
-                if (dataDokter.getFile() != null && !dataDokter.getFile().isEmpty()) {
+                if (dataDokter.getFoto() != null && !dataDokter.getFoto().isEmpty()) {
                     // Delete OLD Dokter Photo File from Dokter Photo Directory
-                    Files.delete(dirFotoDokter.resolve(dataDokter.getFile()));
+                    Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
                 }
 
                 // If the 'foto' field is not empty then
@@ -247,7 +247,7 @@ public class DokterController {
             DokterModel dataDokter = currentDokter.get();
 
             // Delete OLD Dokter Photo File from Dokter Photo Directory
-            Files.delete(dirFotoDokter.resolve(dataDokter.getFile()));
+            Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
 
             dokterService.deleteDokterById(id);
             HandlerResponse.responseSuccessOK(response, "DOKTER DELETED");
