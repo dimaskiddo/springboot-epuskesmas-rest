@@ -86,4 +86,13 @@ public class PuskesmasModel {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public String getFotoUrl() {
+        if (foto != null) {
+            ServerUtils serverUtils = new ServerUtils();
+            return serverUtils.getBaseURL("") + "/static/clinics/" + foto;
+        }
+
+        return foto;
+    }
 }

@@ -1,6 +1,7 @@
 package co.id.telkom.epuskesmas.model;
 
 import co.id.telkom.epuskesmas.utils.ServerUtils;
+import org.apache.catalina.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -64,5 +65,14 @@ public class DokterModel {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getFotoUrl() {
+        if (foto != null) {
+            ServerUtils serverUtils = new ServerUtils();
+            return serverUtils.getBaseURL("") + "/static/doctors/" + foto;
+        }
+
+        return foto;
     }
 }
