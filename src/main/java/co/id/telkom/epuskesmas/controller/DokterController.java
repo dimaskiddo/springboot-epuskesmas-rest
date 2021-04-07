@@ -44,7 +44,7 @@ public class DokterController {
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void createDokter(HttpServletRequest request, HttpServletResponse response,
-                             @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
+                             @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
                              @Valid @NotNull @ModelAttribute("nama") String nama,
                              @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
                              @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
@@ -121,7 +121,7 @@ public class DokterController {
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updateDokterById(HttpServletRequest request, HttpServletResponse response,
                                  @PathVariable("id") int id,
-                                 @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
+                                 @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
                                  @Valid @NotNull @ModelAttribute("nama") String nama,
                                  @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
                                  @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
@@ -172,7 +172,7 @@ public class DokterController {
     @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchDokterById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable("id") int id,
-                                @Valid @ModelAttribute("idPoli") Integer idPoli,
+                                @Valid @ModelAttribute("idPoli") int idPoli,
                                 @Valid @ModelAttribute("nama") String nama,
                                 @Valid @ModelAttribute("kelamin") String kelamin,
                                 @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
@@ -182,7 +182,7 @@ public class DokterController {
             DokterModel dokterModel = new DokterModel();
 
             // Fill in Dokter Data
-            if (idPoli != null && idPoli > 0) {
+            if (idPoli > 0) {
                 Optional<PoliModel> currentPoli = poliService.getPoliById(idPoli);
 
                 // Check if Poli is Exist
