@@ -66,26 +66,27 @@ public class QueueService {
         if (currentQueue.isPresent()) {
             QueueModel dataQueue = currentQueue.get();
 
-            if (queueModel.getIdUser() != 0) {
+            if (queueModel.getIdUser() > 0) {
                 dataQueue.setIdUser(queueModel.getIdUser());
             }
 
-            if (queueModel.getIdPoli() != 0) {
+            if (queueModel.getIdPoli() > 0) {
                 dataQueue.setIdPoli(queueModel.getIdPoli());
             }
 
-            if (queueModel.getIdDokter() != 0) {
+            if (queueModel.getIdDokter() > 0) {
                 dataQueue.setIdDokter(queueModel.getIdDokter());
             }
 
-            if (queueModel.getNoAntrian() != 0) {
+            if (queueModel.getNoAntrian() > 0) {
                 dataQueue.setNoAntrian(queueModel.getNoAntrian());
             }
 
-            if (queueModel.getWaktuAntrian() != null) {
+            if (queueModel.getWaktuAntrian() != null && !queueModel.getWaktuAntrian().isEmpty()) {
                 dataQueue.setWaktuAntrian(queueModel.getWaktuAntrian());
             }
 
+            dataQueue.setId(id);
             return queueRepository.save(dataQueue);
         }
 

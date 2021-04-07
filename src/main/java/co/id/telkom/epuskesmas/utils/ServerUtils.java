@@ -5,7 +5,7 @@ import java.net.Inet4Address;
 public class ServerUtils {
 
     // Get Server IP
-    public final String getServerIP() {
+    public String getServerIP() {
         String serverIp = "";
         String serverIpEnv = System.getenv("SERVER_PUBLIC_IP");
 
@@ -23,7 +23,7 @@ public class ServerUtils {
     }
 
     // Get Server Port
-    public final String getServerPort() {
+    public String getServerPort() {
         String serverPort = "";
         String serverPortEnv = System.getenv("SERVER_PUBLIC_PORT");
 
@@ -39,7 +39,7 @@ public class ServerUtils {
     }
 
     // Get Base URL
-    public final String getBaseURL(String fallbackScheme) {
+    public String getBaseURL(String fallbackScheme) {
         String serverBaseURL = "";
 
         if (fallbackScheme.isEmpty()) {

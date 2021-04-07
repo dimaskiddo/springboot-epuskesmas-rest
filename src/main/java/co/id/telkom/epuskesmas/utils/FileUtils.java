@@ -3,7 +3,7 @@ package co.id.telkom.epuskesmas.utils;
 public class FileUtils {
 
     // Get File Extension
-    public final String getFileExtension(String fileName) {
+    public String getFileExtension(String fileName) {
         String ext = "";
         String[] arr = fileName.split("\\.");
 

@@ -78,6 +78,7 @@ public class PuskesmasService {
                 dataPuskesmas.setFoto(puskesmasModel.getFoto());
             }
 
+            dataPuskesmas.setId(id);
             return puskesmasRepository.save(dataPuskesmas);
         }
 

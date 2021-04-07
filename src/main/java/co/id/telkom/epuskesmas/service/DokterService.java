@@ -58,7 +58,7 @@ public class DokterService {
         if (currentDokter.isPresent()) {
             DokterModel dataDokter = currentDokter.get();
 
-            if (dokterModel.getIdPoli() != 0) {
+            if (dokterModel.getIdPoli() > 0) {
                 dataDokter.setIdPoli(dokterModel.getIdPoli());
             }
 
@@ -70,6 +70,11 @@ public class DokterService {
                 dataDokter.setKelamin(dokterModel.getKelamin());
             }
 
+            if (dokterModel.getFoto() != null && !dokterModel.getFoto().isEmpty()) {
+                dataDokter.setFoto(dokterModel.getFoto());
+            }
+
+            dataDokter.setId(id);
             return dokterRepository.save(dataDokter);
         }
 
