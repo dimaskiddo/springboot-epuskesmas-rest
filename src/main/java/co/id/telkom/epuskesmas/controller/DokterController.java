@@ -231,7 +231,7 @@ public class DokterController {
             }
 
             // Update the Dokter Data
-            dokterService.updateDokterById(id, dokterModel);
+            dokterService.patchDokterById(id, dokterModel);
             HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
         } else {
             HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
