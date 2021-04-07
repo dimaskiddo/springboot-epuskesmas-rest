@@ -32,7 +32,7 @@ public class PuskesmasController {
     // Puskesmas Photo Directory
     private final Path dirFotoPuskesmas = Paths.get("static//clinics");
 
-    private FileUtils fileUtils;
+    private FileUtils fileUtils = new FileUtils();
 
     @Autowired
     private PuskesmasService puskesmasService;

@@ -33,10 +33,10 @@ public class QueueController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createQueue(HttpServletRequest request, HttpServletResponse response,
-                            @Valid @NotNull @ModelAttribute("idUser") int idUser,
-                            @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
-                            @Valid @NotNull @ModelAttribute("idDokter") int idDokter,
-                            @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
+                            @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
+                            @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
+                            @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
+                            @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
                             @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
@@ -106,10 +106,10 @@ public class QueueController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateQueueById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable int id,
-                                @Valid @NotNull @ModelAttribute("idUser") int idUser,
-                                @Valid @NotNull @ModelAttribute("idPoli") int idPoli,
-                                @Valid @NotNull @ModelAttribute("idDokter") int idDokter,
-                                @Valid @NotNull @ModelAttribute("noAntrian") int noAntrian,
+                                @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
+                                @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
+                                @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
+                                @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
                                 @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
@@ -137,26 +137,26 @@ public class QueueController {
     @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchQueueById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
-                               @Valid @ModelAttribute("idUser") int idUser,
-                               @Valid @ModelAttribute("idPoli") int idPoli,
-                               @Valid @ModelAttribute("idDokter") int idDokter,
-                               @Valid @ModelAttribute("noAntrian") int noAntrian,
+                               @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
+                               @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
+                               @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
+                               @Valid @ModelAttribute("noAntrian") Integer noAntrian,
                                @Valid @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         // Fill in Queue Data
         QueueModel queueModel = new QueueModel();
 
         // Fill in Queue Data
-        if (idUser > 0) {
+        if (idUser != null && idUser > 0) {
             // If the 'idUser' field is not empty then
             // Try to update Queue 'idUser'
             queueModel.setIdUser(idUser);
         }
-        if (idPoli > 0) {
+        if (idPoli != null && idPoli > 0) {
             // If the 'idPoli' field is not empty then
             // Try to update Queue 'idPoli'
             queueModel.setIdPoli(idPoli);
         }
-        if (idDokter > 0) {
+        if (idDokter != null && idDokter > 0) {
             Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
             // Check if Dokter is Exist
@@ -169,7 +169,7 @@ public class QueueController {
                 return;
             }
         }
-        if (noAntrian > 0) {
+        if (noAntrian != null && noAntrian > 0) {
             // If the 'noAntrian' field is not empty then
             // Try to update Queue 'noAntrian'
             queueModel.setNoAntrian(noAntrian);
