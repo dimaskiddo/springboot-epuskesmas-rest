@@ -80,11 +80,19 @@ public class PuskesmasModel {
     }
 
     public String getFoto() {
-        ServerUtils serverUtils = new ServerUtils();
-        return serverUtils.getBaseURL("") + "/static/clinics/" + foto;
+        if (foto != null) {
+            ServerUtils serverUtils = new ServerUtils();
+            return serverUtils.getBaseURL("") + "/static/clinics/" + foto;
+        }
+
+        return foto;
     }
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getFile() {
+        return foto;
     }
 }

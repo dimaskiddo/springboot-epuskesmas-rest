@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class AuthController {
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void authLogin(HttpServletRequest request, HttpServletResponse response,
                           @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                          @Valid @NotNull @ModelAttribute("password") String password) {
+                          @Valid @NotNull @ModelAttribute("password") String password) throws IOException {
         if (userService.authUserByTeleponAndPassword(telepon, password)) {
             String token = telepon + ":" + password;
 
@@ -57,7 +58,7 @@ public class AuthController {
                              @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
                              @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
                              @Valid @NotNull @ModelAttribute("lon") Double lon,
-                             @Valid @NotNull @ModelAttribute("lat") Double lat) {
+                             @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
         Optional<UserModel> currentUser = userService.getUserByTelepon(telepon);
 
         if (currentUser.isPresent()) {

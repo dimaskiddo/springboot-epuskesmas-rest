@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,44 +44,40 @@ public class PuskesmasController {
                                 @Valid @NotNull @ModelAttribute("telepon") String telepon,
                                 @Valid @NotNull @ModelAttribute("lon") Double lon,
                                 @Valid @NotNull @ModelAttribute("lat") Double lat,
-                                @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
-        try {
-            // Create Puskesmas Photo Directory
-            if (!Files.exists(dirFotoPuskesmas)) {
-                Files.createDirectories(dirFotoPuskesmas);
-            }
+                                @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+        // Create Puskesmas Photo Directory
+        if (!Files.exists(dirFotoPuskesmas)) {
+            Files.createDirectories(dirFotoPuskesmas);
+        }
 
-            // Generate Puskesmas Photo File Name
-            String fileFotoPuskesmas = UUID.randomUUID().toString() +
-                    fileUtils.getFileExtension(foto.getOriginalFilename());
+        // Generate Puskesmas Photo File Name
+        String fileFotoPuskesmas = UUID.randomUUID().toString() +
+                fileUtils.getFileExtension(foto.getOriginalFilename());
 
-            // Upload Puskesmas Photo File to Puskesmas Photo Directory
-            Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
+        // Upload Puskesmas Photo File to Puskesmas Photo Directory
+        Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
 
-            PuskesmasModel puskesmasModel = new PuskesmasModel();
+        PuskesmasModel puskesmasModel = new PuskesmasModel();
 
-            // Fill in Puskesmas Data
-            puskesmasModel.setNama(nama);
-            puskesmasModel.setAlamat(alamat);
-            puskesmasModel.setTelepon(telepon);
-            puskesmasModel.setLon(lon);
-            puskesmasModel.setLat(lat);
-            puskesmasModel.setFoto(fileFotoPuskesmas);
+        // Fill in Puskesmas Data
+        puskesmasModel.setNama(nama);
+        puskesmasModel.setAlamat(alamat);
+        puskesmasModel.setTelepon(telepon);
+        puskesmasModel.setLon(lon);
+        puskesmasModel.setLat(lat);
+        puskesmasModel.setFoto(fileFotoPuskesmas);
 
-            // Insert the Puskesmas Data
-            if (puskesmasService.createPuskesmas(puskesmasModel) != null) {
-                HandlerResponse.responseSuccessCreated(response, "PUSKESMAS CREATED");
-            } else {
-                HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE PUSKESMAS");
-            }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+        // Insert the Puskesmas Data
+        if (puskesmasService.createPuskesmas(puskesmasModel) != null) {
+            HandlerResponse.responseSuccessCreated(response, "PUSKESMAS CREATED");
+        } else {
+            HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE PUSKESMAS");
         }
     }
 
     @GetMapping
     public void getAllPuskesmas(HttpServletRequest request, HttpServletResponse response,
-                                @RequestParam(value = "nama", required = false) String nama) {
+                                @RequestParam(value = "nama", required = false) String nama) throws IOException {
         DataResponse<Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -95,7 +92,7 @@ public class PuskesmasController {
 
     @GetMapping("/{id}")
     public void getPuskemasById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable int id) {
+                                @PathVariable int id) throws IOException {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
         if (currentPuskesmas.isPresent()) {
@@ -119,11 +116,88 @@ public class PuskesmasController {
                                     @Valid @NotNull @ModelAttribute("telepon") String telepon,
                                     @Valid @NotNull @ModelAttribute("lon") Double lon,
                                     @Valid @NotNull @ModelAttribute("lat") Double lat,
-                                    @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
-        try {
-            Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
+                                    @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+        Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
-            if (currentPuskesmas.isPresent()) {
+        if (currentPuskesmas.isPresent()) {
+            PuskesmasModel dataPuskesmas = currentPuskesmas.get();
+
+            // Create Puskesmas Photo Directory
+            if (!Files.exists(dirFotoPuskesmas)) {
+                Files.createDirectories(dirFotoPuskesmas);
+            }
+
+            // Generate Puskesmas Photo File Name
+            String fileFotoPuskesmas = UUID.randomUUID().toString() +
+                    fileUtils.getFileExtension(foto.getOriginalFilename());
+
+            // Upload Puskesmas Photo File to Puskesmas Photo Directory
+            Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
+
+            if (dataPuskesmas.getFile() != null && !dataPuskesmas.getFile().isEmpty()) {
+                // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
+                Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFile()));
+            }
+
+            PuskesmasModel puskesmasModel = new PuskesmasModel();
+
+            // Fill in Puskesmas Data
+            puskesmasModel.setNama(nama);
+            puskesmasModel.setAlamat(alamat);
+            puskesmasModel.setTelepon(telepon);
+            puskesmasModel.setLon(lon);
+            puskesmasModel.setLat(lat);
+            puskesmasModel.setFoto(fileFotoPuskesmas);
+
+            // Update the Puskesmas Data
+            puskesmasService.updatePuskesmasById(id, puskesmasModel);
+            HandlerResponse.responseSuccessOK(response, "PUSKESMAS UPDATED");
+        } else {
+            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
+        }
+    }
+
+    @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
+                                   @PathVariable int id,
+                                   @Valid @ModelAttribute("nama") String nama,
+                                   @Valid @ModelAttribute("alamat") String alamat,
+                                   @Valid @ModelAttribute("telepon") String telepon,
+                                   @Valid @ModelAttribute("lon") Double lon,
+                                   @Valid @ModelAttribute("lat") Double lat,
+                                   @Valid @RequestPart(name = "foto", required = false) MultipartFile foto) throws IOException {
+        Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
+
+        if (currentPuskesmas.isPresent()) {
+            PuskesmasModel puskesmasModel = new PuskesmasModel();
+
+            // Fill in Puskesmas Data
+            if (nama != null && !nama.isEmpty()) {
+                // If the 'nama' field is not empty then
+                // Try to update Puskesmas 'nama'
+                puskesmasModel.setNama(nama);
+            }
+            if (alamat != null && !alamat.isEmpty()) {
+                // If the 'alamat' field is not empty then
+                // Try to update Puskesmas 'alamat'
+                puskesmasModel.setAlamat(alamat);
+            }
+            if (telepon != null && !telepon.isEmpty()) {
+                // If the 'telepon' field is not empty then
+                // Try to update Puskesmas 'telepon'
+                puskesmasModel.setTelepon(telepon);
+            }
+            if (lon != null && !lon.isNaN()) {
+                // If the 'lon' field is not empty then
+                // Try to update Puskesmas 'lon'
+                puskesmasModel.setLon(lon);
+            }
+            if (lat != null && !lat.isNaN()) {
+                // If the 'lat' field is not empty then
+                // Try to update Puskesmas 'lat'
+                puskesmasModel.setLon(lat);
+            }
+            if (foto != null && !foto.isEmpty()) {
                 PuskesmasModel dataPuskesmas = currentPuskesmas.get();
 
                 // Create Puskesmas Photo Directory
@@ -138,128 +212,39 @@ public class PuskesmasController {
                 // Upload Puskesmas Photo File to Puskesmas Photo Directory
                 Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
 
-                if (dataPuskesmas.getFoto() != null && !dataPuskesmas.getFoto().isEmpty()) {
+                if (dataPuskesmas.getFile() != null && !dataPuskesmas.getFile().isEmpty()) {
                     // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                    Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
+                    Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFile()));
                 }
 
-                PuskesmasModel puskesmasModel = new PuskesmasModel();
-
-                // Fill in Puskesmas Data
-                puskesmasModel.setNama(nama);
-                puskesmasModel.setAlamat(alamat);
-                puskesmasModel.setTelepon(telepon);
-                puskesmasModel.setLon(lon);
-                puskesmasModel.setLat(lat);
+                // If the 'foto' field is not empty then
+                // Try to update Puskesmas 'foto'
                 puskesmasModel.setFoto(fileFotoPuskesmas);
-
-                // Update the Puskesmas Data
-                puskesmasService.updatePuskesmasById(id, puskesmasModel);
-                HandlerResponse.responseSuccessOK(response, "PUSKESMAS UPDATED");
-            } else {
-                HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
             }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
-        }
-    }
 
-    @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable int id,
-                                   @Valid @ModelAttribute("nama") String nama,
-                                   @Valid @ModelAttribute("alamat") String alamat,
-                                   @Valid @ModelAttribute("telepon") String telepon,
-                                   @Valid @ModelAttribute("lon") Double lon,
-                                   @Valid @ModelAttribute("lat") Double lat,
-                                   @Valid @RequestPart(name = "foto", required = false) MultipartFile foto) {
-        try {
-            Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
-
-            if (currentPuskesmas.isPresent()) {
-                PuskesmasModel puskesmasModel = new PuskesmasModel();
-
-                // Fill in Puskesmas Data
-                if (nama != null && !nama.isEmpty()) {
-                    // If the 'nama' field is not empty then
-                    // Try to update Puskesmas 'nama'
-                    puskesmasModel.setNama(nama);
-                }
-                if (alamat != null && !alamat.isEmpty()) {
-                    // If the 'alamat' field is not empty then
-                    // Try to update Puskesmas 'alamat'
-                    puskesmasModel.setAlamat(alamat);
-                }
-                if (telepon != null && !telepon.isEmpty()) {
-                    // If the 'telepon' field is not empty then
-                    // Try to update Puskesmas 'telepon'
-                    puskesmasModel.setTelepon(telepon);
-                }
-                if (lon != null && !lon.isNaN()) {
-                    // If the 'lon' field is not empty then
-                    // Try to update Puskesmas 'lon'
-                    puskesmasModel.setLon(lon);
-                }
-                if (lat != null && !lat.isNaN()) {
-                    // If the 'lat' field is not empty then
-                    // Try to update Puskesmas 'lat'
-                    puskesmasModel.setLon(lat);
-                }
-                if (foto != null && !foto.isEmpty()) {
-                    PuskesmasModel dataPuskesmas = currentPuskesmas.get();
-
-                    // Create Puskesmas Photo Directory
-                    if (!Files.exists(dirFotoPuskesmas)) {
-                        Files.createDirectories(dirFotoPuskesmas);
-                    }
-
-                    // Generate Puskesmas Photo File Name
-                    String fileFotoPuskesmas = UUID.randomUUID().toString() +
-                            fileUtils.getFileExtension(foto.getOriginalFilename());
-
-                    // Upload Puskesmas Photo File to Puskesmas Photo Directory
-                    Files.copy(foto.getInputStream(), dirFotoPuskesmas.resolve(fileFotoPuskesmas));
-
-                    if (dataPuskesmas.getFoto() != null && !dataPuskesmas.getFoto().isEmpty()) {
-                        // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                        Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
-                    }
-
-                    // If the 'foto' field is not empty then
-                    // Try to update Puskesmas 'foto'
-                    puskesmasModel.setFoto(fileFotoPuskesmas);
-                }
-
-                // Patch the Puskesmas Data
-                puskesmasService.patchPuskesmasById(id, puskesmasModel);
-                HandlerResponse.responseSuccessOK(response, "PUSKESMAS UPDATED");
-            } else {
-                HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
-            }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+            // Patch the Puskesmas Data
+            puskesmasService.patchPuskesmasById(id, puskesmasModel);
+            HandlerResponse.responseSuccessOK(response, "PUSKESMAS UPDATED");
+        } else {
+            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
         }
     }
 
     @DeleteMapping("/{id}")
     public void deletePuskesmasById(HttpServletRequest request, HttpServletResponse response,
-                                    @PathVariable int id) {
-        try {
-            Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
+                                    @PathVariable int id) throws IOException {
+        Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
-            if (currentPuskesmas.isPresent()) {
-                PuskesmasModel dataPuskesmas = currentPuskesmas.get();
+        if (currentPuskesmas.isPresent()) {
+            PuskesmasModel dataPuskesmas = currentPuskesmas.get();
 
-                // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
-                Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFoto()));
+            // Delete OLD Puskesmas Photo File from Puskesmas Photo Directory
+            Files.delete(dirFotoPuskesmas.resolve(dataPuskesmas.getFile()));
 
-                puskesmasService.deletePuskesmasById(id);
-                HandlerResponse.responseSuccessOK(response, "PUSKESMAS DELETED");
-            } else {
-                HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
-            }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+            puskesmasService.deletePuskesmasById(id);
+            HandlerResponse.responseSuccessOK(response, "PUSKESMAS DELETED");
+        } else {
+            HandlerResponse.responseNotFound(response, "PUSKESMAS NOT FOUND");
         }
     }
 }
