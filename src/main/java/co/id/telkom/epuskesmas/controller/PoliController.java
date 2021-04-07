@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.Optional;
 
 @Tag(name = "Polies", description = "Endpoints for Polies")
@@ -35,7 +36,7 @@ public class PoliController {
                            @Valid @NotNull @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                            @Valid @NotNull @ModelAttribute("nama") String nama,
                            @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
-                           @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) {
+                           @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -62,7 +63,7 @@ public class PoliController {
     @GetMapping
     public void getAllPoli(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam(value = "nama", required = false) String nama,
-                           @RequestParam(value = "idPuskesmas", required = false) Integer idPuskesmas) {
+                           @RequestParam(value = "idPuskesmas", required = false) Integer idPuskesmas) throws IOException {
         DataResponse<Iterable<PoliModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -79,7 +80,7 @@ public class PoliController {
 
     @GetMapping("/{id}")
     public void getPoliById(HttpServletRequest request, HttpServletResponse response,
-                            @PathVariable int id) {
+                            @PathVariable int id) throws IOException {
         Optional<PoliModel> currentPoli = poliService.getPoliById(id);
 
         if (currentPoli.isPresent()) {
@@ -101,7 +102,7 @@ public class PoliController {
                                @Valid @NotNull @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                                @Valid @NotNull @ModelAttribute("nama") String nama,
                                @Valid @NotNull @ModelAttribute("waktuBuka") String waktuBuka,
-                               @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) {
+                               @Valid @NotNull @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
         Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
         // Check if Puskemas is Exist
@@ -131,49 +132,50 @@ public class PoliController {
                               @Valid @ModelAttribute("idPuskesmas") Integer idPuskesmas,
                               @Valid @ModelAttribute("nama") String nama,
                               @Valid @ModelAttribute("waktuBuka") String waktuBuka,
-                              @Valid @ModelAttribute("waktuTutup") String waktuTutup) {
-        Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
+                              @Valid @ModelAttribute("waktuTutup") String waktuTutup) throws IOException {
+        // Fill in Poli Data
+        PoliModel poliModel = new PoliModel();
 
-        // Check if Puskemas is Exist
-        if (puskesmasModel.isPresent()) {
-            // Fill in Poli Data
-            PoliModel poliModel = new PoliModel();
+        if (idPuskesmas != null && idPuskesmas > 0) {
+            Optional<PuskesmasModel> puskesmasModel = puskesmasService.getPuskesmasById(idPuskesmas);
 
-            if (idPuskesmas != null && idPuskesmas > 0) {
+            // Check if Puskemas is Exist
+            if (puskesmasModel.isPresent()) {
                 // If the 'idPuskesmas' field is not empty then
                 // Try to update Poli 'idPuskesmas'
                 poliModel.setIdPuskesmas(idPuskesmas);
-            }
-            if (nama != null && !nama.isEmpty()) {
-                // If the 'nama' field is not empty then
-                // Try to update Poli 'nama'
-                poliModel.setNama(nama);
-            }
-            if (waktuBuka != null && !waktuBuka.isEmpty()) {
-                // If the 'waktuBuka' field is not empty then
-                // Try to update Poli 'waktuBuka'
-                poliModel.setWaktuBuka(waktuBuka);
-            }
-            if (waktuTutup != null && !waktuTutup.isEmpty()) {
-                // If the 'waktuTutup' field is not empty then
-                // Try to update Poli 'waktuTutup'
-                poliModel.setWaktuTutup(waktuTutup);
-            }
-
-            // Patch the Poli Data
-            if (poliService.patchPoliById(id, poliModel) != null) {
-                HandlerResponse.responseSuccessOK(response, "POLI UPDATED");
             } else {
-                HandlerResponse.responseInternalServerError(response, "POLI NOT FOUND");
+                HandlerResponse.responseBadRequest(response, "INVALID PUSKESMAS");
+                return;
             }
+        }
+        if (nama != null && !nama.isEmpty()) {
+            // If the 'nama' field is not empty then
+            // Try to update Poli 'nama'
+            poliModel.setNama(nama);
+        }
+        if (waktuBuka != null && !waktuBuka.isEmpty()) {
+            // If the 'waktuBuka' field is not empty then
+            // Try to update Poli 'waktuBuka'
+            poliModel.setWaktuBuka(waktuBuka);
+        }
+        if (waktuTutup != null && !waktuTutup.isEmpty()) {
+            // If the 'waktuTutup' field is not empty then
+            // Try to update Poli 'waktuTutup'
+            poliModel.setWaktuTutup(waktuTutup);
+        }
+
+        // Patch the Poli Data
+        if (poliService.patchPoliById(id, poliModel) != null) {
+            HandlerResponse.responseSuccessOK(response, "POLI UPDATED");
         } else {
-            HandlerResponse.responseBadRequest(response, "INVALID PUSKESMAS");
+            HandlerResponse.responseInternalServerError(response, "POLI NOT FOUND");
         }
     }
 
     @DeleteMapping("/{id}")
     public void deletePoliById(HttpServletRequest request, HttpServletResponse response,
-                               @PathVariable int id) {
+                               @PathVariable int id) throws IOException {
         if (poliService.deletePoliById(id)) {
             HandlerResponse.responseSuccessOK(response, "POLI DELETED");
         } else {

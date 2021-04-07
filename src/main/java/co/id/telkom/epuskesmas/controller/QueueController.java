@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.Optional;
 
 @Tag(name = "Queues", description = "Endpoints for Queues")
@@ -25,10 +26,10 @@ import java.util.Optional;
 public class QueueController {
 
     @Autowired
-    private QueueService queueService;
+    private DokterService dokterService;
 
     @Autowired
-    private DokterService dokterService;
+    private QueueService queueService;
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createQueue(HttpServletRequest request, HttpServletResponse response,
@@ -36,8 +37,7 @@ public class QueueController {
                             @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                             @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
                             @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
-                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) {
-
+                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
@@ -66,7 +66,7 @@ public class QueueController {
                             @RequestParam(value = "idUser", required = false) Integer idUser,
                             @RequestParam(value = "idPoli", required = false) Integer idPoli,
                             @RequestParam(value = "idDokter", required = false) Integer idDokter,
-                            @RequestParam(value = "noAntrian", required = false) Integer noAntrian) {
+                            @RequestParam(value = "noAntrian", required = false) Integer noAntrian) throws IOException {
         DataResponse<Iterable<QueueModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -87,7 +87,7 @@ public class QueueController {
 
     @GetMapping("/{id}")
     public void getQueueById(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable int id) {
+                             @PathVariable int id) throws IOException {
         Optional<QueueModel> queueModel = queueService.getQueueById(id);
 
         if (queueModel.isPresent()) {
@@ -110,7 +110,7 @@ public class QueueController {
                                 @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                                 @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
                                 @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
-                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) {
+                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
@@ -141,55 +141,56 @@ public class QueueController {
                                @Valid @ModelAttribute("idPoli") Integer idPoli,
                                @Valid @ModelAttribute("idDokter") Integer idDokter,
                                @Valid @ModelAttribute("noAntrian") Integer noAntrian,
-                               @Valid @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) {
-        Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
+                               @Valid @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+        // Fill in Queue Data
+        QueueModel queueModel = new QueueModel();
 
-        // Check if Dokter is Exist
-        if (dokterModel.isPresent()) {
-            // Fill in Queue Data
-            QueueModel queueModel = new QueueModel();
+        // Fill in Queue Data
+        if (idUser != null && idUser > 0) {
+            // If the 'idUser' field is not empty then
+            // Try to update Queue 'idUser'
+            queueModel.setIdUser(idUser);
+        }
+        if (idPoli != null && idPoli > 0) {
+            // If the 'idPoli' field is not empty then
+            // Try to update Queue 'idPoli'
+            queueModel.setIdPoli(idPoli);
+        }
+        if (idDokter != null && idDokter > 0) {
+            Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
-            // Fill in Queue Data
-            if (idUser != null && idUser > 0) {
-                // If the 'idUser' field is not empty then
-                // Try to update Queue 'idUser'
-                queueModel.setIdUser(idUser);
-            }
-            if (idPoli != null && idPoli > 0) {
-                // If the 'idPoli' field is not empty then
-                // Try to update Queue 'idPoli'
-                queueModel.setIdPoli(idPoli);
-            }
-            if (idDokter != null && idDokter > 0) {
+            // Check if Dokter is Exist
+            if (dokterModel.isPresent()) {
                 // If the 'idDokter' field is not empty then
                 // Try to update Queue 'idDokter'
                 queueModel.setIdDokter(idDokter);
-            }
-            if (noAntrian != null && noAntrian > 0) {
-                // If the 'noAntrian' field is not empty then
-                // Try to update Queue 'noAntrian'
-                queueModel.setNoAntrian(noAntrian);
-            }
-            if (waktuAmbilAntri != null && !waktuAmbilAntri.isEmpty()) {
-                // If the 'waktuAmbilAntri' field is not empty then
-                // Try to update Queue 'waktuAmbilAntri'
-                queueModel.setWaktuAntrian(waktuAmbilAntri);
-            }
-
-            // Patch the Queue Data
-            if (queueService.patchQueueById(id, queueModel) != null) {
-                HandlerResponse.responseSuccessOK(response, "QUEUE UPDATED");
             } else {
-                HandlerResponse.responseInternalServerError(response, "QUEUE NOT FOUND");
+                HandlerResponse.responseBadRequest(response, "INVALID DOKTER");
+                return;
             }
+        }
+        if (noAntrian != null && noAntrian > 0) {
+            // If the 'noAntrian' field is not empty then
+            // Try to update Queue 'noAntrian'
+            queueModel.setNoAntrian(noAntrian);
+        }
+        if (waktuAmbilAntri != null && !waktuAmbilAntri.isEmpty()) {
+            // If the 'waktuAmbilAntri' field is not empty then
+            // Try to update Queue 'waktuAmbilAntri'
+            queueModel.setWaktuAntrian(waktuAmbilAntri);
+        }
+
+        // Patch the Queue Data
+        if (queueService.patchQueueById(id, queueModel) != null) {
+            HandlerResponse.responseSuccessOK(response, "QUEUE UPDATED");
         } else {
-            HandlerResponse.responseBadRequest(response, "INVALID DOKTER");
+            HandlerResponse.responseInternalServerError(response, "QUEUE NOT FOUND");
         }
     }
 
     @DeleteMapping("/{id}")
     public void deleteQueueById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable int id) {
+                                @PathVariable int id) throws IOException {
         if (queueService.deleteQueueById(id)) {
             HandlerResponse.responseSuccessOK(response, "QUEUE DELETED");
         } else {

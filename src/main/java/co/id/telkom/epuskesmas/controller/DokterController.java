@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,49 +47,45 @@ public class DokterController {
                              @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                              @Valid @NotNull @ModelAttribute("nama") String nama,
                              @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                             @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
-        try {
-            Optional<PoliModel> poliModel = poliService.getPoliById(idPoli);
+                             @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+        Optional<PoliModel> poliModel = poliService.getPoliById(idPoli);
 
-            if (poliModel.isPresent()) {
-                // Create Dokter Photo Directory
-                if (!Files.exists(dirFotoDokter)) {
-                    Files.createDirectories(dirFotoDokter);
-                }
-
-                // Generate Dokter Photo File Name
-                String fileFotoDokter = UUID.randomUUID().toString() +
-                        fileUtils.getFileExtension(foto.getOriginalFilename());
-
-                // Upload Dokter Photo File to Dokter Photo Directory
-                Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
-
-                DokterModel dokterModel = new DokterModel();
-
-                // Fill in Dokter Data
-                dokterModel.setIdPoli(idPoli);
-                dokterModel.setNama(nama);
-                dokterModel.setKelamin(kelamin);
-                dokterModel.setFoto(fileFotoDokter);
-
-                // Insert the Dokter Data
-                if (dokterService.createDokter(dokterModel) != null) {
-                    HandlerResponse.responseSuccessCreated(response, "DOKTER CREATED");
-                } else {
-                    HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE DOKTER");
-                }
-            } else {
-                HandlerResponse.responseBadRequest(response, "INVALID POLI");
+        if (poliModel.isPresent()) {
+            // Create Dokter Photo Directory
+            if (!Files.exists(dirFotoDokter)) {
+                Files.createDirectories(dirFotoDokter);
             }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+
+            // Generate Dokter Photo File Name
+            String fileFotoDokter = UUID.randomUUID().toString() +
+                    fileUtils.getFileExtension(foto.getOriginalFilename());
+
+            // Upload Dokter Photo File to Dokter Photo Directory
+            Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
+
+            DokterModel dokterModel = new DokterModel();
+
+            // Fill in Dokter Data
+            dokterModel.setIdPoli(idPoli);
+            dokterModel.setNama(nama);
+            dokterModel.setKelamin(kelamin);
+            dokterModel.setFoto(fileFotoDokter);
+
+            // Insert the Dokter Data
+            if (dokterService.createDokter(dokterModel) != null) {
+                HandlerResponse.responseSuccessCreated(response, "DOKTER CREATED");
+            } else {
+                HandlerResponse.responseInternalServerError(response, "FAILED TO CREATE DOKTER");
+            }
+        } else {
+            HandlerResponse.responseBadRequest(response, "INVALID POLI");
         }
     }
 
     @GetMapping
     public void getAllDokter(HttpServletRequest request, HttpServletResponse response,
                              @RequestParam(value = "nama", required = false) String nama,
-                             @RequestParam(value = "idPoli", required = false) Integer idPoli) {
+                             @RequestParam(value = "idPoli", required = false) Integer idPoli) throws IOException {
         DataResponse<Iterable<DokterModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
@@ -105,7 +102,7 @@ public class DokterController {
 
     @GetMapping("/{id}")
     public void getDokterById(HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable("id") int id) {
+                              @PathVariable("id") int id) throws IOException {
         Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
         if (currentDokter.isPresent()) {
@@ -127,52 +124,48 @@ public class DokterController {
                                  @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
                                  @Valid @NotNull @ModelAttribute("nama") String nama,
                                  @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                                 @Valid @NotNull @RequestPart("foto") MultipartFile foto) {
-        try {
-            Optional<PoliModel> currentPoli = poliService.getPoliById(id);
+                                 @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
+        Optional<PoliModel> currentPoli = poliService.getPoliById(idPoli);
 
-            if (currentPoli.isPresent()) {
-                Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
+        if (currentPoli.isPresent()) {
+            Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
-                if (currentDokter.isPresent()) {
-                    DokterModel dataDokter = currentDokter.get();
+            if (currentDokter.isPresent()) {
+                DokterModel dataDokter = currentDokter.get();
 
-                    // Create Dokter Photo Directory
-                    if (!Files.exists(dirFotoDokter)) {
-                        Files.createDirectories(dirFotoDokter);
-                    }
-
-                    // Generate Dokter Photo File Name
-                    String fileFotoDokter = UUID.randomUUID().toString() +
-                            fileUtils.getFileExtension(foto.getOriginalFilename());
-
-                    // Upload Dokter Photo File to Dokter Photo Directory
-                    Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
-
-                    if (dataDokter.getFoto() != null && !dataDokter.getFoto().isEmpty()) {
-                        // Delete OLD Dokter Photo File from Dokter Photo Directory
-                        Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
-                    }
-
-                    DokterModel dokterModel = new DokterModel();
-
-                    // Fill in Dokter Data
-                    dokterModel.setIdPoli(idPoli);
-                    dokterModel.setNama(nama);
-                    dokterModel.setKelamin(kelamin);
-                    dokterModel.setFoto(fileFotoDokter);
-
-                    // Update the Dokter Data
-                    dokterService.updateDokterById(id, dokterModel);
-                    HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
-                } else {
-                    HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
+                // Create Dokter Photo Directory
+                if (!Files.exists(dirFotoDokter)) {
+                    Files.createDirectories(dirFotoDokter);
                 }
+
+                // Generate Dokter Photo File Name
+                String fileFotoDokter = UUID.randomUUID().toString() +
+                        fileUtils.getFileExtension(foto.getOriginalFilename());
+
+                // Upload Dokter Photo File to Dokter Photo Directory
+                Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
+
+                if (dataDokter.getFile() != null && !dataDokter.getFile().isEmpty()) {
+                    // Delete OLD Dokter Photo File from Dokter Photo Directory
+                    Files.delete(dirFotoDokter.resolve(dataDokter.getFile()));
+                }
+
+                DokterModel dokterModel = new DokterModel();
+
+                // Fill in Dokter Data
+                dokterModel.setIdPoli(idPoli);
+                dokterModel.setNama(nama);
+                dokterModel.setKelamin(kelamin);
+                dokterModel.setFoto(fileFotoDokter);
+
+                // Update the Dokter Data
+                dokterService.updateDokterById(id, dokterModel);
+                HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
             } else {
-                HandlerResponse.responseBadRequest(response, "INVALID POLI");
+                HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
             }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+        } else {
+            HandlerResponse.responseBadRequest(response, "INVALID POLI");
         }
     }
 
@@ -182,84 +175,84 @@ public class DokterController {
                                 @Valid @ModelAttribute("idPoli") Integer idPoli,
                                 @Valid @ModelAttribute("nama") String nama,
                                 @Valid @ModelAttribute("kelamin") String kelamin,
-                                @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) {
-        try {
-            Optional<PoliModel> currentPoli = poliService.getPoliById(id);
+                                @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
+        Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
-            if (currentPoli.isPresent()) {
-                Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
+        if (currentDokter.isPresent()) {
+            DokterModel dokterModel = new DokterModel();
 
-                if (currentDokter.isPresent()) {
-                    DokterModel dokterModel = new DokterModel();
+            // Fill in Dokter Data
+            if (idPoli != null && idPoli > 0) {
+                Optional<PoliModel> currentPoli = poliService.getPoliById(idPoli);
 
-                    // Fill in Dokter Data
-                    if (idPoli != null && idPoli > 0) {
-                        dokterModel.setIdPoli(idPoli);
-                    }
-                    if (nama != null && !nama.isEmpty()) {
-                        dokterModel.setNama(nama);
-                    }
-                    if (kelamin != null && !kelamin.isEmpty()) {
-                        dokterModel.setKelamin(kelamin);
-                    }
-                    if (foto != null && !foto.isEmpty()) {
-                        DokterModel dataDokter = currentDokter.get();
-
-                        // Create Dokter Photo Directory
-                        if (!Files.exists(dirFotoDokter)) {
-                            Files.createDirectories(dirFotoDokter);
-                        }
-
-                        // Generate Dokter Photo File Name
-                        String fileFotoDokter = UUID.randomUUID().toString() +
-                                fileUtils.getFileExtension(foto.getOriginalFilename());
-
-                        // Upload Dokter Photo File to Dokter Photo Directory
-                        Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
-
-                        if (dataDokter.getFoto() != null && !dataDokter.getFoto().isEmpty()) {
-                            // Delete OLD Dokter Photo File from Dokter Photo Directory
-                            Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
-                        }
-
-                        // If the 'foto' field is not empty then
-                        // Try to update Dokter 'foto'
-                        dokterModel.setFoto(fileFotoDokter);
-                    }
-
-                    // Update the Dokter Data
-                    dokterService.updateDokterById(id, dokterModel);
-                    HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
+                // Check if Poli is Exist
+                if (currentPoli.isPresent()) {
+                    // If the 'idPoli' field is not empty then
+                    // Try to update Poli 'idPoli'
+                    dokterModel.setIdPoli(idPoli);
                 } else {
-                    HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
+                    HandlerResponse.responseBadRequest(response, "INVALID POLI");
+                    return;
                 }
-            } else {
-                HandlerResponse.responseBadRequest(response, "INVALID POLI");
             }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+            if (nama != null && !nama.isEmpty()) {
+                // If the 'nama' field is not empty then
+                // Try to update Poli 'nama'
+                dokterModel.setNama(nama);
+            }
+            if (kelamin != null && !kelamin.isEmpty()) {
+                // If the 'kelamin' field is not empty then
+                // Try to update Poli 'kelamin'
+                dokterModel.setKelamin(kelamin);
+            }
+            if (foto != null && !foto.isEmpty()) {
+                DokterModel dataDokter = currentDokter.get();
+
+                // Create Dokter Photo Directory
+                if (!Files.exists(dirFotoDokter)) {
+                    Files.createDirectories(dirFotoDokter);
+                }
+
+                // Generate Dokter Photo File Name
+                String fileFotoDokter = UUID.randomUUID().toString() +
+                        fileUtils.getFileExtension(foto.getOriginalFilename());
+
+                // Upload Dokter Photo File to Dokter Photo Directory
+                Files.copy(foto.getInputStream(), dirFotoDokter.resolve(fileFotoDokter));
+
+                if (dataDokter.getFile() != null && !dataDokter.getFile().isEmpty()) {
+                    // Delete OLD Dokter Photo File from Dokter Photo Directory
+                    Files.delete(dirFotoDokter.resolve(dataDokter.getFile()));
+                }
+
+                // If the 'foto' field is not empty then
+                // Try to update Dokter 'foto'
+                dokterModel.setFoto(fileFotoDokter);
+            }
+
+            // Update the Dokter Data
+            dokterService.updateDokterById(id, dokterModel);
+            HandlerResponse.responseSuccessOK(response, "DOKTER UPDATED");
+        } else {
+            HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
         }
     }
 
     @DeleteMapping("/{id}")
     public void deleteDokterById(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable("id") int id) {
-        try {
-            Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
+                                 @PathVariable("id") int id) throws IOException {
+        Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
-            if (currentDokter.isPresent()) {
-                DokterModel dataDokter = currentDokter.get();
+        if (currentDokter.isPresent()) {
+            DokterModel dataDokter = currentDokter.get();
 
-                // Delete OLD Dokter Photo File from Dokter Photo Directory
-                Files.delete(dirFotoDokter.resolve(dataDokter.getFoto()));
+            // Delete OLD Dokter Photo File from Dokter Photo Directory
+            Files.delete(dirFotoDokter.resolve(dataDokter.getFile()));
 
-                dokterService.deleteDokterById(id);
-                HandlerResponse.responseSuccessOK(response, "DOKTER DELETED");
-            } else {
-                HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
-            }
-        } catch (Exception e) {
-            HandlerResponse.responseInternalServerError(response, e.getMessage().toUpperCase());
+            dokterService.deleteDokterById(id);
+            HandlerResponse.responseSuccessOK(response, "DOKTER DELETED");
+        } else {
+            HandlerResponse.responseNotFound(response, "DOKTER NOT FOUND");
         }
     }
 }
