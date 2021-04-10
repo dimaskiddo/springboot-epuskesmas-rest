@@ -34,8 +34,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Iterable<UserModel> getAllUserByTelepon(String telepon) {
-        return userRepository.findByTeleponContains(telepon);
+    public Iterable<UserModel> getAllUserBySearch(String telepon, String nama) {
+        if (!telepon.isEmpty() && !nama.isEmpty()) {
+            return userRepository.findByTeleponContainsAndNamaContains(telepon, nama);
+        } else if (!telepon.isEmpty()) {
+            return userRepository.findByTeleponContains(telepon);
+        } else if (!nama.isEmpty()) {
+            return userRepository.findByNamaContains(nama);
+        }
+
+        return null;
     }
 
     public Optional<UserModel> getUserById(int id) {

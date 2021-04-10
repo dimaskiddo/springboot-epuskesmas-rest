@@ -78,11 +78,15 @@ public class PuskesmasController {
     @GetMapping
     public void getAllPuskesmas(HttpServletRequest request, HttpServletResponse response,
                                 @RequestParam(value = "nama", required = false) String nama) throws IOException {
+        if (nama == null) {
+            nama = "";
+        }
+
         DataResponse<Iterable<PuskesmasModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (nama != null && !nama.isEmpty()) {
-            dataResponse.setData(puskesmasService.getAllPuskesmasByNama(nama));
+        if (nama != "") {
+            dataResponse.setData(puskesmasService.getAllPuskesmasBySearch(nama));
         } else {
             dataResponse.setData(puskesmasService.getAllPuskesmas());
         }

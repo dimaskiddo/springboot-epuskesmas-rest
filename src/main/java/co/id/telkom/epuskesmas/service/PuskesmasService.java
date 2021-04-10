@@ -29,7 +29,7 @@ public class PuskesmasService {
         return puskesmasRepository.findAll();
     }
 
-    public Iterable<PuskesmasModel> getAllPuskesmasByNama(String nama) {
+    public Iterable<PuskesmasModel> getAllPuskesmasBySearch(String nama) {
         return puskesmasRepository.findByNamaContains(nama);
     }
 

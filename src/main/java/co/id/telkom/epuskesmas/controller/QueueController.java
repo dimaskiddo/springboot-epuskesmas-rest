@@ -65,19 +65,22 @@ public class QueueController {
     public void getAllQueue(HttpServletRequest request, HttpServletResponse response,
                             @RequestParam(value = "idUser", required = false) Integer idUser,
                             @RequestParam(value = "idPoli", required = false) Integer idPoli,
-                            @RequestParam(value = "idDokter", required = false) Integer idDokter,
-                            @RequestParam(value = "noAntrian", required = false) Integer noAntrian) throws IOException {
+                            @RequestParam(value = "idDokter", required = false) Integer idDokter) throws IOException {
+        if (idUser == null) {
+            idUser = 0;
+        }
+        if (idPoli == null) {
+            idPoli = 0;
+        }
+        if (idDokter == null) {
+            idDokter = 0;
+        }
+
         DataResponse<Iterable<QueueModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (idUser != null && idUser > 0) {
-            dataResponse.setData(queueService.getQueueByIdUser(idUser));
-        } else if (idPoli != null && idPoli > 0) {
-            dataResponse.setData(queueService.getQueueByIdPoli(idPoli));
-        } else if (idDokter != null && idDokter > 0) {
-            dataResponse.setData(queueService.getQueueByIdDokter(idDokter));
-        } else if (noAntrian != null && noAntrian > 0) {
-            dataResponse.setData(queueService.getQueueByNoAntrian(noAntrian));
+        if (idUser > 0 || idPoli > 0 || idDokter > 0) {
+            dataResponse.setData(queueService.getQueueBySearch(idUser, idPoli, idDokter));
         } else {
             dataResponse.setData(queueService.getAllQueue());
         }

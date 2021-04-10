@@ -62,15 +62,20 @@ public class PoliController {
 
     @GetMapping
     public void getAllPoli(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "nama", required = false) String nama,
-                           @RequestParam(value = "idPuskesmas", required = false) Integer idPuskesmas) throws IOException {
+                           @RequestParam(value = "idPuskesmas", required = false) Integer idPuskesmas,
+                           @RequestParam(value = "nama", required = false) String nama) throws IOException {
+        if (idPuskesmas == null) {
+            idPuskesmas = 0;
+        }
+        if (nama == null) {
+            nama = "";
+        }
+
         DataResponse<Iterable<PoliModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (nama != null && !nama.isEmpty()) {
-            dataResponse.setData(poliService.getAllPoliByNama(nama));
-        } else if(idPuskesmas != null && idPuskesmas > 0){
-            dataResponse.setData(poliService.getAllPoliByPuskesmas(idPuskesmas));
+        if (idPuskesmas > 0 || !nama.isEmpty()) {
+            dataResponse.setData(poliService.getAllPoliBySearch(idPuskesmas, nama));
         } else {
             dataResponse.setData(poliService.getAllPoli());
         }

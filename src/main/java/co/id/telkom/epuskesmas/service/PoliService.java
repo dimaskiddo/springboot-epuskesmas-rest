@@ -29,11 +29,15 @@ public class PoliService {
         return poliRepository.findAll();
     }
 
-    public Iterable<PoliModel> getAllPoliByNama(String nama) {
-        return poliRepository.findByNamaContains(nama);
-    }
+    public Iterable<PoliModel> getAllPoliBySearch(int idPuskesmas, String nama) {
+        if (idPuskesmas > 0 && !nama.isEmpty()) {
+            return poliRepository.findByIdPuskesmasAndNamaContains(idPuskesmas, nama);
+        } else if (idPuskesmas > 0) {
+            return poliRepository.findByIdPuskesmas(idPuskesmas);
+        }
 
-    public Iterable<PoliModel> getAllPoliByPuskesmas(int idPuskesmas) {return poliRepository.findByIdPuskesmas(idPuskesmas);}
+        return poliRepository.findByIdPuskesmasOrNamaContains(idPuskesmas, nama);
+    }
 
     public Optional<PoliModel> getPoliById(int id) {
         return poliRepository.findById(id);

@@ -29,12 +29,14 @@ public class DokterService {
         return dokterRepository.findAll();
     }
 
-    public Iterable<DokterModel> getAllDokterByNama(String nama) {
-        return dokterRepository.findByNamaContains(nama);
-    }
+    public Iterable<DokterModel> getAllDokterBySearch(int idPoli, String nama) {
+        if (idPoli > 0 && !nama.isEmpty()) {
+            return dokterRepository.findByIdPoliAndNamaContains(idPoli, nama);
+        } else if (idPoli > 0) {
+            return dokterRepository.findByIdPoli(idPoli);
+        }
 
-    public Iterable<DokterModel> getAllDokterByIdPoli(int idPoli) {
-        return dokterRepository.findByIdPoli(idPoli);
+        return dokterRepository.findByIdPoliOrNamaContains(idPoli, nama);
     }
 
     public Optional<DokterModel> getDokterById(int id) {
