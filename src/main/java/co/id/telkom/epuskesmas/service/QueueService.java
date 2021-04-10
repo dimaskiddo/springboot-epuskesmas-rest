@@ -33,20 +33,36 @@ public class QueueService {
         return queueRepository.findById(id);
     }
 
-    public Iterable<QueueModel> getQueueByIdUser(int id) {
-        return queueRepository.findByIdUser(id);
+    public Iterable<QueueModel> getQueueByIdUser(int idUser) {
+        return queueRepository.findByIdUser(idUser);
     }
 
-    public Iterable<QueueModel> getQueueByIdPoli(int id) {
-        return queueRepository.findByIdPoli(id);
+    public Iterable<QueueModel> getQueueByIdPoli(int idPoli) {
+        return queueRepository.findByIdPoli(idPoli);
     }
 
-    public Iterable<QueueModel> getQueueByIdDokter(int id) {
-        return queueRepository.findByIdDokter(id);
+    public Iterable<QueueModel> getQueueByIdDokter(int idDokter) {
+        return queueRepository.findByIdDokter(idDokter);
     }
 
-    public Iterable<QueueModel> getQueueByNoAntrian(int noAntrian) {
-        return queueRepository.findByNoAntrian(noAntrian);
+    public Iterable<QueueModel> getQueueBySearch(int idUser, int idPoli, int idDokter) {
+        if (idUser > 0 && idPoli > 0 && idDokter > 0) {
+            return queueRepository.findByIdUserAndIdPoliAndIdDokter(idUser, idPoli, idDokter);
+        } else if (idUser > 0 && idPoli > 0) {
+            return queueRepository.findByIdUserAndIdPoli(idUser, idPoli);
+        } else if (idUser > 0 && idDokter > 0) {
+            return queueRepository.findByIdUserAndIdDokter(idUser, idDokter);
+        } else if (idPoli > 0 && idDokter > 0) {
+            return queueRepository.findByIdPoliAndIdDokter(idPoli, idDokter);
+        } else if (idUser > 0) {
+            return queueRepository.findByIdUser(idUser);
+        } else if (idPoli > 0) {
+            return queueRepository.findByIdPoli(idPoli);
+        } else if (idDokter > 0) {
+            return queueRepository.findByIdDokter(idDokter);
+        }
+
+        return null;
     }
 
     public QueueModel updateQueueById(int id, QueueModel queueModel) {

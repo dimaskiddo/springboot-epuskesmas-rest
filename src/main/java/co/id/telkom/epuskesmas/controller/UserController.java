@@ -68,12 +68,20 @@ public class UserController {
 
     @GetMapping
     public void getAllUser(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "telepon", required = false) String telepon) throws IOException {
+                           @RequestParam(value = "telepon", required = false) String telepon,
+                           @RequestParam(value = "nama", required = false) String nama) throws IOException {
+        if (telepon == null) {
+            telepon = "";
+        }
+        if (nama == null) {
+            nama = "";
+        }
+
         DataResponse<Iterable<UserModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (telepon != null && !telepon.isEmpty()) {
-            dataResponse.setData(userService.getAllUserByTelepon(telepon));
+        if (!telepon.isEmpty() || !nama.isEmpty()) {
+            dataResponse.setData(userService.getAllUserBySearch(telepon, nama));
         } else {
             dataResponse.setData(userService.getAllUser());
         }

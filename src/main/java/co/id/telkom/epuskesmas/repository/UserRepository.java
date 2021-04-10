@@ -7,7 +7,11 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
-    Iterable<UserModel> findByTeleponContains(String telepon);
     Optional<UserModel> findByTelepon(String telepon);
+
+    Iterable<UserModel> findByTeleponContains(String telepon);
+    Iterable<UserModel> findByNamaContains(String nama);
+
+    Iterable<UserModel> findByTeleponContainsAndNamaContains(String telepon, String nama);
 
 }

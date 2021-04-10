@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PoliRepository extends JpaRepository<PoliModel, Integer> {
 
-    Iterable<PoliModel> findByNamaContains(String nama);
     Iterable<PoliModel> findByIdPuskesmas(int idPuskesmas);
+    Iterable<PoliModel> findByIdPuskesmasAndNamaContains(int idPuskesmas, String nama);
+    Iterable<PoliModel> findByIdPuskesmasOrNamaContains(int idPuskesmas, String nama);
 
 }

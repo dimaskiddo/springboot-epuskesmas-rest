@@ -1,5 +1,7 @@
 package co.id.telkom.epuskesmas.model;
 
+import co.id.telkom.epuskesmas.utils.QRCodeUtils;
+
 import javax.persistence.*;
 
 @Entity
@@ -72,5 +74,13 @@ public class QueueModel {
 
     public void setWaktuAntrian(String waktuAntrian) {
         this.waktuAntrian = waktuAntrian;
+    }
+
+    public String getQRCode() {
+        QRCodeUtils qrCodeUtils = new QRCodeUtils();
+
+        String qrCodeData = "{\"id\":" + this.id + ",\"idUser\":" + this.idUser +
+                            ",\"idPoli\":" + this.idPoli + ",\"idDokter\":" + this.idDokter + "}";
+        return qrCodeUtils.createQRCodeBase64(qrCodeData, 300);
     }
 }

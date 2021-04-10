@@ -84,15 +84,20 @@ public class DokterController {
 
     @GetMapping
     public void getAllDokter(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam(value = "nama", required = false) String nama,
-                             @RequestParam(value = "idPoli", required = false) Integer idPoli) throws IOException {
+                             @RequestParam(value = "idPoli", required = false) Integer idPoli,
+                             @RequestParam(value = "nama", required = false) String nama) throws IOException {
+        if (idPoli == null) {
+            idPoli = 0;
+        }
+        if (nama == null) {
+            nama = "";
+        }
+
         DataResponse<Iterable<DokterModel>> dataResponse = new DataResponse<>();
 
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        if (nama != null && !nama.isEmpty()) {
-            dataResponse.setData(dokterService.getAllDokterByNama(nama));
-        } else if (idPoli != null && idPoli > 0) {
-            dataResponse.setData(dokterService.getAllDokterByIdPoli(idPoli));
+        if (idPoli > 0 || !nama.isEmpty()) {
+            dataResponse.setData(dokterService.getAllDokterBySearch(idPoli, nama));
         } else {
             dataResponse.setData(dokterService.getAllDokter());
         }
