@@ -6,7 +6,8 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<!-- Lookup Parent from Repository -->
+		<relativePath/>
 	</parent>
 	<groupId>co.id.telkom</groupId>
 	<artifactId>e-puskesmas</artifactId>
@@ -18,7 +19,7 @@
 	</properties>
 
 	<repositories>
-		<!--	Repositories for QRCode	-->
+		<!--	Repositories for QRCode		-->
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
@@ -85,7 +86,7 @@
 			<version>1.5.2</version>
 		</dependency>
 
-		<!--	Dependency for QRCode	-->
+		<!--	Dependency for QRCode		-->
 		<dependency>
 			<groupId>com.github.kenglxn.qrgen</groupId>
 			<artifactId>javase</artifactId>

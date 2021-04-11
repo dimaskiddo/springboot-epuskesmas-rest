@@ -105,7 +105,6 @@ public class UserController {
         } else {
             HandlerResponse.responseNotFound(response, "USER NOT FOUND");
         }
-
     }
 
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
@@ -227,6 +226,24 @@ public class UserController {
                                @PathVariable int id) throws IOException {
         if (userService.deleteUserById(id)) {
             HandlerResponse.responseSuccessOK(response, "USER DELETED");
+        } else {
+            HandlerResponse.responseNotFound(response, "USER NOT FOUND");
+        }
+    }
+
+    @GetMapping("/by/phone/{telepon}")
+    public void getUserById(HttpServletRequest request, HttpServletResponse response,
+                            @PathVariable String telepon) throws IOException {
+        Optional<UserModel> currentUser = userService.getUserByTelepon(telepon);
+
+        if (currentUser.isPresent()) {
+            UserModel dataUser = currentUser.get();
+            DataResponse<UserModel> dataResponse = new DataResponse<>();
+
+            dataResponse.setCode(HttpServletResponse.SC_OK);
+            dataResponse.setData(dataUser);
+
+            HandlerResponse.responseSuccessWithData(response, dataResponse);
         } else {
             HandlerResponse.responseNotFound(response, "USER NOT FOUND");
         }
