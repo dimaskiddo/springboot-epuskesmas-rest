@@ -1,6 +1,6 @@
 # e-Puskesmas REST API
 
-This repository contains e-Puskemas DigiTalent Smart-Health Project REST API
+This repository contains e-Puskemas REST API a DigiTalent Smart-Health Project
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ Below is the instructions to make this code running:
 
 * Clone this repository to your local
 ```shell script
-$ git clone https://gitlab.playcourt.id/digitalent/smart-health/e-puskesmas-api.git
+$ git clone https://github.com/dimaskiddo/springboot-epuskesmas-rest.git
 $ cd e-puskesmas-api
 ```
 * Installing dependencies using Maven
