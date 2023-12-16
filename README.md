@@ -10,7 +10,7 @@ See deployment for notes on how to deploy the project on a live system.
 ### Prerequisites
 
 Prequisites package:
-* Java Development Kit (JDK) 11.0
+* Java Development Kit (JDK) 1.8
 * Maven 3
 * Spring 2.4.4
 
@@ -45,4 +45,4 @@ $ docker build -t e-puskesmas/api:latest .
 ## Authors
 
 * **Dimas Restu Hidayanto** - *Initial Work* - [@dimaskiddo](https://github.com/dimaskiddo)
-* **Tommy Kurniawan** - *Maintainer* - [@tommykurniawans](https://gitlab.playcourt.id/tommykurniawans)
+* **Tommy Kurniawan** - *Maintainer* - [@tommykurniawans](https://github.com/tommykurniawans)

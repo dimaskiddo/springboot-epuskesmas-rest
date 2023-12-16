@@ -1,6 +1,6 @@
 # Builder Image
 # ---------------------------------------------------
-FROM maven:3-adoptopenjdk-11 as java-builder
+FROM maven:3-adoptopenjdk-8 as java-builder
 
 # Set Arguments On Build
 ARG ARGS_MVN_PACKAGE
@@ -17,7 +17,7 @@ RUN mvn dependency:resolve \
 
 # Final Image
 # ---------------------------------------------------
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM adoptopenjdk/openjdk8:alpine-jre
 
 # Set Environment Variable
 ENV DB_HOST=127.0.0.1 \

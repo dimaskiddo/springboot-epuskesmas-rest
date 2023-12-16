@@ -1,7 +1,6 @@
 package co.id.telkom.epuskesmas.model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "poli")

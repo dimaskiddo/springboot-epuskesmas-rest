@@ -1,8 +1,6 @@
 package co.id.telkom.epuskesmas.model;
 
 import co.id.telkom.epuskesmas.utils.ServerUtils;
-import org.apache.catalina.Server;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
