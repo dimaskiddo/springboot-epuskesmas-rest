@@ -15,7 +15,6 @@ import java.io.IOException;
 @RestController
 public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
 
-    @Override
     public String getErrorPath() {
         return null;
     }
