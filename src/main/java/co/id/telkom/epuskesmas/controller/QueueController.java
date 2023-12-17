@@ -33,11 +33,11 @@ public class QueueController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createQueue(HttpServletRequest request, HttpServletResponse response,
-                            @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
-                            @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
-                            @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
-                            @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
-                            @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+                            @Valid @NotNull @ModelAttribute Integer idUser,
+                            @Valid @NotNull @ModelAttribute Integer idPoli,
+                            @Valid @NotNull @ModelAttribute Integer idDokter,
+                            @Valid @NotNull @ModelAttribute Integer noAntrian,
+                            @Valid @NotNull @ModelAttribute String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
@@ -63,9 +63,9 @@ public class QueueController {
 
     @GetMapping
     public void getAllQueue(HttpServletRequest request, HttpServletResponse response,
-                            @RequestParam(value = "idUser", required = false) Integer idUser,
-                            @RequestParam(value = "idPoli", required = false) Integer idPoli,
-                            @RequestParam(value = "idDokter", required = false) Integer idDokter) throws IOException {
+                            @RequestParam(required = false) Integer idUser,
+                            @RequestParam(required = false) Integer idPoli,
+                            @RequestParam(required = false) Integer idDokter) throws IOException {
         if (idUser == null) {
             idUser = 0;
         }
@@ -109,11 +109,11 @@ public class QueueController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateQueueById(HttpServletRequest request, HttpServletResponse response,
                                 @PathVariable int id,
-                                @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
-                                @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
-                                @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
-                                @Valid @NotNull @ModelAttribute("noAntrian") Integer noAntrian,
-                                @Valid @NotNull @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+                                @Valid @NotNull @ModelAttribute Integer idUser,
+                                @Valid @NotNull @ModelAttribute Integer idPoli,
+                                @Valid @NotNull @ModelAttribute Integer idDokter,
+                                @Valid @NotNull @ModelAttribute Integer noAntrian,
+                                @Valid @NotNull @ModelAttribute String waktuAmbilAntri) throws IOException {
         Optional<DokterModel> dokterModel = dokterService.getDokterById(idDokter);
 
         if (dokterModel.isPresent()) {
@@ -140,11 +140,11 @@ public class QueueController {
     @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchQueueById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
-                               @Valid @NotNull @ModelAttribute("idUser") Integer idUser,
-                               @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
-                               @Valid @NotNull @ModelAttribute("idDokter") Integer idDokter,
-                               @Valid @ModelAttribute("noAntrian") Integer noAntrian,
-                               @Valid @ModelAttribute("waktuAmbilAntri") String waktuAmbilAntri) throws IOException {
+                               @Valid @NotNull @ModelAttribute Integer idUser,
+                               @Valid @NotNull @ModelAttribute Integer idPoli,
+                               @Valid @NotNull @ModelAttribute Integer idDokter,
+                               @Valid @ModelAttribute Integer noAntrian,
+                               @Valid @ModelAttribute String waktuAmbilAntri) throws IOException {
         // Fill in Queue Data
         QueueModel queueModel = new QueueModel();
 

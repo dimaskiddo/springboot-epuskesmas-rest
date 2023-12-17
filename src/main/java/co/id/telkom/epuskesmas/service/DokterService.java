@@ -16,7 +16,6 @@ public class DokterService {
 
     private DokterRepository dokterRepository;
 
-    @Autowired
     public DokterService(DokterRepository dokterRepository) {
         this.dokterRepository = dokterRepository;
     }

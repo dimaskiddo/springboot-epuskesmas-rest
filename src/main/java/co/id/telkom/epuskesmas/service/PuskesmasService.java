@@ -16,7 +16,6 @@ public class PuskesmasService {
 
     private PuskesmasRepository puskesmasRepository;
 
-    @Autowired
     public PuskesmasService(PuskesmasRepository puskesmasRepository) {
         this.puskesmasRepository = puskesmasRepository;
     }

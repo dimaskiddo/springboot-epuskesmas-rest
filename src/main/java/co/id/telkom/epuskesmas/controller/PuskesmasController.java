@@ -39,11 +39,11 @@ public class PuskesmasController {
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void createPuskesmas(HttpServletRequest request, HttpServletResponse response,
-                                @Valid @NotNull @ModelAttribute("nama") String nama,
-                                @Valid @NotNull @ModelAttribute("alamat") String alamat,
-                                @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                                @Valid @NotNull @ModelAttribute("lon") Double lon,
-                                @Valid @NotNull @ModelAttribute("lat") Double lat,
+                                @Valid @NotNull @ModelAttribute String nama,
+                                @Valid @NotNull @ModelAttribute String alamat,
+                                @Valid @NotNull @ModelAttribute String telepon,
+                                @Valid @NotNull @ModelAttribute Double lon,
+                                @Valid @NotNull @ModelAttribute Double lat,
                                 @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
         // Create Puskesmas Photo Directory
         if (!Files.exists(dirFotoPuskesmas)) {
@@ -77,7 +77,7 @@ public class PuskesmasController {
 
     @GetMapping
     public void getAllPuskesmas(HttpServletRequest request, HttpServletResponse response,
-                                @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                                @RequestParam(required = false) String nama) throws IOException {
         if (nama == null) {
             nama = "";
         }
@@ -115,11 +115,11 @@ public class PuskesmasController {
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updatePuskesmasById(HttpServletRequest request, HttpServletResponse response,
                                     @PathVariable int id,
-                                    @Valid @NotNull @ModelAttribute("nama") String nama,
-                                    @Valid @NotNull @ModelAttribute("alamat") String alamat,
-                                    @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                                    @Valid @NotNull @ModelAttribute("lon") Double lon,
-                                    @Valid @NotNull @ModelAttribute("lat") Double lat,
+                                    @Valid @NotNull @ModelAttribute String nama,
+                                    @Valid @NotNull @ModelAttribute String alamat,
+                                    @Valid @NotNull @ModelAttribute String telepon,
+                                    @Valid @NotNull @ModelAttribute Double lon,
+                                    @Valid @NotNull @ModelAttribute Double lat,
                                     @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 
@@ -164,11 +164,11 @@ public class PuskesmasController {
     @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchPuskesmasById(HttpServletRequest request, HttpServletResponse response,
                                    @PathVariable int id,
-                                   @Valid @ModelAttribute("nama") String nama,
-                                   @Valid @ModelAttribute("alamat") String alamat,
-                                   @Valid @ModelAttribute("telepon") String telepon,
-                                   @Valid @ModelAttribute("lon") Double lon,
-                                   @Valid @ModelAttribute("lat") Double lat,
+                                   @Valid @ModelAttribute String nama,
+                                   @Valid @ModelAttribute String alamat,
+                                   @Valid @ModelAttribute String telepon,
+                                   @Valid @ModelAttribute Double lon,
+                                   @Valid @ModelAttribute Double lat,
                                    @Valid @RequestPart(name = "foto", required = false) MultipartFile foto) throws IOException {
         Optional<PuskesmasModel> currentPuskesmas = puskesmasService.getPuskesmasById(id);
 

@@ -31,8 +31,8 @@ public class AuthController {
 
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void authLogin(HttpServletRequest request, HttpServletResponse response,
-                          @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                          @Valid @NotNull @ModelAttribute("password") String password) throws IOException {
+                          @Valid @NotNull @ModelAttribute String telepon,
+                          @Valid @NotNull @ModelAttribute String password) throws IOException {
         if (userService.authUserByTeleponAndPassword(telepon, password)) {
             String token = telepon + ":" + password;
 
@@ -52,16 +52,16 @@ public class AuthController {
 
     @PostMapping(value = "/register", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void authRegister(HttpServletRequest request, HttpServletResponse response,
-                             @Valid @NotNull @ModelAttribute("nama") String nama,
-                             @Valid @NotNull @ModelAttribute("provinsi") String provinsi,
-                             @Valid @NotNull @ModelAttribute("kabupaten") String kabupaten,
-                             @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                             @Valid @NotNull @ModelAttribute("bpjs") String bpjs,
-                             @Valid @NotNull @ModelAttribute("password") String password,
-                             @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                             @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
-                             @Valid @NotNull @ModelAttribute("lon") Double lon,
-                             @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
+                             @Valid @NotNull @ModelAttribute String nama,
+                             @Valid @NotNull @ModelAttribute String provinsi,
+                             @Valid @NotNull @ModelAttribute String kabupaten,
+                             @Valid @NotNull @ModelAttribute String telepon,
+                             @Valid @NotNull @ModelAttribute String bpjs,
+                             @Valid @NotNull @ModelAttribute String password,
+                             @Valid @NotNull @ModelAttribute String kelamin,
+                             @Valid @NotNull @ModelAttribute String tanggalLahir,
+                             @Valid @NotNull @ModelAttribute Double lon,
+                             @Valid @NotNull @ModelAttribute Double lat) throws IOException {
         Optional<UserModel> currentUser = userService.getUserByTelepon(telepon);
 
         if (currentUser.isPresent()) {

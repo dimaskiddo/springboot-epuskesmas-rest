@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .httpBasic()
                 .realmName("e-Puskesmas Realm")
             .and()
-                .authorizeRequests()
+                .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/login").permitAll()

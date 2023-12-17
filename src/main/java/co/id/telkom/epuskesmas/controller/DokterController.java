@@ -44,9 +44,9 @@ public class DokterController {
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void createDokter(HttpServletRequest request, HttpServletResponse response,
-                             @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
-                             @Valid @NotNull @ModelAttribute("nama") String nama,
-                             @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
+                             @Valid @NotNull @ModelAttribute Integer idPoli,
+                             @Valid @NotNull @ModelAttribute String nama,
+                             @Valid @NotNull @ModelAttribute String kelamin,
                              @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
         Optional<PoliModel> poliModel = poliService.getPoliById(idPoli);
 
@@ -84,8 +84,8 @@ public class DokterController {
 
     @GetMapping
     public void getAllDokter(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam(value = "idPoli", required = false) Integer idPoli,
-                             @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                             @RequestParam(required = false) Integer idPoli,
+                             @RequestParam(required = false) String nama) throws IOException {
         if (idPoli == null) {
             idPoli = 0;
         }
@@ -107,7 +107,7 @@ public class DokterController {
 
     @GetMapping("/{id}")
     public void getDokterById(HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable("id") int id) throws IOException {
+                              @PathVariable int id) throws IOException {
         Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
         if (currentDokter.isPresent()) {
@@ -125,10 +125,10 @@ public class DokterController {
 
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void updateDokterById(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable("id") int id,
-                                 @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
-                                 @Valid @NotNull @ModelAttribute("nama") String nama,
-                                 @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
+                                 @PathVariable int id,
+                                 @Valid @NotNull @ModelAttribute Integer idPoli,
+                                 @Valid @NotNull @ModelAttribute String nama,
+                                 @Valid @NotNull @ModelAttribute String kelamin,
                                  @Valid @NotNull @RequestPart("foto") MultipartFile foto) throws IOException {
         Optional<PoliModel> currentPoli = poliService.getPoliById(idPoli);
 
@@ -176,10 +176,10 @@ public class DokterController {
 
     @PatchMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void patchDokterById(HttpServletRequest request, HttpServletResponse response,
-                                @PathVariable("id") int id,
-                                @Valid @NotNull @ModelAttribute("idPoli") Integer idPoli,
-                                @Valid @ModelAttribute("nama") String nama,
-                                @Valid @ModelAttribute("kelamin") String kelamin,
+                                @PathVariable int id,
+                                @Valid @NotNull @ModelAttribute Integer idPoli,
+                                @Valid @ModelAttribute String nama,
+                                @Valid @ModelAttribute String kelamin,
                                 @Valid @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
         Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
@@ -245,7 +245,7 @@ public class DokterController {
 
     @DeleteMapping("/{id}")
     public void deleteDokterById(HttpServletRequest request, HttpServletResponse response,
-                                 @PathVariable("id") int id) throws IOException {
+                                 @PathVariable int id) throws IOException {
         Optional<DokterModel> currentDokter = dokterService.getDokterById(id);
 
         if (currentDokter.isPresent()) {

@@ -16,7 +16,6 @@ public class QueueService {
 
     private QueueRepository queueRepository;
 
-    @Autowired
     public QueueService(QueueRepository queueRepository) {
         this.queueRepository = queueRepository;
     }

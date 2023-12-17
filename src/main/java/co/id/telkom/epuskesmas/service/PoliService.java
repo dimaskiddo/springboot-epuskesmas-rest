@@ -16,7 +16,6 @@ public class PoliService {
 
     private PoliRepository poliRepository;
 
-    @Autowired
     public PoliService(PoliRepository poliRepository) {
         this.poliRepository = poliRepository;
     }

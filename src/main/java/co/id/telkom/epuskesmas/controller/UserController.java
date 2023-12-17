@@ -28,16 +28,16 @@ public class UserController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void createUser(HttpServletRequest request, HttpServletResponse response,
-                           @Valid @NotNull @ModelAttribute("nama") String nama,
-                           @Valid @NotNull @ModelAttribute("provinsi") String provinsi,
-                           @Valid @NotNull @ModelAttribute("kabupaten") String kabupaten,
-                           @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                           @Valid @NotNull @ModelAttribute("bpjs") String bpjs,
-                           @Valid @NotNull @ModelAttribute("password") String password,
-                           @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                           @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
-                           @Valid @NotNull @ModelAttribute("lon") Double lon,
-                           @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
+                           @Valid @NotNull @ModelAttribute String nama,
+                           @Valid @NotNull @ModelAttribute String provinsi,
+                           @Valid @NotNull @ModelAttribute String kabupaten,
+                           @Valid @NotNull @ModelAttribute String telepon,
+                           @Valid @NotNull @ModelAttribute String bpjs,
+                           @Valid @NotNull @ModelAttribute String password,
+                           @Valid @NotNull @ModelAttribute String kelamin,
+                           @Valid @NotNull @ModelAttribute String tanggalLahir,
+                           @Valid @NotNull @ModelAttribute Double lon,
+                           @Valid @NotNull @ModelAttribute Double lat) throws IOException {
         Optional<UserModel> currentUser = userService.getUserByTelepon(telepon);
 
         if (currentUser.isPresent()) {
@@ -68,8 +68,8 @@ public class UserController {
 
     @GetMapping
     public void getAllUser(HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "telepon", required = false) String telepon,
-                           @RequestParam(value = "nama", required = false) String nama) throws IOException {
+                           @RequestParam(required = false) String telepon,
+                           @RequestParam(required = false) String nama) throws IOException {
         if (telepon == null) {
             telepon = "";
         }
@@ -110,16 +110,16 @@ public class UserController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void updateUserById(HttpServletRequest request, HttpServletResponse response,
                                @PathVariable int id,
-                               @Valid @NotNull @ModelAttribute("nama") String nama,
-                               @Valid @NotNull @ModelAttribute("provinsi") String provinsi,
-                               @Valid @NotNull @ModelAttribute("kabupaten") String kabupaten,
-                               @Valid @NotNull @ModelAttribute("telepon") String telepon,
-                               @Valid @NotNull @ModelAttribute("bpjs") String bpjs,
-                               @Valid @ModelAttribute("password") String password,
-                               @Valid @NotNull @ModelAttribute("kelamin") String kelamin,
-                               @Valid @NotNull @ModelAttribute("tanggalLahir") String tanggalLahir,
-                               @Valid @NotNull @ModelAttribute("lon") Double lon,
-                               @Valid @NotNull @ModelAttribute("lat") Double lat) throws IOException {
+                               @Valid @NotNull @ModelAttribute String nama,
+                               @Valid @NotNull @ModelAttribute String provinsi,
+                               @Valid @NotNull @ModelAttribute String kabupaten,
+                               @Valid @NotNull @ModelAttribute String telepon,
+                               @Valid @NotNull @ModelAttribute String bpjs,
+                               @Valid @ModelAttribute String password,
+                               @Valid @NotNull @ModelAttribute String kelamin,
+                               @Valid @NotNull @ModelAttribute String tanggalLahir,
+                               @Valid @NotNull @ModelAttribute Double lon,
+                               @Valid @NotNull @ModelAttribute Double lat) throws IOException {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
@@ -149,16 +149,16 @@ public class UserController {
     @PatchMapping(value = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public void patchUserById(HttpServletRequest request, HttpServletResponse response,
                               @PathVariable int id,
-                              @Valid @ModelAttribute("nama") String nama,
-                              @Valid @ModelAttribute("provinsi") String provinsi,
-                              @Valid @ModelAttribute("kabupaten") String kabupaten,
-                              @Valid @ModelAttribute("telepon") String telepon,
-                              @Valid @ModelAttribute("bpjs") String bpjs,
-                              @Valid @ModelAttribute("password") String password,
-                              @Valid @ModelAttribute("kelamin") String kelamin,
-                              @Valid @ModelAttribute("tanggalLahir") String tanggalLahir,
-                              @Valid @ModelAttribute("lon") Double lon,
-                              @Valid @ModelAttribute("lat") Double lat) throws IOException {
+                              @Valid @ModelAttribute String nama,
+                              @Valid @ModelAttribute String provinsi,
+                              @Valid @ModelAttribute String kabupaten,
+                              @Valid @ModelAttribute String telepon,
+                              @Valid @ModelAttribute String bpjs,
+                              @Valid @ModelAttribute String password,
+                              @Valid @ModelAttribute String kelamin,
+                              @Valid @ModelAttribute String tanggalLahir,
+                              @Valid @ModelAttribute Double lon,
+                              @Valid @ModelAttribute Double lat) throws IOException {
         UserModel userModel = new UserModel();
 
         // Fill in User Data
