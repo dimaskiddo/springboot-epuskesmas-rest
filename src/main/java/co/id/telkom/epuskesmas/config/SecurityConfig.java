@@ -1,4 +1,4 @@
-package co.id.telkom.epuskesmas;
+package co.id.telkom.epuskesmas.config;
 
 import co.id.telkom.epuskesmas.auth.BasicAuth;
 import co.id.telkom.epuskesmas.response.HandlerResponse;

@@ -1,4 +1,4 @@
-package co.id.telkom.epuskesmas;
+package co.id.telkom.epuskesmas.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
