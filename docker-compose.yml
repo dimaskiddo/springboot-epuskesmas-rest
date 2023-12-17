@@ -5,13 +5,13 @@ networks:
     driver: bridge
 
 services:
-  epuskesmas-api:
+  api:
     build:
       context: .
       dockerfile: ./Dockerfile
       args:
         ARGS_MVN_PACKAGE: "-Dmaven.test.skip=true"
-    image: "e-puskesmas/api:latest"
+    image: "epuskesmas/api:latest"
     networks:
       - epuskesmasnet
     ports:
@@ -25,5 +25,5 @@ services:
       - DB_PASSWORD=password
       - DB_NAME=
     volumes:
-      - /opt/e-puskesmas/static:/opt/app/static
+      - /opt/epuskesmas/static:/opt/app/static
     restart: always

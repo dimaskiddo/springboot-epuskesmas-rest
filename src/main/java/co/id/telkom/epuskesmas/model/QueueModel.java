@@ -1,8 +1,7 @@
 package co.id.telkom.epuskesmas.model;
 
 import co.id.telkom.epuskesmas.utils.QRCodeUtils;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "antrian")

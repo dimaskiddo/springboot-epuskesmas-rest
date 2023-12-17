@@ -1,8 +1,7 @@
 package co.id.telkom.epuskesmas.response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class HandlerResponse {
 

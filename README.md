@@ -10,9 +10,9 @@ See deployment for notes on how to deploy the project on a live system.
 ### Prerequisites
 
 Prequisites package:
-* Java Development Kit (JDK) 1.8
+* Java Development Kit (JDK) 17
 * Maven 3
-* Spring 2.4.4
+* Spring 3.2.0
 
 ### Installing
 
@@ -21,7 +21,7 @@ Below is the instructions to make this code running:
 * Clone this repository to your local
 ```shell script
 $ git clone https://github.com/dimaskiddo/springboot-epuskesmas-rest.git
-$ cd e-puskesmas-api
+$ cd springboot-epuskesmas-rest
 ```
 * Installing dependencies using Maven
 ```shell script
@@ -39,7 +39,7 @@ $ mvn package
 ```
 * To build with Docker
 ```shell script
-$ docker build -t e-puskesmas/api:latest .
+$ docker build -t epuskesmas/api:latest .
 ```
 
 ## Authors

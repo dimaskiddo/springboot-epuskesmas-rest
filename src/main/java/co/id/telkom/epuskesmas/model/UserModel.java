@@ -1,6 +1,6 @@
 package co.id.telkom.epuskesmas.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")

@@ -8,14 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Autowired
     private BasicAuth basicAuth;
@@ -34,17 +35,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         };
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(AuthenticationManagerBuilder auth) throws Exception {
         // TODO:
         // - Basic Auth provider still always accessing database
         //   to get username and password to be verified
         // - Change to JWT if possible
-        auth.authenticationProvider(basicAuth);
+        return (web) -> auth.authenticationProvider(basicAuth);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .headers().frameOptions().disable()
             .and()
@@ -52,15 +53,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .realmName("e-Puskesmas Realm")
             .and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/error").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/api-docs/**").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/api").hasAuthority("USER")
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/register").permitAll()
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/api-docs/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/swagger-ui.html").permitAll()
+                .requestMatchers("/api").hasAuthority("USER")
                 .anyRequest().authenticated()
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -68,5 +69,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint())
                 .accessDeniedHandler(accessDeniedHandler());
+
+        return http.build();
     }
 }
